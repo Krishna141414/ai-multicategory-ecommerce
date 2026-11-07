@@ -23,3 +23,7 @@ staticfiles/
 .idea/
 Thumbs.db
 .DS_Store
+test_db.sqlite3
+test_reports.sqlite3
+media/manual_photos/*
+!media/manual_photos/README.md

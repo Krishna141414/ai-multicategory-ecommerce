@@ -80,19 +80,29 @@ Never: a serif heading, Bricolage at default width for headings, all-caps labels
 
 ## 7. Motion principles
 
-Default posture (from the theme): **state, not decoration.** Durations `--dur-micro` 120ms, `--dur-short` 220ms, `--dur-long` 420ms; easings `--ease-out: cubic-bezier(0.2, 0.7, 0.2, 1)`, `--ease-in: cubic-bezier(0.4, 0, 1, 1)`, `--ease-in-out: cubic-bezier(0.6, 0, 0.4, 1)`. Only `transform` and `opacity`. Never `transition: all`.
+**Posture: tasteful, purposeful motion.** The Editorial theme's default is "state only"; the owner widened it for this project (see DECISIONS.md). Motion is welcome wherever it helps someone shop: it confirms an action, shows a change of state, guides the eye, or makes loading feel shorter. It never decorates for its own sake.
 
-Where motion IS used (each one has a job):
-1. **Sponsored strip** (brief must-have): continuous slow drift (≈ 40px/s) driven by GSAP; pauses on hover, focus-within and when the quick-view is open; visible pause/play + prev/next buttons; stops off-screen; under `prefers-reduced-motion` it becomes a static, scrollable rail.
-2. **Quick-view card:** fades/rises 8px in 220ms on hover (after 150ms intent delay), focus or tap; Esc/blur closes.
-3. **Add to cart:** button shows "Adding…" → "Added" with a check for 1.5s; cart badge does one 1.0→1.2→1.0 scale bump; toast slides in from the bottom-right.
-4. **AI Explainer:** step transitions (slide + fade 420ms); TF-IDF weight bars grow from 0 with `scaleX` and a 40ms stagger; similarity rows re-sort with GSAP Flip-like translate. Next/Back/Play/Pause controls.
-5. **One reveal per page** at most: homepage sections settle in (8px rise + fade, 0.5s, once) via ScrollTrigger batch; content is visible without JS.
-6. **Skeletons:** a slow 1.6s opacity pulse (stops under reduced motion) while recommendation blocks load.
-7. **Lenis smooth scroll:** homepage only, fine pointers only, disabled under reduced motion; synced with ScrollTrigger via `gsap.ticker`.
+Tokens: durations `--dur-micro` 120ms, `--dur-short` 220ms, `--dur-long` 420ms, `--dur-reveal` 600ms; easings `--ease-out: cubic-bezier(0.2, 0.7, 0.2, 1)`, `--ease-in: cubic-bezier(0.4, 0, 1, 1)`, `--ease-in-out: cubic-bezier(0.6, 0, 0.4, 1)`. Animate only `transform` and `opacity` (plus `color`/`background-color`/`border-color` on micro state changes). Never `transition: all`. Exits run at ~70% of the enter duration.
 
-Never: parallax, cursor effects, bouncing, glow, auto-rotating hero carousels, motion on admin tables.
-`prefers-reduced-motion: reduce` → every animation shows its end state at once; the sponsored strip stops.
+Where motion is used:
+1. **Product cards (everywhere):** on hover/focus the image scales to 1.04 inside its frame (220ms), the hairline under the card darkens to ink, and a quiet "Quick view" / "Add to cart" row slides up 6px into view. Touch devices show the row at rest.
+2. **Sponsored / featured strip (homepage):** smooth continuous drift (~40px/s) driven by GSAP; pauses on hover, focus-within and while a quick view is open; visible pause/play and prev/next buttons (prev/next glide 420ms); stops when off-screen.
+3. **Quick-view card:** fades in and rises 8px (220ms) after a 150ms hover-intent delay, or at once on focus/tap; closes with Esc, blur or the close button.
+4. **Add to cart:** button goes "Adding…" (spinner) → "Added" with a check for 1.5s, then back; the cart badge bumps once (scale 1 → 1.25 → 1, 360ms) and its count rolls to the new number.
+5. **Toasts:** slide in 12px from the bottom-right with a fade (220ms), auto-dismiss after 4s (paused on hover/focus), slide out on close.
+6. **Skeleton loaders:** recommendation blocks, similar products and the AI Explainer data show skeletons in the shape of the content with a slow 1.6s shimmer; content cross-fades in (220ms).
+7. **Scroll reveals:** sections and product grids settle in once (fade + 12px rise, 600ms, 40ms stagger between cards) via ScrollTrigger `batch`. Content is visible without JavaScript; reveals run only on the storefront, never on forms or admin tables.
+8. **Navigation:** the mega menu and dropdowns fade/drop 6px (220ms); the mobile offcanvas slides; the header gains a hairline shadow once the page scrolls.
+9. **Forms & cart:** quantity changes update line and order totals with a short number tween; removed cart rows collapse (opacity + translate, then height via a class swap); inline errors fade in.
+10. **AI Explainer:** step transitions (slide + fade 420ms); TF-IDF weight bars grow from 0 with `scaleX` and a 40ms stagger; similarity rows re-order with GSAP Flip; Next/Back/Play/Pause controls.
+11. **Checkout progress:** the step indicator fills to the current step; payment result pages draw their check/cross icon once.
+12. **Lenis smooth scrolling:** storefront pages only, fine pointers only, synced with ScrollTrigger via `gsap.ticker`; off on admin pages and under reduced motion.
+
+Admin screens: state motion only (hover, focus, toasts, dropdowns, skeletons). No reveals on admin tables.
+
+Never: parallax, cursor followers, bouncing/elastic easing, glow, spinning or pulsing decoration, auto-rotating hero carousels, motion longer than 600ms on UI state, animation that blocks input.
+
+**`prefers-reduced-motion: reduce`:** every reveal shows its end state at once, the sponsored strip stops (it becomes a manually scrollable rail with the same buttons), Lenis is not started, skeleton shimmer stops (static block), badge bumps and number tweens become instant swaps; colour/opacity feedback of 120ms or less stays.
 
 ## 8. Bootstrap mapping
 

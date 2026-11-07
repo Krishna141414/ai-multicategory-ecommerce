@@ -8,19 +8,19 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
 | STK-01 | Front end: HTML5, CSS3, JavaScript, Bootstrap 5 | | | Planned |
-| STK-02 | Server side: Python (Django) | | | Planned |
+| STK-02 | Server side: Python (Django) | Django 6.1.3 project `config/` + 9 apps |  | Implemented |
 | STK-03 | IDE: Visual Studio Code | | | Planned |
 | STK-04 | Web server: Django development server | | | Planned |
-| STK-05 | Database: SQLite | | | Planned |
+| STK-05 | Database: SQLite | `db.sqlite3` (shop) + `reports.sqlite3` (tests), `config/settings.py` |  | Implemented |
 | STK-06 | AI technique: content-based product recommendation | | | Planned |
-| STK-07 | ML library: scikit-learn | | | Planned |
-| STK-08 | Data processing: Pandas | | | Planned |
+| STK-07 | ML library: scikit-learn | requirements.txt (scikit-learn 1.9.1) |  | Implemented |
+| STK-08 | Data processing: Pandas | requirements.txt (pandas 3.1.1) |  | Implemented |
 | STK-09 | Feature extraction: TF-IDF vectorization | | | Planned |
 | STK-10 | Similarity: cosine similarity | | | Planned |
-| STK-11 | Testing tool: Playwright (Python) | | | Planned |
-| STK-12 | Testing framework: Pytest | | | Planned |
+| STK-11 | Testing tool: Playwright (Python) | requirements.txt (playwright 1.64.1, pytest-playwright 0.10) |  | Implemented |
+| STK-12 | Testing framework: Pytest | requirements.txt (pytest 9.2), `pytest.ini` |  | Implemented |
 | STK-13 | Browser: Chrome / Chromium | | | Planned |
-| STK-14 | Test reporting: pytest-html | | | Planned |
+| STK-14 | Test reporting: pytest-html | requirements.txt (pytest-html 4.2.0) |  | Implemented |
 | STK-15 | Screenshot capture: Playwright | | | Planned |
 
 ## B. Admin features
@@ -79,22 +79,22 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 ## D. Product categories (exact names)
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| CAT-01 | Electronics | | | Planned |
-| CAT-02 | Fashion and Clothing | | | Planned |
-| CAT-03 | Home and Furniture | | | Planned |
-| CAT-04 | Books and Stationery | | | Planned |
-| CAT-05 | Beauty and Personal Care | | | Planned |
-| CAT-06 | Sports and Fitness | | | Planned |
-| CAT-07 | Mobile Phones and Accessories | | | Planned |
-| CAT-08 | Computers and Laptops | | | Planned |
-| CAT-09 | Toys and Games | | | Planned |
-| CAT-10 | Kitchen and Home Appliances | | | Planned |
+| CAT-01 | Electronics | `catalog/seed_data.py` CATEGORIES, `core/demo.seed_catalog` |  | Implemented |
+| CAT-02 | Fashion and Clothing | `catalog/seed_data.py` CATEGORIES |  | Implemented |
+| CAT-03 | Home and Furniture | `catalog/seed_data.py` CATEGORIES |  | Implemented |
+| CAT-04 | Books and Stationery | `catalog/seed_data.py` CATEGORIES |  | Implemented |
+| CAT-05 | Beauty and Personal Care | `catalog/seed_data.py` CATEGORIES |  | Implemented |
+| CAT-06 | Sports and Fitness | `catalog/seed_data.py` CATEGORIES |  | Implemented |
+| CAT-07 | Mobile Phones and Accessories | `catalog/seed_data.py` CATEGORIES |  | Implemented |
+| CAT-08 | Computers and Laptops | `catalog/seed_data.py` CATEGORIES |  | Implemented |
+| CAT-09 | Toys and Games | `catalog/seed_data.py` CATEGORIES |  | Implemented |
+| CAT-10 | Kitchen and Home Appliances | `catalog/seed_data.py` CATEGORIES |  | Implemented |
 
 ## E. AI data, functionalities and output
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| AI-D1 | Product Features table (id, product_id, category, product_name, brand, description, keywords, price) | | TC-AI-01 | Planned |
-| AI-D2 | Customer Product Interaction table (id, customer_id, product_id, interaction_type, interaction_date) | | TC-AI-06, TC-AI-07 | Planned |
+| AI-D1 | Product Features table (id, product_id, category, product_name, brand, description, keywords, price) | `recommender/models.py` ProductFeature | TC-AI-01 | Implemented |
+| AI-D2 | Customer Product Interaction table (id, customer_id, product_id, interaction_type, interaction_date) | `recommender/models.py` CustomerProductInteraction | TC-AI-06, TC-AI-07 | Implemented |
 | AI-F1 | Collect Product Information | | TC-AI-01 | Planned |
 | AI-F2 | Product Data Preprocessing | | TC-AI-01 | Planned |
 | AI-F3 | Extract Product Features Using TF-IDF | | TC-AI-01 | Planned |
@@ -114,7 +114,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 ## F. Test cases — Test Case table (id, test_name, module, test_description, expected_result)
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| TST-00 | Test Case catalogue table (id, test_name, module, test_description, expected_result) | | | Planned |
+| TST-00 | Test Case catalogue table (id, test_name, module, test_description, expected_result) | `testreports/models.py` TestCase (reports DB) |  | Implemented |
 | TC-ADM-01 | Admin Login | | | Planned |
 | TC-ADM-02 | Invalid Admin Login | | | Planned |
 | TC-ADM-03 | View Dashboard | | | Planned |
@@ -184,8 +184,8 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 ## H. Test execution reporting
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| REP-01 | Test Execution Report (id, test_case_id, execution_date, actual_result, status, execution_time, screenshot_path) | | | Planned |
-| REP-02 | Test Summary Report (id, execution_date, total_tests, passed_tests, failed_tests, skipped_tests, total_execution_time, report_path) | | | Planned |
+| REP-01 | Test Execution Report (id, test_case_id, execution_date, actual_result, status, execution_time, screenshot_path) | `testreports/models.py` TestExecution (reports DB) |  | Implemented |
+| REP-02 | Test Summary Report (id, execution_date, total_tests, passed_tests, failed_tests, skipped_tests, total_execution_time, report_path) | `testreports/models.py` TestSummary (reports DB) |  | Implemented |
 | REP-03 | Generate HTML Test Report | | | Planned |
 | REP-04 | View Passed Test Cases | | | Planned |
 | REP-05 | View Failed Test Cases | | | Planned |
@@ -195,15 +195,15 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 ## I. Implementation rules
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| R1.1 | New customers register with Active status by default | | | Planned |
-| R1.2 | Customer email addresses must be unique | | | Planned |
+| R1.1 | New customers register with Active status by default | `accounts/models.py` Customer.status default Active | `tests/unit/test_models.py::test_new_customer_is_active_by_default` | Tested |
+| R1.2 | Customer email addresses must be unique | `accounts/models.py` UniqueConstraint(Lower(email)) | `tests/unit/test_models.py::test_duplicate_email_case_insensitive` | Tested |
 | R1.3 | Passwords stored with Django's secure password hashing | | | Planned |
 | R1.4 | Only authenticated customers access cart, checkout, order history, profile | | | Planned |
 | R1.5 | Deactivated customers cannot log in | | | Planned |
 | R2.1 | Only Admin can add/update/delete categories and products | | | Planned |
-| R2.2 | Each product belongs to one category | | | Planned |
-| R2.3 | Product price must be greater than zero | | | Planned |
-| R2.4 | Product quantity cannot be negative | | | Planned |
+| R2.2 | Each product belongs to one category | `catalog/models.py` Product.category FK (PROTECT) |  | Implemented |
+| R2.3 | Product price must be greater than zero | `catalog/models.py` CheckConstraint price>0 | `tests/unit/test_models.py::test_price_must_be_positive` | Tested |
+| R2.4 | Product quantity cannot be negative | `catalog/models.py` CheckConstraint quantity>=0 | `tests/unit/test_models.py::test_quantity_cannot_be_negative` | Tested |
 | R2.5 | Zero-quantity products cannot be added to the cart | | | Planned |
 | R2.6 | Products with existing orders keep historical order info even if removed from listings | | | Planned |
 | R3.1 | Engine uses category, name, brand, description, keywords | | | Planned |
@@ -220,8 +220,8 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R4.2 | Cart quantity cannot exceed available stock | | | Planned |
 | R4.3 | Each cart product inserted as a separate orders record | | | Planned |
 | R4.4 | All products of one checkout share a common order_id | | | Planned |
-| R4.5 | Each order record has its own unique id | | | Planned |
-| R4.6 | amount = price × quantity | | | Planned |
+| R4.5 | Each order record has its own unique id | `orders/models.py` Order (one row, own id) |  | Implemented |
+| R4.6 | amount = price × quantity | `orders/models.py` Order.save() | `tests/unit/test_models.py::test_order_amount_is_price_times_quantity` | Tested |
 | R4.7 | Total order amount calculated from all cart items | | | Planned |
 | R4.8 | Cart submission + stock reservation in one DB transaction | | | Planned |
 | R4.9 | Payment confirmation must not create duplicate orders | | | Planned |
@@ -232,8 +232,8 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R5.4 | After successful payment, order status → Confirmed | | | Planned |
 | R5.5 | Show order confirmation and send order info by email | | | Planned |
 | R5.6 | Failed payments do not mark orders paid/confirmed | | | Planned |
-| R6.1 | Single messages table stores queries and replies | | | Planned |
-| R6.2 | sender_type / receiver_type identify roles | | | Planned |
+| R6.1 | Single messages table stores queries and replies | `messaging/models.py` Message |  | Implemented |
+| R6.2 | sender_type / receiver_type identify roles | `messaging/models.py` Message.sender_type / receiver_type |  | Implemented |
 | R6.3 | conversation_id groups a conversation | | | Planned |
 | R6.4 | parent_message_id identifies the message replied to | | | Planned |
 | R6.5 | New conversation starts with parent_message_id = NULL | | | Planned |
@@ -260,10 +260,10 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R9.2 | Role-based authorization (Admin vs Customer) | | | Planned |
 | R9.3 | CSRF protection on form submissions | | | Planned |
 | R9.4 | Server-side input validation | | | Planned |
-| R9.5 | No hardcoded credentials in public source | | | Planned |
+| R9.5 | No hardcoded credentials in public source | `.env` (git-ignored) + `.env.example`; `config/settings.py` |  | Implemented |
 | R9.6 | Default admin credentials changed before deployment (documented) | | | Planned |
 | R10.1 | Whole app runs locally with Django | | | Planned |
-| R10.2 | SQLite stores data locally | | | Planned |
+| R10.2 | SQLite stores data locally | `config/settings.py` DATABASES |  | Implemented |
 | R10.3 | AI runs with locally installed Python libraries | | | Planned |
 | R10.4 | Playwright + Pytest run on the same laptop | | | Planned |
 | R10.5 | Browser visible during automation (headed mode) | | | Planned |
