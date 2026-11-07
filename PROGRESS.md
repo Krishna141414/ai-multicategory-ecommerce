@@ -3,9 +3,22 @@
 Claude Code updates this after every step. A new session reads it first and continues from "Next".
 
 ## Status
-- Current phase: Phase 3 — Authentication & roles
-- Last completed step: Gate 2 passed
-- Next: 3.1 Customer registration + login + logout
+- Current phase: Phase 3 — Authentication & roles (IN PROGRESS, paused for usage limit)
+- Last completed step: Gate 2 (Phase 2 committed + pushed)
+- Next: finish 3.1 (see "In progress" below)
+
+## In progress — 3.1 Customer registration, login, logout
+Done so far (committed, not yet used by any page):
+- `static/css/tokens.css` (all design tokens), `static/css/base.css` (element defaults, Bootstrap re-skin, buttons, forms, badges, tables, toasts, skeletons, keyframes, reduced-motion), `static/css/store.css` (Hallmark stamp, header + category bar, mobile tab bar, page scaffolding, auth split layout, account layout, error pages, footer), `static/js/app.js` (toasts, cart badge bump, submit guard + spinner, password toggle, header scroll shadow).
+- Design note: UI face (Bricolage) is the body default; Source Serif is used via `.prose` / `.lead` for reading text (record this in DECISIONS.md).
+
+Exact next steps:
+1. `templates/base.html` (load fonts.css, bootstrap.min.css, bootstrap-icons, tokens.css, base.css, store.css; skip link; header/footer/tab-bar partials; Django messages rendered as `.toast-item` in `[data-toast-stack]`; scripts: bootstrap bundle, gsap, ScrollTrigger, lenis, app.js). Use `{% url 'app:name' as x %}` for links to pages not built yet so templates never raise NoReverseMatch.
+2. `templates/partials/header.html`, `footer.html`, `tab_bar.html`, `toasts.html`; `templates/403.html`, `404.html`; replace placeholder `templates/core/home.html` with a simple page extending base (full homepage is Phase 9.2).
+3. `accounts/backends.py` EmailBackend (Customer email iexact → user; check password; user + customer active). `accounts/services.py` add `login_error_for(email, password)` (deactivated message only when the password is correct; otherwise INVALID_LOGIN_MESSAGE).
+4. `accounts/forms.py` RegistrationForm (name, email unique case-insensitive, mobile `^[6-9]\d{9}$`, address, password1/2 + validate_password), CustomerLoginForm, ProfileForm. Keep `user.is_active` in sync with Customer.status.
+5. `accounts/views.py` + `accounts/urls.py`: register, login (safe `next`), logout (POST only), profile view, profile edit; templates `accounts/login.html`, `register.html`, `profile.html`, `profile_edit.html` with `data-testid`s.
+6. Then 3.2 admin login/logout at `/manage/login/` (username + password, staff only, generic error), 3.3 role checks + `tests/unit/test_auth.py` (names in docs/plans/implementation-plan.md Phase 3), 3.4 profile update, Gate 3 browser check with Playwright MCP.
 
 ## Log
 | Date | Step | Result / notes |
@@ -28,6 +41,7 @@ Claude Code updates this after every step. A new session reads it first and cont
 | 2026-11-07 | Gate 2 | migrate (both DBs), create_default_admin, seed_demo run cleanly and idempotently; shell counts 10 categories / 110 products / 4 customers / 9 orders; manage.py check clean; 7 unit tests pass. Motion posture widened per owner request (DESIGN_SYSTEM §7, DECISIONS). |
 
 ## Pending owner actions / follow-ups
+- **Photo labels/credits:** `docs/IMAGE_CREDITS.md` lists every photo with creator + licence. One photo was edited (router: maker's name removed) and is labelled as edited there. When the manual Pexels photos arrive, their rows must be relabelled from "placeholder" to photographer + Pexels URL + "Pexels License". (If "label tasks" meant something else, tell Claude in the next session.)
 - **When Krishna says "photos added":** 12 products still use the placeholder (Pexels paused new API keys, so Krishna downloads them by hand). Expected files and names are listed in `media/manual_photos/README.md` (tv-55.jpg, mirrorless-camera.jpg, security-camera.jpg, soundbar.jpg, watch.jpg, face-wash.jpg, sunscreen.jpg, screen-protector.jpg, ludo.jpg, solar-robot-kit.jpg, microwave.jpg, water-purifier.jpg, plus credits.txt). Steps: (1) for each file, check product match + no real logos; (2) crop to square + resize to 900 px JPEG exactly like the others and save as `media/products/<product-slug>.jpg`; (3) replace the placeholder rows in `docs/IMAGE_CREDITS.md` with photographer + Pexels URL + "Pexels License"; (4) run `python manage.py seed_demo` so the products point at the new files; (5) screenshot-check the product cards; commit.
 
 ## Blockers / questions for Krishna
