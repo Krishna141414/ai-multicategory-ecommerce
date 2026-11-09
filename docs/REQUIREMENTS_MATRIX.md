@@ -27,23 +27,23 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
 | ADM-01 | Login (username, password) — default admin credentials | `accounts/forms.AdminLoginForm`, `adminpanel/views/auth.py`, `create_default_admin` (.env) | `tests/unit/test_auth.py::test_admin_login_with_username`, `::test_invalid_admin_login_and_customer_account_refused` | Tested |
-| ADM-02 | Dashboard: total_customers, total_categories, total_products, total_orders, total_sales | | TC-ADM-03 | Planned |
-| ADM-03 | Add Category (id, category_name, description, status, created_date) | | TC-ADM-04 | Planned |
-| ADM-04 | View Categories | | TC-ADM-05 | Planned |
-| ADM-05 | Update Category | | TC-ADM-06 | Planned |
-| ADM-06 | Delete Category | | TC-ADM-07 | Planned |
-| ADM-07 | Add Product (id, category_id, product_name, brand, price, description, image, quantity, keywords, added_date, status) | | TC-ADM-08 | Planned |
-| ADM-08 | View Products | | TC-ADM-09 | Planned |
-| ADM-09 | Update Product | | TC-ADM-10 | Planned |
-| ADM-10 | Delete Product | | TC-ADM-11 | Planned |
-| ADM-11 | View Customers (id, name, email, mobile_number, address, registered_date, status) | | TC-ADM-12 | Planned |
-| ADM-12 | Activate / Deactivate Customer | | TC-ADM-13, TC-ADM-14 | Planned |
-| ADM-13 | View Orders (id, order_id, customer_id, product_id, quantity, price, amount, order_date, order_status) | | TC-ADM-15 | Planned |
-| ADM-14 | Update Order Status (Pending, Confirmed, Shipped, Delivered, Cancelled) | | TC-ADM-16 | Planned |
-| ADM-15 | View Product Ratings / Reviews | | TC-ADM-17 | Planned |
-| ADM-16 | View Queries | | TC-ADM-18 | Planned |
-| ADM-17 | Post Query / Reply Query (id, conversation_id, sender_id, sender_type, receiver_id, receiver_type, parent_message_id, subject, message, posted_date, status) | | TC-ADM-19, TC-ADM-20 | Planned |
-| ADM-18 | View Conversation History | | TC-ADM-21 | Planned |
+| ADM-02 | Dashboard: total_customers, total_categories, total_products, total_orders, total_sales | `adminpanel/services.dashboard_stats`, `adminpanel/views/dashboard.py` | `tests/unit/test_admin_services.py::test_dashboard_totals_count_only_paid_uncancelled_sales` | Tested |
+| ADM-03 | Add Category (id, category_name, description, status, created_date) | `adminpanel/forms.CategoryForm`, `views/categories.category_create` | `test_admin_services.py::test_admin_creates_category_and_rejects_bad_product` | Tested |
+| ADM-04 | View Categories | `views/categories.category_list` (search, pagination) | `test_admin_services.py::test_admin_pages_render_and_are_staff_only` | Tested |
+| ADM-05 | Update Category | `views/categories.category_edit` | TC-ADM-06 | Implemented |
+| ADM-06 | Delete Category | `catalog/services.delete_category` (blocked while products exist), `views/categories.category_delete` | `test_admin_services.py::test_category_with_products_cannot_be_deleted`, `::test_empty_category_is_deleted` | Tested |
+| ADM-07 | Add Product (id, category_id, product_name, brand, price, description, image, quantity, keywords, added_date, status) | `adminpanel/forms.ProductForm` (image upload, price>0, qty>=0, MRP, sponsored), `views/products.product_create` | `test_admin_services.py::test_admin_creates_category_and_rejects_bad_product` | Tested |
+| ADM-08 | View Products | `views/products.product_list` (filters) + `product_detail` | `test_admin_services.py::test_admin_pages_render_and_are_staff_only` | Tested |
+| ADM-09 | Update Product | `views/products.product_edit` | TC-ADM-10 | Implemented |
+| ADM-10 | Delete Product | `catalog/services.delete_product` (soft delete when ordered), `views/products.product_delete` | `test_admin_services.py::test_delete_product_with_orders_soft_deletes`, `::test_delete_product_without_orders_hard_deletes` | Tested |
+| ADM-11 | View Customers (id, name, email, mobile_number, address, registered_date, status) | `views/customers.customer_list` / `customer_detail` | `test_admin_services.py::test_admin_pages_render_and_are_staff_only` | Tested |
+| ADM-12 | Activate / Deactivate Customer | `accounts/services.set_customer_status`, `views/customers.customer_set_status` | `test_admin_services.py::test_admin_deactivates_customer` | Tested |
+| ADM-13 | View Orders (id, order_id, customer_id, product_id, quantity, price, amount, order_date, order_status) | `orders/services/queries.order_groups`, `views/orders.order_list` (grouped ledger with all brief fields) | `test_admin_services.py::test_admin_pages_render_and_are_staff_only` | Tested |
+| ADM-14 | Update Order Status (Pending, Confirmed, Shipped, Delivered, Cancelled) | `orders/services/status.set_order_status` (transitions; cancel restores stock), `views/orders.order_update_status` | `test_admin_services.py::test_status_moves_forward`, `::test_invalid_transition_rejected`, `::test_cancel_restores_stock_once` | Tested |
+| ADM-15 | View Product Ratings / Reviews | `views/reviews.review_list` | `test_admin_services.py::test_admin_pages_render_and_are_staff_only` | Tested |
+| ADM-16 | View Queries | `messaging/services.conversations_for`, `views/queries.query_inbox` | `test_admin_services.py::test_customer_cannot_see_other_thread` | Tested |
+| ADM-17 | Post Query / Reply Query (id, conversation_id, sender_id, sender_type, receiver_id, receiver_type, parent_message_id, subject, message, posted_date, status) | `messaging/services.start_conversation` / `reply`, `views/queries.query_new` / `query_thread` | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
+| ADM-18 | View Conversation History | `messaging/services.thread`, `templates/partials/thread.html` | TC-ADM-21 | Implemented |
 | ADM-19 | Logout | `adminpanel/views/auth.admin_logout` (POST) | TC-ADM-22 | Implemented |
 
 ## C. Customer features
@@ -200,12 +200,12 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R1.3 | Passwords stored with Django's secure password hashing | Django `User.set_password` via `create_user` | `tests/unit/test_auth.py::test_password_is_hashed` | Tested |
 | R1.4 | Only authenticated customers access cart, checkout, order history, profile | `core/permissions.customer_required` | `tests/unit/test_auth.py::test_profile_requires_login` | Tested |
 | R1.5 | Deactivated customers cannot log in | `EmailBackend`, `login_error_for`, `set_customer_status`, `ActiveCustomerMiddleware` | `test_auth.py::test_inactive_customer_cannot_login`, `::test_deactivated_session_is_logged_out` | Tested |
-| R2.1 | Only Admin can add/update/delete categories and products | | | Planned |
+| R2.1 | Only Admin can add/update/delete categories and products | `core/permissions.admin_required` on every catalogue view | `test_admin_services.py::test_admin_pages_render_and_are_staff_only` | Tested |
 | R2.2 | Each product belongs to one category | `catalog/models.py` Product.category FK (PROTECT) |  | Implemented |
 | R2.3 | Product price must be greater than zero | `catalog/models.py` CheckConstraint price>0 | `tests/unit/test_models.py::test_price_must_be_positive` | Tested |
 | R2.4 | Product quantity cannot be negative | `catalog/models.py` CheckConstraint quantity>=0 | `tests/unit/test_models.py::test_quantity_cannot_be_negative` | Tested |
 | R2.5 | Zero-quantity products cannot be added to the cart | | | Planned |
-| R2.6 | Products with existing orders keep historical order info even if removed from listings | | | Planned |
+| R2.6 | Products with existing orders keep historical order info even if removed from listings | `catalog/services.delete_product` + Order.product_name/price snapshot | `test_admin_services.py::test_delete_product_with_orders_soft_deletes` | Tested |
 | R3.1 | Engine uses category, name, brand, description, keywords | | | Planned |
 | R3.2 | TF-IDF converts product text into numeric feature vectors | | | Planned |
 | R3.3 | Cosine similarity calculates similarity between products | | | Planned |
@@ -234,11 +234,11 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R5.6 | Failed payments do not mark orders paid/confirmed | | | Planned |
 | R6.1 | Single messages table stores queries and replies | `messaging/models.py` Message |  | Implemented |
 | R6.2 | sender_type / receiver_type identify roles | `messaging/models.py` Message.sender_type / receiver_type |  | Implemented |
-| R6.3 | conversation_id groups a conversation | | | Planned |
-| R6.4 | parent_message_id identifies the message replied to | | | Planned |
-| R6.5 | New conversation starts with parent_message_id = NULL | | | Planned |
-| R6.6 | Customers view only their own conversations | | | Planned |
-| R6.7 | Admin can view and respond to customer conversations | | | Planned |
+| R6.3 | conversation_id groups a conversation | `messaging/services.new_conversation_id` / `reply` | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
+| R6.4 | parent_message_id identifies the message replied to | `messaging/services.reply` (parent = latest message) | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
+| R6.5 | New conversation starts with parent_message_id = NULL | `messaging/services.start_conversation` (parent_message=None) | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
+| R6.6 | Customers view only their own conversations | `messaging/services.ensure_can_view` / `conversations_for` | `test_admin_services.py::test_customer_cannot_see_other_thread` | Tested |
+| R6.7 | Admin can view and respond to customer conversations | `adminpanel/views/queries.py` |  | Implemented |
 | R7.1 | Playwright with Python automates browser functional tests | | | Planned |
 | R7.2 | Pytest manages execution, fixtures, assertions | | | Planned |
 | R7.3 | Tests verify expected vs actual behaviour | | | Planned |
@@ -273,7 +273,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 ## J. Must-have extras (CLAUDE.md §2)
 | ID | Item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| EXT-01 | Sponsored / featured deals carousel with hover quick-view card; admin sponsored toggle | | | Planned |
+| EXT-01 | Sponsored / featured deals carousel with hover quick-view card; admin sponsored toggle | Admin sponsored toggle: `views/products.product_toggle_sponsored` (store carousel in Phase 9.2) |  | Planned |
 | EXT-02 | AI Explainer page (step-by-step, animated, Next/Back) | | | Planned |
 | EXT-03 | Admin Test Reports page | | | Planned |
 | EXT-04 | docs/CODE_MAP.md | | | Planned |

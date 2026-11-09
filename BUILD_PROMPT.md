@@ -47,13 +47,13 @@
 - **Gate 3:** manually verify every auth path in the browser via Playwright MCP; commit.
 
 ## Phase 4 — Admin panel (custom UI, not Django's /admin)
-- [ ] 4.1 Dashboard: total_customers, total_categories, total_products, total_orders, total_sales (+ small recent-orders table and a simple sales/orders chart if it fits the design).
-- [ ] 4.2 Categories: add, view (list with search), update, delete (block or confirm when products exist — decide and document).
-- [ ] 4.3 Products: add (image upload, validation price > 0, qty ≥ 0, sponsored toggle), view (list with filters), update, delete (soft delete when it has orders).
-- [ ] 4.4 Customers: view list/detail, activate / deactivate.
-- [ ] 4.5 Orders: view (grouped by `order_id`, expandable items), update status (Pending/Confirmed/Shipped/Delivered/Cancelled; cancelling restores stock).
-- [ ] 4.6 Ratings & reviews: view all with product + customer + date.
-- [ ] 4.7 Queries: view inbox, post a query to a customer, reply, view full conversation history (threaded).
+- [x] 4.1 Dashboard: total_customers, total_categories, total_products, total_orders, total_sales (+ small recent-orders table and a simple sales/orders chart if it fits the design).
+- [x] 4.2 Categories: add, view (list with search), update, delete (block or confirm when products exist — decide and document).
+- [x] 4.3 Products: add (image upload, validation price > 0, qty ≥ 0, sponsored toggle), view (list with filters), update, delete (soft delete when it has orders).
+- [x] 4.4 Customers: view list/detail, activate / deactivate.
+- [x] 4.5 Orders: view (grouped by `order_id`, expandable items), update status (Pending/Confirmed/Shipped/Delivered/Cancelled; cancelling restores stock).
+- [x] 4.6 Ratings & reviews: view all with product + customer + date.
+- [x] 4.7 Queries: view inbox, post a query to a customer, reply, view full conversation history (threaded).
 - **Gate 4:** every admin feature works end-to-end in the browser (Playwright MCP screenshots); matrix updated; commit.
 
 ## Phase 5 — Customer catalogue

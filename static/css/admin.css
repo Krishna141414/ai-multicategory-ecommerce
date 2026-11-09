@@ -100,7 +100,7 @@ body.admin { --text-display-s: 1.75rem; --text-section: 1.4375rem; --text-title:
 .row-actions { display: flex; gap: var(--space-xs); justify-content: flex-end; align-items: center; flex-wrap: nowrap; }
 .admin-head .row-actions { flex-wrap: wrap; }
 .row-actions form { margin: 0; }
-.cell-clip { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cell-clip { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nowrap { white-space: nowrap; }
 .thumb-cell img { width: 48px; height: 48px; object-fit: cover; background: var(--color-paper-3); }
 .pager { display: flex; justify-content: space-between; align-items: center; gap: var(--space-md); padding-top: var(--space-md); font-size: var(--text-sm); }
