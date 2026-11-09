@@ -1,0 +1,1 @@
+{% load shop_tags %}<span class="stars" aria-hidden="true">{% for s in value|star_list %}<i class="bi {% if s == "full" %}bi-star-fill{% elif s == "half" %}bi-star-half{% else %}bi-star{% endif %}"></i>{% endfor %}</span>

@@ -1,0 +1,56 @@
+{% extends "adminpanel/base.html" %}{% load shop_tags %}
+{% block admin_title %}Orders{% endblock %}
+{% block page_id %}admin-orders{% endblock %}
+{% block topbar_title %}Orders{% endblock %}
+{% block admin_content %}
+<header class="admin-head"><h1>Orders</h1><p class="muted">One checkout can hold several products. They share an order ID and move through statuses together.</p></header>
+
+<nav class="segmented" aria-label="Filter by status" data-testid="order-status-filter">
+  <a href="{% url 'adminpanel:orders' %}{% if q %}?q={{ q|urlencode }}{% endif %}" {% if not status %}aria-current="page"{% endif %}>All</a>
+  {% for s in statuses %}{% with n=counts|get_item:s %}
+    <a href="?status={{ s }}{% if q %}&amp;q={{ q|urlencode }}{% endif %}" {% if status == s %}aria-current="page"{% endif %}>{{ s }} <span class="num muted">{{ n }}</span></a>
+  {% endwith %}{% endfor %}
+</nav>
+
+<form class="toolbar" method="get" role="search">
+  {% if status %}<input type="hidden" name="status" value="{{ status }}">{% endif %}
+  <label class="visually-hidden" for="o-q">Search orders</label>
+  <input id="o-q" class="form-control" type="search" name="q" value="{{ q }}" placeholder="Order ID, customer or product">
+  <button class="btn btn-outline" type="submit" data-no-spinner>Search</button>
+  {% if q %}<a class="btn btn-text" href="{% url 'adminpanel:orders' %}{% if status %}?status={{ status }}{% endif %}">Clear</a>{% endif %}
+</form>
+
+{% if page.object_list %}
+<div class="order-ledger table-opens" data-testid="order-table">
+  {% for o in page %}
+  <details class="ledger-row" data-testid="order-group">
+    <summary>
+      <span class="ledger-id"><span class="fw-semibold" data-testid="order-id">{{ o.order_id }}</span><span class="muted small">{{ o.order_date|date:"j M Y, H:i" }}</span></span>
+      <span class="ledger-customer">{{ o.customer_name }}</span>
+      <span class="ledger-items num">{{ o.item_count }} item{{ o.item_count|pluralize }}</span>
+      <span class="ledger-total num">{{ o.total|inr }}</span>
+      <span>{% if o.paid %}<span class="badge-status status-paid">Paid</span>{% else %}<span class="badge-status status-unpaid">Unpaid</span>{% endif %}</span>
+      <span><span class="badge-status status-{{ o.status|lower }}" data-testid="order-status">{{ o.status }}</span></span>
+      <i class="bi bi-chevron-down ledger-chevron" aria-hidden="true"></i>
+    </summary>
+    <div class="ledger-body">
+      <table class="table table-sm">
+        <thead><tr><th>ID</th><th>Order ID</th><th>Customer ID</th><th>Product ID</th><th>Product</th><th class="text-end">Quantity</th><th class="text-end">Price</th><th class="text-end">Amount</th><th>Order date</th><th>Order status</th></tr></thead>
+        <tbody>
+          {% for r in o.rows %}
+          <tr><td class="num">{{ r.id }}</td><td>{{ r.order_id }}</td><td class="num">{{ r.customer_id }}</td><td class="num">{{ r.product_id }}</td><td>{{ r.product_name }}</td>
+              <td class="text-end num">{{ r.quantity }}</td><td class="text-end num">{{ r.price|inr }}</td><td class="text-end num">{{ r.amount|inr }}</td>
+              <td class="nowrap">{{ r.order_date|date:"j M Y" }}</td><td>{{ r.order_status }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a class="btn btn-primary btn-sm" href="{% url 'adminpanel:order_detail' o.order_id %}" data-testid="open-order">Open order and update status</a>
+    </div>
+  </details>
+  {% endfor %}
+</div>
+{% include "adminpanel/_pagination.html" %}
+{% else %}
+<div class="empty-state" data-testid="empty-state"><h2>No orders found</h2><p>{% if q or status %}Nothing matches this filter. Clear it to see every order.{% else %}Orders appear here when customers check out.{% endif %}</p></div>
+{% endif %}
+{% endblock %}

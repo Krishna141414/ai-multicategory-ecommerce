@@ -1,0 +1,50 @@
+{% extends "adminpanel/base.html" %}
+{% block admin_title %}Categories{% endblock %}
+{% block page_id %}admin-categories{% endblock %}
+{% block topbar_title %}Categories{% endblock %}
+{% block admin_content %}
+<header class="admin-head admin-head--actions">
+  <div><h1>Categories</h1><p class="muted">Every product belongs to one category.</p></div>
+  <a class="btn btn-primary" href="{% url 'adminpanel:category_create' %}" data-testid="add-category"><i class="bi bi-plus-lg" aria-hidden="true"></i>Add category</a>
+</header>
+
+<form class="toolbar" method="get" role="search" data-testid="category-search">
+  <label class="visually-hidden" for="cat-q">Search categories</label>
+  <input id="cat-q" class="form-control" type="search" name="q" value="{{ q }}" placeholder="Search by name or description">
+  <button class="btn btn-outline" type="submit" data-no-spinner>Search</button>
+  {% if q %}<a class="btn btn-text" href="{% url 'adminpanel:categories' %}">Clear</a>{% endif %}
+</form>
+
+{% if page.object_list %}
+<div class="table-responsive">
+  <table class="table table-hover table-opens" data-testid="category-table">
+    <thead><tr><th>ID</th><th>Category name</th><th>Description</th><th class="text-end">Products</th><th>Status</th><th>Created</th><th><span class="visually-hidden">Actions</span></th></tr></thead>
+    <tbody>
+      {% for c in page %}
+      <tr data-testid="category-row">
+        <td class="num muted">{{ c.id }}</td>
+        <td class="fw-semibold" data-testid="category-name">{{ c.category_name }}</td>
+        <td class="cell-clip">{{ c.description|default:"No description" }}</td>
+        <td class="text-end num"><a href="{% url 'adminpanel:products' %}?category={{ c.id }}">{{ c.product_count }}</a></td>
+        <td><span class="badge-status status-{{ c.status|lower }}">{{ c.status }}</span></td>
+        <td class="nowrap">{{ c.created_date|date:"j M Y" }}</td>
+        <td class="row-actions">
+          <a class="btn btn-outline btn-sm" href="{% url 'adminpanel:category_edit' c.id %}" data-testid="edit-category">Edit</a>
+          <form method="post" action="{% url 'adminpanel:category_delete' c.id %}" data-confirm="Delete the category “{{ c.category_name }}”? This can’t be undone." data-confirm-action="Delete category">
+            {% csrf_token %}<button class="btn btn-danger-outline btn-sm" type="submit" data-no-spinner data-testid="delete-category">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% include "adminpanel/_pagination.html" %}
+{% else %}
+<div class="empty-state" data-testid="empty-state">
+  <h2>{% if q %}No categories match “{{ q }}”{% else %}No categories yet{% endif %}</h2>
+  <p>{% if q %}Try another word, or clear the search.{% else %}Add the first category so products have somewhere to live.{% endif %}</p>
+  <a class="btn btn-primary" href="{% url 'adminpanel:category_create' %}">Add category</a>
+</div>
+{% endif %}
+{% endblock %}

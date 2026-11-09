@@ -1,0 +1,35 @@
+{% extends "adminpanel/base.html" %}
+{% block admin_title %}Queries{% endblock %}
+{% block page_id %}admin-queries{% endblock %}
+{% block topbar_title %}Queries{% endblock %}
+{% block admin_content %}
+<header class="admin-head admin-head--actions">
+  <div><h1>Queries</h1><p class="muted">{% if unread_total %}{{ unread_total }} unread message{{ unread_total|pluralize }}.{% else %}You're all caught up.{% endif %}</p></div>
+  <a class="btn btn-primary" href="{% url 'adminpanel:query_new' %}" data-testid="new-query"><i class="bi bi-plus-lg" aria-hidden="true"></i>New query to a customer</a>
+</header>
+
+<form class="toolbar" method="get" role="search">
+  <label class="visually-hidden" for="q-q">Search queries</label>
+  <input id="q-q" class="form-control" type="search" name="q" value="{{ q }}" placeholder="Subject, customer or conversation ID">
+  <button class="btn btn-outline" type="submit" data-no-spinner>Search</button>
+  {% if q %}<a class="btn btn-text" href="{% url 'adminpanel:queries' %}">Clear</a>{% endif %}
+</form>
+
+{% if page.object_list %}
+<ul class="inbox table-opens" data-testid="query-list">
+  {% for c in page %}
+  <li class="inbox-row{% if c.unread %} is-unread{% endif %}" data-testid="query-row">
+    <a href="{% url 'adminpanel:query_thread' c.conversation_id %}">
+      <span class="inbox-subject">{% if c.unread %}<span class="badge-status status-unread">{{ c.unread }} new</span> {% endif %}<span class="fw-semibold" data-testid="query-subject">{{ c.subject }}</span></span>
+      <span class="inbox-meta">{{ c.customer_name }}<span class="muted">, {{ c.conversation_id }}</span></span>
+      <span class="inbox-last muted">{% if c.last_sender_type == "admin" %}You: {% endif %}{{ c.last_message|truncatechars:110 }}</span>
+      <span class="inbox-date small muted">{{ c.last_posted|date:"j M, H:i" }}<br>{{ c.message_count }} message{{ c.message_count|pluralize }}</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% include "adminpanel/_pagination.html" %}
+{% else %}
+<div class="empty-state" data-testid="empty-state"><h2>No queries yet</h2><p>Customer questions land here. You can also start a conversation with a customer.</p></div>
+{% endif %}
+{% endblock %}

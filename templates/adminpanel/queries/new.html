@@ -1,0 +1,21 @@
+{% extends "adminpanel/base.html" %}
+{% block admin_title %}New query{% endblock %}
+{% block page_id %}admin-query-new{% endblock %}
+{% block topbar_title %}Queries{% endblock %}
+{% block admin_content %}
+<header class="admin-head">
+  <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'adminpanel:queries' %}">Queries</a></li><li aria-current="page">New</li></ol></nav>
+  <h1>Send a query to a customer</h1>
+  <p class="muted">Starts a new conversation. The customer sees it under Your queries and can reply.</p>
+</header>
+<form method="post" novalidate class="panel form-narrow" data-testid="admin-query-form">
+  {% csrf_token %}
+  {% include "partials/field.html" with field=form.customer %}
+  {% include "partials/field.html" with field=form.subject %}
+  {% include "partials/field.html" with field=form.message %}
+  <div class="actions-row">
+    <button class="btn btn-primary" type="submit" data-loading-label="Sending…" data-testid="send-query">Send query</button>
+    <a class="btn btn-outline" href="{% url 'adminpanel:queries' %}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "adminpanel/base.html" %}
+{% block admin_title %}Ratings and reviews{% endblock %}
+{% block page_id %}admin-reviews{% endblock %}
+{% block topbar_title %}Ratings &amp; reviews{% endblock %}
+{% block admin_content %}
+<header class="admin-head">
+  <h1>Ratings and reviews</h1>
+  <p class="muted">{{ rating_total }} rating{{ rating_total|pluralize }}{% if average %}, average {{ average|floatformat:1 }} of 5{% endif %}, and {{ review_total }} written review{{ review_total|pluralize }}. Only customers who bought a product can rate it.</p>
+</header>
+
+<form class="toolbar" method="get" role="search">
+  <label class="visually-hidden" for="r-q">Search</label>
+  <input id="r-q" class="form-control" type="search" name="q" value="{{ q }}" placeholder="Product or customer">
+  <label class="visually-hidden" for="r-stars">Rating</label>
+  <select id="r-stars" class="form-select" name="rating">
+    <option value="">Any rating</option>
+    {% for n in "54321" %}<option value="{{ n }}" {% if stars == n %}selected{% endif %}>{{ n }} star{{ n|pluralize }}</option>{% endfor %}
+  </select>
+  <button class="btn btn-outline" type="submit" data-no-spinner>Apply</button>
+  {% if qs %}<a class="btn btn-text" href="{% url 'adminpanel:reviews' %}">Clear</a>{% endif %}
+</form>
+
+{% if page.object_list %}
+<div class="table-responsive">
+  <table class="table table-opens" data-testid="review-table">
+    <thead><tr><th>Product</th><th>Customer</th><th>Rating</th><th>Review</th><th>Posted</th></tr></thead>
+    <tbody>
+      {% for e in page %}
+      <tr data-testid="review-row">
+        <td><a href="{% url 'adminpanel:product_detail' e.product.id %}">{{ e.product.product_name }}</a><br><span class="muted small">ID {{ e.product.id }}</span></td>
+        <td class="nowrap"><a href="{% url 'adminpanel:customer_detail' e.customer.id %}">{{ e.customer.name }}</a></td>
+        <td class="nowrap">{% if e.rating %}{% include "partials/stars.html" with value=e.rating.rating %}<span class="visually-hidden">{{ e.rating.rating }} of 5</span>{% else %}<span class="muted">No rating</span>{% endif %}</td>
+        <td class="prose review-cell">{% if e.review %}{{ e.review.review }}{% else %}<span class="muted">No written review</span>{% endif %}</td>
+        <td class="nowrap small">{{ e.date|date:"j M Y" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% include "adminpanel/_pagination.html" %}
+{% else %}
+<div class="empty-state" data-testid="empty-state"><h2>No ratings or reviews found</h2><p>{% if q or stars %}Try another search or rating.{% else %}They appear after customers rate products they bought.{% endif %}</p></div>
+{% endif %}
+{% endblock %}

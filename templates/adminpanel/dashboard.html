@@ -1,10 +1,79 @@
-{% extends "adminpanel/base.html" %}
+{% extends "adminpanel/base.html" %}{% load shop_tags %}
 {% block admin_title %}Dashboard{% endblock %}
 {% block page_id %}admin-dashboard{% endblock %}
 {% block topbar_title %}Dashboard{% endblock %}
 {% block admin_content %}
-<section class="opens">
-  <h1 data-testid="admin-dashboard-heading">Dashboard</h1>
-  <p class="muted">Store totals and recent orders appear here once the admin features are built (Phase 4).</p>
+<header class="admin-head">
+  <h1 data-testid="admin-dashboard-heading">Store at a glance</h1>
+  <p class="muted">{% now "l, j F Y" %}</p>
+</header>
+
+<section aria-label="Store totals">
+  <dl class="stat-row" data-testid="dashboard-stats">
+    <div class="stat"><dt>Customers</dt><dd data-testid="stat-total-customers">{{ stats.total_customers }}</dd></div>
+    <div class="stat"><dt>Categories</dt><dd data-testid="stat-total-categories">{{ stats.total_categories }}</dd></div>
+    <div class="stat"><dt>Products</dt><dd data-testid="stat-total-products">{{ stats.total_products }}</dd>
+      <p class="stat-note">{{ stats.active_products }} live, {{ stats.out_of_stock }} out of stock</p></div>
+    <div class="stat"><dt>Orders</dt><dd data-testid="stat-total-orders">{{ stats.total_orders }}</dd></div>
+    <div class="stat stat-wide"><dt>Sales</dt><dd data-testid="stat-total-sales">{{ stats.total_sales|inr:0 }}</dd>
+      <p class="stat-note">Paid orders, excluding cancelled</p></div>
+  </dl>
+</section>
+
+<div class="admin-grid-2">
+  <section class="panel" aria-labelledby="chart-head">
+    <div class="panel-head">
+      <h2 id="chart-head">Last 14 days</h2>
+      <p class="muted">{{ series_orders }} order{{ series_orders|pluralize }}, {{ series_sales|inr:0 }} paid</p>
+    </div>
+    <figure class="bar-chart" data-testid="sales-chart">
+      <div class="bars" role="img" aria-label="Paid sales per day for the last 14 days">
+        {% for d in series %}
+          <div class="bar-col" title="{{ d.day|date:'j M' }}: {{ d.sales|inr:0 }}, {{ d.orders }} order{{ d.orders|pluralize }}">
+            <span class="bar" style="--h: {{ d.height }}%"></span>
+            <span class="bar-label">{{ d.day|date:"j" }}</span>
+          </div>
+        {% endfor %}
+      </div>
+      <figcaption class="muted">Bar height is paid sales for that day. Hover a bar for the figures.</figcaption>
+    </figure>
+  </section>
+
+  <section class="panel" aria-labelledby="status-head">
+    <div class="panel-head"><h2 id="status-head">Orders by status</h2></div>
+    <ul class="status-list">
+      {% for status, n in stats.status_counts.items %}
+        <li><a href="{% url 'adminpanel:orders' %}?status={{ status }}"><span class="badge-status status-{{ status|lower }}">{{ status }}</span><span class="num">{{ n }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+
+<section class="panel" aria-labelledby="recent-head">
+  <div class="panel-head">
+    <h2 id="recent-head">Recent orders</h2>
+    <a class="btn btn-outline btn-sm" href="{% url 'adminpanel:orders' %}">All orders</a>
+  </div>
+  {% if recent %}
+  <div class="table-responsive">
+    <table class="table table-hover" data-testid="recent-orders">
+      <thead><tr><th>Order</th><th>Customer</th><th>Date</th><th class="text-end">Items</th><th class="text-end">Total</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for o in recent %}
+        <tr>
+          <td><a href="{% url 'adminpanel:order_detail' o.order_id %}">{{ o.order_id }}</a></td>
+          <td>{{ o.customer_name }}</td>
+          <td>{{ o.order_date|date:"j M Y" }}</td>
+          <td class="text-end num">{{ o.quantity }}</td>
+          <td class="text-end num">{{ o.total|inr }}</td>
+          <td><span class="badge-status status-{{ o.status|lower }}">{{ o.status }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <div class="empty-state"><h3>No orders yet</h3><p>Orders appear here as soon as a customer checks out.</p></div>
+  {% endif %}
 </section>
 {% endblock %}

@@ -46,3 +46,30 @@ def add_class(bound_field, css: str):
     elif bound_field.help_text:
         attrs["aria-describedby"] = f"{bound_field.auto_id}-help"
     return bound_field.as_widget(attrs=attrs)
+
+
+@register.filter
+def star_list(value) -> list[str]:
+    """5 star states for a rating or an average: 4.5 -> full ×4 + half; 3.2 -> full ×3 + empty ×2."""
+    try:
+        value = float(value or 0)
+    except (TypeError, ValueError):
+        value = 0.0
+    stars = []
+    for i in range(1, 6):
+        if value >= i - 0.25:
+            stars.append("full")
+        elif value >= i - 0.75:
+            stars.append("half")
+        else:
+            stars.append("empty")
+    return stars
+
+
+@register.filter
+def get_item(mapping, key):
+    """Dictionary lookup in templates: {{ counts|get_item:status }}."""
+    try:
+        return mapping.get(key)
+    except AttributeError:
+        return None

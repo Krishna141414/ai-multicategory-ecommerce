@@ -1,0 +1,19 @@
+{% extends "adminpanel/base.html" %}
+{% block admin_title %}{{ subject }}{% endblock %}
+{% block page_id %}admin-query-thread{% endblock %}
+{% block topbar_title %}Queries{% endblock %}
+{% block admin_content %}
+<header class="admin-head">
+  <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'adminpanel:queries' %}">Queries</a></li><li aria-current="page">{{ conversation_id }}</li></ol></nav>
+  <h1 data-testid="thread-subject">{{ subject }}</h1>
+  <p class="muted">Conversation {{ conversation_id }}{% if customer %} with <a href="{% url 'adminpanel:customer_detail' customer.id %}">{{ customer.name }}</a> ({{ customer.email }}){% endif %}.</p>
+</header>
+<div class="thread-layout">
+  {% include "partials/thread.html" with viewer=user %}
+  <form method="post" novalidate class="panel reply-form" data-testid="reply-form">
+    {% csrf_token %}
+    {% include "partials/field.html" with field=form.message %}
+    <button class="btn btn-primary" type="submit" data-loading-label="Sending…" data-testid="send-reply">Send reply</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "adminpanel/base.html" %}
+{% block admin_title %}Customers{% endblock %}
+{% block page_id %}admin-customers{% endblock %}
+{% block topbar_title %}Customers{% endblock %}
+{% block admin_content %}
+<header class="admin-head"><h1>Customers</h1><p class="muted">Deactivated customers can't sign in until they are activated again.</p></header>
+
+<form class="toolbar" method="get" role="search" data-testid="customer-search">
+  <label class="visually-hidden" for="c-q">Search customers</label>
+  <input id="c-q" class="form-control" type="search" name="q" value="{{ q }}" placeholder="Name, email or mobile">
+  <label class="visually-hidden" for="c-status">Status</label>
+  <select id="c-status" class="form-select" name="status">
+    <option value="">Any status</option>
+    <option value="Active" {% if status == "Active" %}selected{% endif %}>Active</option>
+    <option value="Inactive" {% if status == "Inactive" %}selected{% endif %}>Inactive</option>
+  </select>
+  <button class="btn btn-outline" type="submit" data-no-spinner>Apply</button>
+  {% if qs %}<a class="btn btn-text" href="{% url 'adminpanel:customers' %}">Clear</a>{% endif %}
+</form>
+
+{% if page.object_list %}
+<div class="table-responsive">
+  <table class="table table-hover table-opens" data-testid="customer-table">
+    <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Mobile number</th><th>Address</th><th>Registered</th><th class="text-end">Orders</th><th>Status</th><th><span class="visually-hidden">Actions</span></th></tr></thead>
+    <tbody>
+      {% for c in page %}
+      <tr data-testid="customer-row">
+        <td class="num muted">{{ c.id }}</td>
+        <td><a class="fw-semibold" href="{% url 'adminpanel:customer_detail' c.id %}" data-testid="customer-name">{{ c.name }}</a></td>
+        <td class="small">{{ c.email }}</td>
+        <td class="num small">{{ c.mobile_number }}</td>
+        <td class="cell-clip small">{{ c.address }}</td>
+        <td class="nowrap small">{{ c.registered_date|date:"j M Y" }}</td>
+        <td class="text-end num">{{ c.order_count }}</td>
+        <td><span class="badge-status status-{{ c.status|lower }}" data-testid="customer-status">{{ c.status }}</span></td>
+        <td class="row-actions">
+          <form method="post" action="{% url 'adminpanel:customer_set_status' c.id %}"{% if c.is_active %} data-confirm="Deactivate {{ c.name }}? They won’t be able to sign in until you activate the account again." data-confirm-action="Deactivate"{% endif %}>
+            {% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">
+            {% if c.is_active %}
+              <input type="hidden" name="status" value="Inactive"><button class="btn btn-danger-outline btn-sm" type="submit" data-no-spinner data-testid="deactivate-customer">Deactivate</button>
+            {% else %}
+              <input type="hidden" name="status" value="Active"><button class="btn btn-outline btn-sm" type="submit" data-no-spinner data-testid="activate-customer">Activate</button>
+            {% endif %}
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% include "adminpanel/_pagination.html" %}
+{% else %}
+<div class="empty-state" data-testid="empty-state"><h2>No customers found</h2><p>{% if q or status %}Try a different search or clear the filters.{% else %}Customers appear here when they register.{% endif %}</p></div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "adminpanel/base.html" %}{% load shop_tags %}
+{% block admin_title %}{{ product.product_name }}{% endblock %}
+{% block page_id %}admin-product-detail{% endblock %}
+{% block topbar_title %}Products{% endblock %}
+{% block admin_content %}
+<header class="admin-head admin-head--actions">
+  <div>
+    <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'adminpanel:products' %}">Products</a></li><li aria-current="page">{{ product.product_name }}</li></ol></nav>
+    <h1 data-testid="product-title">{{ product.product_name }}</h1>
+  </div>
+  <div class="row-actions">
+    {% url 'catalog:product_detail' product.slug as store_url %}{% if product.is_active and store_url %}<a class="btn btn-outline" href="{{ store_url }}" target="_blank" rel="noopener">View in store</a>{% endif %}
+    <a class="btn btn-primary" href="{% url 'adminpanel:product_edit' product.id %}" data-testid="edit-product">Edit product</a>
+  </div>
+</header>
+<div class="detail-layout">
+  <figure class="detail-photo"><img src="{{ product.image_url }}" alt="{{ product.product_name }} by {{ product.brand }}" width="900" height="900"></figure>
+  <dl class="facts" data-testid="product-facts">
+    <dt>ID</dt><dd class="num">{{ product.id }}</dd>
+    <dt>Category</dt><dd>{{ product.category.category_name }} (ID {{ product.category_id }})</dd>
+    <dt>Brand</dt><dd>{{ product.brand }}</dd>
+    <dt>Price</dt><dd class="num" data-testid="product-price">{{ product.price|inr }}{% if product.discount_percent %} <span class="muted">MRP {{ product.mrp|inr }}, {{ product.discount_percent }}% off</span>{% endif %}</dd>
+    <dt>Quantity</dt><dd class="num" data-testid="product-quantity">{{ product.quantity }}</dd>
+    <dt>Status</dt><dd><span class="badge-status status-{{ product.status|lower }}" data-testid="product-status">{{ product.status }}</span>{% if product.is_sponsored %} <span class="tag">Sponsored</span>{% endif %}</dd>
+    <dt>Keywords</dt><dd>{{ product.keywords|default:"None" }}</dd>
+    <dt>Description</dt><dd class="prose">{{ product.description|linebreaksbr }}</dd>
+    <dt>Added</dt><dd>{{ product.added_date|date:"j F Y, H:i" }}</dd>
+    <dt>Orders</dt><dd class="num">{{ order_count }}</dd>
+  </dl>
+</div>
+{% endblock %}

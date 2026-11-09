@@ -1,0 +1,60 @@
+{% extends "adminpanel/base.html" %}{% load shop_tags %}
+{% block admin_title %}Order {{ order_id }}{% endblock %}
+{% block page_id %}admin-order-detail{% endblock %}
+{% block topbar_title %}Orders{% endblock %}
+{% block admin_content %}
+<header class="admin-head admin-head--actions">
+  <div>
+    <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'adminpanel:orders' %}">Orders</a></li><li aria-current="page">{{ order_id }}</li></ol></nav>
+    <h1 data-testid="order-title">Order {{ order_id }}</h1>
+    <p class="muted">Placed {{ rows.0.order_date|date:"j F Y, H:i" }} by <a href="{% url 'adminpanel:customer_detail' customer.id %}">{{ customer.name }}</a></p>
+  </div>
+  <span class="badge-status badge-lg status-{{ status|lower }}" data-testid="order-status">{{ status }}</span>
+</header>
+
+<div class="admin-grid-2 admin-grid-2--wide-left">
+  <section class="panel">
+    <div class="panel-head"><h2>Items</h2></div>
+    <div class="table-responsive">
+      <table class="table" data-testid="order-rows">
+        <thead><tr><th>ID</th><th>Product ID</th><th>Product</th><th class="text-end">Quantity</th><th class="text-end">Price</th><th class="text-end">Amount</th></tr></thead>
+        <tbody>
+          {% for r in rows %}
+          <tr><td class="num">{{ r.id }}</td><td class="num">{{ r.product_id }}</td>
+              <td><a href="{% url 'adminpanel:product_detail' r.product_id %}">{{ r.product_name }}</a></td>
+              <td class="text-end num">{{ r.quantity }}</td><td class="text-end num">{{ r.price|inr }}</td><td class="text-end num">{{ r.amount|inr }}</td></tr>
+          {% endfor %}
+        </tbody>
+        <tfoot><tr><th colspan="5" class="text-end">Total</th><th class="text-end num" data-testid="order-total">{{ total|inr }}</th></tr></tfoot>
+      </table>
+    </div>
+  </section>
+
+  <aside class="admin-stack">
+    <section class="panel" data-testid="status-panel">
+      <h2 class="panel-title">Update status</h2>
+      {% if form.fields.order_status.choices %}
+        <form method="post" action="{% url 'adminpanel:order_update_status' order_id %}" novalidate
+              {% if "Cancelled" in form.fields.order_status.choices|stringformat:"s" %}data-confirm-if="Cancelled" data-confirm="Cancel order {{ order_id }}? Its stock will be put back on the shelves." data-confirm-action="Cancel order"{% endif %}>
+          {% csrf_token %}
+          {% include "partials/field.html" with field=form.order_status %}
+          <button class="btn btn-primary btn-block" type="submit" data-loading-label="Updating…" data-testid="update-status">Update status</button>
+        </form>
+        <p class="form-text">Order goes Pending → Confirmed → Shipped → Delivered. Cancelling puts the stock back.</p>
+      {% else %}
+        <p class="muted">This order is {{ status }}. That's a final status, so it can't change any more.</p>
+      {% endif %}
+    </section>
+    <section class="panel">
+      <h2 class="panel-title">Payments</h2>
+      {% for p in payments %}
+        <p class="payment-line"><span class="badge-status status-{{ p.payment_status|lower }}">{{ p.payment_status }}</span> {{ p.total_amount|inr }} by {{ p.get_payment_method_display }}<br><span class="muted small">{{ p.reference }}, {{ p.payment_date|date:"j M Y, H:i" }}</span></p>
+      {% empty %}<p class="muted">No payment yet.</p>{% endfor %}
+    </section>
+    <section class="panel">
+      <h2 class="panel-title">Deliver to</h2>
+      <p>{{ customer.name }}<br>{{ customer.address|linebreaksbr }}<br><span class="muted">{{ customer.mobile_number }}</span></p>
+    </section>
+  </aside>
+</div>
+{% endblock %}

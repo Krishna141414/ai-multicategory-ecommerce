@@ -1,0 +1,75 @@
+{% extends "adminpanel/base.html" %}{% load shop_tags %}
+{% block admin_title %}Products{% endblock %}
+{% block page_id %}admin-products{% endblock %}
+{% block topbar_title %}Products{% endblock %}
+{% block admin_content %}
+<header class="admin-head admin-head--actions">
+  <div><h1>Products</h1><p class="muted">{{ total }} product{{ total|pluralize }} match the current filters.</p></div>
+  <a class="btn btn-primary" href="{% url 'adminpanel:product_create' %}" data-testid="add-product"><i class="bi bi-plus-lg" aria-hidden="true"></i>Add product</a>
+</header>
+
+<form class="toolbar toolbar--filters" method="get" role="search" data-testid="product-filters">
+  <label class="visually-hidden" for="p-q">Search products</label>
+  <input id="p-q" class="form-control" type="search" name="q" value="{{ filters.q|default:'' }}" placeholder="Name, brand or keyword">
+  <label class="visually-hidden" for="p-cat">Category</label>
+  <select id="p-cat" class="form-select" name="category">
+    <option value="">All categories</option>
+    {% for c in categories %}<option value="{{ c.id }}" {% if filters.category == c.id|stringformat:"s" %}selected{% endif %}>{{ c.category_name }}</option>{% endfor %}
+  </select>
+  <label class="visually-hidden" for="p-status">Status</label>
+  <select id="p-status" class="form-select" name="status">
+    <option value="">Any status</option>
+    <option value="Active" {% if filters.status == "Active" %}selected{% endif %}>Active</option>
+    <option value="Inactive" {% if filters.status == "Inactive" %}selected{% endif %}>Inactive</option>
+  </select>
+  <label class="visually-hidden" for="p-stock">Stock</label>
+  <select id="p-stock" class="form-select" name="stock">
+    <option value="">Any stock</option>
+    <option value="low" {% if filters.stock == "low" %}selected{% endif %}>Low (5 or fewer)</option>
+    <option value="out" {% if filters.stock == "out" %}selected{% endif %}>Out of stock</option>
+  </select>
+  <label class="check-inline"><input class="form-check-input" type="checkbox" name="sponsored" value="1" {% if filters.sponsored == "1" %}checked{% endif %}> Sponsored only</label>
+  <button class="btn btn-outline" type="submit" data-no-spinner>Apply</button>
+  {% if qs %}<a class="btn btn-text" href="{% url 'adminpanel:products' %}">Clear</a>{% endif %}
+</form>
+
+{% if page.object_list %}
+<div class="table-responsive">
+  <table class="table table-hover table-opens" data-testid="product-table">
+    <thead><tr><th><span class="visually-hidden">Image</span></th><th>Product</th><th>Category</th><th class="text-end">Price</th><th class="text-end">Stock</th><th>Status</th><th>Sponsored</th><th><span class="visually-hidden">Actions</span></th></tr></thead>
+    <tbody>
+      {% for p in page %}
+      <tr data-testid="product-row">
+        <td class="thumb-cell"><img src="{{ p.image_url }}" alt="" width="48" height="48" loading="lazy"></td>
+        <td><a class="fw-semibold" href="{% url 'adminpanel:product_detail' p.id %}" data-testid="product-name">{{ p.product_name }}</a><br><span class="muted small">{{ p.brand }}, ID {{ p.id }}</span></td>
+        <td class="small">{{ p.category.category_name }}</td>
+        <td class="text-end num">{{ p.price|inr }}</td>
+        <td class="text-end num">{% if p.quantity == 0 %}<span class="badge-status status-out-of-stock">Out</span>{% elif p.low_stock %}<span class="badge-status status-low-stock">{{ p.quantity }}</span>{% else %}{{ p.quantity }}{% endif %}</td>
+        <td><span class="badge-status status-{{ p.status|lower }}">{{ p.status }}</span></td>
+        <td>
+          <form method="post" action="{% url 'adminpanel:product_toggle_sponsored' p.id %}">{% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <button class="switch {% if p.is_sponsored %}is-on{% endif %}" type="submit" role="switch" aria-checked="{% if p.is_sponsored %}true{% else %}false{% endif %}"
+                    aria-label="Sponsored: {{ p.product_name }}" data-no-spinner data-testid="toggle-sponsored"><span></span></button>
+          </form>
+        </td>
+        <td class="row-actions">
+          <a class="btn btn-outline btn-sm" href="{% url 'adminpanel:product_edit' p.id %}" data-testid="edit-product">Edit</a>
+          <form method="post" action="{% url 'adminpanel:product_delete' p.id %}" data-confirm="Delete “{{ p.product_name }}”? If it has orders it will be hidden from the store instead, so order history stays intact." data-confirm-action="Delete product">
+            {% csrf_token %}<button class="btn btn-danger-outline btn-sm" type="submit" data-no-spinner data-testid="delete-product">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% include "adminpanel/_pagination.html" %}
+{% else %}
+<div class="empty-state" data-testid="empty-state">
+  <h2>No products match these filters</h2>
+  <p>Clear a filter or two, or add a new product.</p>
+  <a class="btn btn-outline" href="{% url 'adminpanel:products' %}">Clear filters</a>
+</div>
+{% endif %}
+{% endblock %}

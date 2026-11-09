@@ -1,0 +1,12 @@
+<ol class="thread" data-testid="conversation-thread">
+  {% for m in thread %}
+  <li class="message message--{{ m.sender_type }}{% if m.sender_id == viewer.id %} is-mine{% endif %}" data-testid="thread-message">
+    <header class="message-head">
+      <span class="fw-semibold">{% if m.sender_type == "admin" %}{{ STORE_NAME }} support{% else %}{{ m.sender.customer.name|default:m.sender.username }}{% endif %}</span>
+      <time datetime="{{ m.posted_date|date:'c' }}" class="muted small">{{ m.posted_date|date:"j M Y, H:i" }}</time>
+    </header>
+    <div class="prose message-body">{{ m.message|linebreaks }}</div>
+    {% if m.parent_message %}<p class="message-reply-to small muted">In reply to message {{ m.parent_message_id }}</p>{% endif %}
+  </li>
+  {% endfor %}
+</ol>

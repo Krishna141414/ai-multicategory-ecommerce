@@ -1,0 +1,49 @@
+{% extends "adminpanel/base.html" %}{% load shop_tags %}
+{% block admin_title %}{{ customer.name }}{% endblock %}
+{% block page_id %}admin-customer-detail{% endblock %}
+{% block topbar_title %}Customers{% endblock %}
+{% block admin_content %}
+<header class="admin-head admin-head--actions">
+  <div>
+    <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'adminpanel:customers' %}">Customers</a></li><li aria-current="page">{{ customer.name }}</li></ol></nav>
+    <h1 data-testid="customer-title">{{ customer.name }}</h1>
+  </div>
+  <div class="row-actions">
+    <a class="btn btn-outline" href="{% url 'adminpanel:query_new' %}?customer={{ customer.id }}">Send a query</a>
+    <form method="post" action="{% url 'adminpanel:customer_set_status' customer.id %}"{% if customer.is_active %} data-confirm="Deactivate {{ customer.name }}? They won’t be able to sign in." data-confirm-action="Deactivate"{% endif %}>
+      {% csrf_token %}
+      {% if customer.is_active %}
+        <input type="hidden" name="status" value="Inactive"><button class="btn btn-danger-outline" type="submit" data-no-spinner data-testid="deactivate-customer">Deactivate</button>
+      {% else %}
+        <input type="hidden" name="status" value="Active"><button class="btn btn-primary" type="submit" data-no-spinner data-testid="activate-customer">Activate</button>
+      {% endif %}
+    </form>
+  </div>
+</header>
+<dl class="facts" data-testid="customer-facts">
+  <dt>ID</dt><dd class="num">{{ customer.id }}</dd>
+  <dt>Email</dt><dd>{{ customer.email }}</dd>
+  <dt>Mobile number</dt><dd class="num">{{ customer.mobile_number }}</dd>
+  <dt>Address</dt><dd>{{ customer.address|linebreaksbr }}</dd>
+  <dt>Registered</dt><dd>{{ customer.registered_date|date:"j F Y, H:i" }}</dd>
+  <dt>Status</dt><dd><span class="badge-status status-{{ customer.status|lower }}" data-testid="customer-status">{{ customer.status }}</span></dd>
+</dl>
+<section class="panel">
+  <div class="panel-head"><h2>Orders</h2></div>
+  {% if orders %}
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead><tr><th>Order</th><th>Date</th><th class="text-end">Items</th><th class="text-end">Total</th><th>Paid</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for o in orders %}
+        <tr><td><a href="{% url 'adminpanel:order_detail' o.order_id %}">{{ o.order_id }}</a></td><td>{{ o.order_date|date:"j M Y" }}</td>
+            <td class="text-end num">{{ o.quantity }}</td><td class="text-end num">{{ o.total|inr }}</td>
+            <td>{% if o.paid %}Yes{% else %}<span class="muted">No</span>{% endif %}</td>
+            <td><span class="badge-status status-{{ o.status|lower }}">{{ o.status }}</span></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}<p class="muted">No orders yet.</p>{% endif %}
+</section>
+{% endblock %}

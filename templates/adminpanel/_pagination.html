@@ -1,0 +1,9 @@
+{% if page.has_other_pages %}
+<nav class="pager" aria-label="Pages">
+  <span class="muted">Page {{ page.number }} of {{ page.paginator.num_pages }}, {{ page.paginator.count }} in all</span>
+  <div class="pager-links">
+    {% if page.has_previous %}<a class="btn btn-outline btn-sm" href="?{% if qs %}{{ qs }}&amp;{% endif %}page={{ page.previous_page_number }}" rel="prev">Previous</a>{% endif %}
+    {% if page.has_next %}<a class="btn btn-outline btn-sm" href="?{% if qs %}{{ qs }}&amp;{% endif %}page={{ page.next_page_number }}" rel="next" data-testid="next-page">Next</a>{% endif %}
+  </div>
+</nav>
+{% endif %}

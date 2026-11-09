@@ -116,3 +116,57 @@
     headerShadow();
   });
 })();
+
+/* Confirm dialog for destructive actions.
+   <form data-confirm="Delete X?" data-confirm-action="Delete"> opens a small dialog first.
+   data-confirm-if="Cancelled" only asks when a field in the form currently has that value. */
+(function () {
+  "use strict";
+
+  function buildDialog() {
+    const dialog = document.createElement("dialog");
+    dialog.className = "confirm-dialog";
+    dialog.setAttribute("aria-labelledby", "confirm-title");
+    dialog.dataset.testid = "confirm-dialog";
+    dialog.innerHTML = `<h2 id="confirm-title">Please confirm</h2><p data-confirm-text></p>
+      <div class="actions-row">
+        <button type="button" class="btn btn-outline" data-confirm-cancel data-testid="confirm-cancel">Keep it</button>
+        <button type="button" class="btn btn-primary" data-confirm-ok data-testid="confirm-ok">Confirm</button>
+      </div>`;
+    document.body.appendChild(dialog);
+    return dialog;
+  }
+
+  function needsConfirm(form) {
+    const onlyIf = form.dataset.confirmIf;
+    if (!onlyIf) return true;
+    return Array.from(form.elements).some((el) => el.value === onlyIf && (el.tagName === "SELECT" || el.checked));
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const forms = document.querySelectorAll("form[data-confirm]");
+    if (!forms.length) return;
+    const dialog = buildDialog();
+    let pending = null;
+
+    dialog.querySelector("[data-confirm-cancel]").addEventListener("click", () => { pending = null; dialog.close(); });
+    dialog.querySelector("[data-confirm-ok]").addEventListener("click", () => {
+      const form = pending;
+      dialog.close();
+      if (form) { form.dataset.confirmed = "true"; form.requestSubmit(); }
+    });
+
+    forms.forEach((form) => {
+      form.addEventListener("submit", (event) => {
+        if (form.dataset.confirmed === "true" || !needsConfirm(form)) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        pending = form;
+        dialog.querySelector("[data-confirm-text]").textContent = form.dataset.confirm;
+        dialog.querySelector("[data-confirm-ok]").textContent = form.dataset.confirmAction || "Confirm";
+        dialog.showModal();
+        dialog.querySelector("[data-confirm-cancel]").focus();
+      }, true); // capture: runs before the double-submit guard
+    });
+  });
+})();

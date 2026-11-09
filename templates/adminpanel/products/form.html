@@ -1,0 +1,54 @@
+{% extends "adminpanel/base.html" %}
+{% block admin_title %}{% if product %}Edit product{% else %}Add product{% endif %}{% endblock %}
+{% block page_id %}admin-product-form{% endblock %}
+{% block topbar_title %}Products{% endblock %}
+{% block admin_content %}
+<header class="admin-head">
+  <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'adminpanel:products' %}">Products</a></li>{% if product %}<li><a href="{% url 'adminpanel:product_detail' product.id %}">{{ product.product_name }}</a></li>{% endif %}<li aria-current="page">{% if product %}Edit{% else %}New{% endif %}</li></ol></nav>
+  <h1>{% if product %}Edit product{% else %}Add product{% endif %}</h1>
+</header>
+<form method="post" enctype="multipart/form-data" novalidate class="product-form" data-testid="product-form">
+  {% csrf_token %}
+  {% if form.errors %}<div class="form-errors" role="alert" data-testid="form-errors"><p>Please fix the highlighted fields.</p>{% for e in form.non_field_errors %}<p>{{ e }}</p>{% endfor %}</div>{% endif %}
+  <div class="panel">
+    <h2 class="panel-title">Basics</h2>
+    <div class="form-grid">
+      {% include "partials/field.html" with field=form.product_name wide=True %}
+      {% include "partials/field.html" with field=form.brand %}
+      {% include "partials/field.html" with field=form.category %}
+      {% include "partials/field.html" with field=form.description wide=True %}
+      {% include "partials/field.html" with field=form.keywords wide=True %}
+    </div>
+  </div>
+  <div class="panel">
+    <h2 class="panel-title">Price and stock</h2>
+    <div class="form-grid form-grid--3">
+      {% include "partials/field.html" with field=form.price %}
+      {% include "partials/field.html" with field=form.mrp %}
+      {% include "partials/field.html" with field=form.quantity %}
+    </div>
+  </div>
+  <div class="panel">
+    <h2 class="panel-title">Photo and visibility</h2>
+    <div class="form-grid">
+      <div class="form-field">
+        <label class="form-label" for="{{ form.image.auto_id }}">Product photo</label>
+        {% if product %}<img class="form-photo" src="{{ product.image_url }}" alt="Current photo of {{ product.product_name }}" width="120" height="120">{% endif %}
+        <input class="form-control{% if form.image.errors %} is-invalid{% endif %}" type="file" name="image" id="{{ form.image.auto_id }}" accept="image/jpeg,image/png,image/webp">
+        {% if form.image.errors %}<div class="field-error" data-testid="error-image"><span>{{ form.image.errors|first }}</span></div>{% else %}<div class="form-text">JPG, PNG or WebP, up to 3 MB. Square photos look best.</div>{% endif %}
+      </div>
+      <div>
+        {% include "partials/field.html" with field=form.status %}
+        <div class="form-check form-field">
+          <input class="form-check-input" type="checkbox" name="is_sponsored" id="{{ form.is_sponsored.auto_id }}" {% if form.is_sponsored.value %}checked{% endif %} data-testid="sponsored-checkbox">
+          <label class="form-check-label" for="{{ form.is_sponsored.auto_id }}">{{ form.is_sponsored.label }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions-row">
+    <button class="btn btn-primary" type="submit" data-loading-label="Saving…" data-testid="save-product">{% if product %}Save changes{% else %}Add product{% endif %}</button>
+    <a class="btn btn-outline" href="{% if product %}{% url 'adminpanel:product_detail' product.id %}{% else %}{% url 'adminpanel:products' %}{% endif %}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

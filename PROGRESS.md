@@ -3,12 +3,29 @@
 Claude Code updates this after every step. A new session reads it first and continues from "Next".
 
 ## Status
-- Current phase: Phase 4 — Admin panel
-- Last completed step: Gate 3 passed
-- Next: 4.1 Admin dashboard
+- Current phase: Phase 4 — Admin panel (IN PROGRESS, paused for usage limit)
+- Last completed step: Gate 3; Velora rename DONE; 3 new photos DONE
+- Next: finish Gate 4 browser checks (see "In progress" below), then tick 4.1–4.7
 
-## Next — Phase 4 (admin panel, custom UI at /manage/)
-Start 4.1 Dashboard: real totals (total_customers, total_categories, total_products, total_orders = distinct order_id, total_sales = paid, not cancelled), recent orders table, 14-day inline-SVG chart; pass `section` to admin templates. Admin shell: `templates/adminpanel/base.html` (sidebar links appear automatically once `adminpanel:<name>` URLs exist). Shared form/badge/table styles are in `static/css/base.css`; admin layout in `static/css/admin.css`. Follow docs/plans/implementation-plan.md Phase 4.
+## In progress — Phase 4 admin panel (code complete, browser verification part-done)
+Status of owner requests:
+- **Velora rename: DONE** (committed 99f637a). STORE_NAME = "Velora"; code identifiers (modules, folders, window.Chowk) unchanged on purpose.
+- **3 new photos: DONE** (committed f8e8f09). Soundbar → Sonvale soundbar, microwave → Tadka Home microwave, smartwatch → Orvia Fit Smartwatch (it is a smartwatch; the only placeholder left is the Thread & Thali *analog* watch). Labels SONVALE / ORVIA / TADKA HOME added; credited as owner AI-generated.
+
+Phase 4 done (code + unit tests, 37 unit tests pass):
+- Services: `catalog/services.py` (delete_category guard, delete_product soft delete, admin_product_list), `orders/services/status.py` (allowed transitions, cancel restores stock), `orders/services/queries.py` (order groups, sales), `messaging/services.py` (one messages table, threads, replies, access checks), `adminpanel/services.py` (dashboard totals + 14-day series).
+- Forms: `adminpanel/forms.py` (Category, Product with price>0 / qty>=0 / MRP rules, OrderStatus), `messaging/forms.py` (Query, AdminQuery, Reply).
+- Views + URLs: `adminpanel/views/` dashboard, categories, products (+ sponsored toggle), customers (+ activate/deactivate), orders (grouped ledger + status), reviews, queries (inbox, new, thread/reply); `safe_next` guards redirects.
+- Templates: `templates/adminpanel/**`, partials `stars.html`, `thread.html`, `_pagination.html`; confirm dialog for destructive actions in `static/js/app.js`; admin component CSS in `static/css/admin.css`; shared bits (stars, thread, dialog, breadcrumbs, facts) in `static/css/base.css`.
+- Tests: `tests/unit/test_admin_services.py` (13 tests).
+
+Browser-verified so far (Playwright MCP, screenshots in `screenshots/gate4/`): dashboard totals + chart, products list + sponsored filter, product delete with orders → soft delete + toast, orders ledger expand, cancel order (confirm dialog) → stock 62 → 64, queries inbox + admin reply in thread, ratings & reviews list (fixed missing `{% load shop_tags %}` in stars partial), add category.
+
+Exact next steps:
+1. Restart the server (`.venv\Scripts\python.exe manage.py runserver`), log in at /manage/login/ (admin / password from .env).
+2. Browser-check the rest of Gate 4: edit + delete a category (and the "has products" refusal message), add a product with an image upload + edit it, sponsored toggle on/off, customer deactivate + activate, admin "New query to a customer", and the admin pages at 390 px width.
+3. Note: demo data was changed by the checks (Mixer Grinder is now Inactive, order ORD-…-DM06 Cancelled, one admin reply in CNV-DEMO0002). Run `python manage.py reset_demo --yes` before recording.
+4. Tick 4.1–4.7 + Gate 4 in BUILD_PROMPT.md, update REQUIREMENTS_MATRIX (ADM-02…ADM-18, R2.1, R2.6, R6.x), commit, then Phase 5 (customer catalogue).
 
 ## Log
 | Date | Step | Result / notes |
@@ -37,6 +54,7 @@ Start 4.1 Dashboard: real totals (total_customers, total_categories, total_produ
 | 2026-11-07 | Gate 3 | Every auth path verified in the browser with Playwright MCP (screenshots in screenshots/gate3/, 1440 + 390): register, login, invalid login, deactivated login, logout, admin invalid/valid login, customer→admin 403. Fixed: shared form styles moved to base.css (admin login), cache-busting ?v= on CSS/JS, aria-labels on icon-only header links on mobile. Category bar overflows at 1440 → mega menu in 9.1. |
 | 2026-11-09 | Rename | Store brand renamed Chowk → Velora everywhere users see it (STORE_NAME drives wordmark, titles, meta, footer, admin brand, welcome message); tagline 'Ten aisles, one store'; favicon V; wordmark axes wdth 82 / tracking −0.005em via --wordmark-axes token; DESIGN_SYSTEM + DECISIONS updated. Code identifiers (modules, folders, window.Chowk JS namespace) unchanged by request. Checked with Playwright at 1440 + 390 (screenshots/rename/). |
 | 2026-11-09 | 3 photos added | Soundbar → Sonvale Soundbar 2.1; microwave → Tadka Home Solo Microwave; smartwatch → Orvia Fit Smartwatch (it is a smartwatch, the remaining placeholder is an analog watch). Fictional labels SONVALE / ORVIA / TADKA HOME added and checked by eye; credited as owner AI-generated; 109/110 products have photos. |
+| 2026-11-09 | Phase 4 (partial) | Admin panel code complete: dashboard, categories, products (+ sponsored toggle, soft delete), customers (activate/deactivate), orders (grouped ledger, status transitions, cancel restores stock), ratings/reviews, queries (inbox, new, thread, reply). 37 unit tests pass. Browser checks part-done (see In progress). |
 
 ## Pending owner actions / follow-ups
 - **Last placeholder:** "Thread & Thali Women's Minimalist Analog Watch". The owner's "smartwatch" photo was a smartwatch, so it went to "Orvia Fit Smartwatch with Calling" (replacing a weaker Openverse photo) instead of the analog watch listing. If Krishna adds an analog women's watch photo, import it the same way (scripts/import_manual_photos.py + brand_labels.py if plain, credits, seed_demo).
