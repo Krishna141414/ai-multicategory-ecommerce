@@ -1,5 +1,5 @@
 """
-Django settings for the Chowk store.
+Django settings for the Velora store.
 
 All secrets and environment-specific values come from `.env` (see `.env.example`).
 """
@@ -168,7 +168,7 @@ X_FRAME_OPTIONS = "DENY"
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # --- Project settings -------------------------------------------------------------------
-STORE_NAME = "Chowk"
+STORE_NAME = "Velora"
 # Appended to CSS/JS URLs (?v=...) so browsers pick up new files after a server restart.
 ASSET_VERSION = os.getenv("ASSET_VERSION") or str(int(__import__("time").time()))
 RECOMMENDER = {

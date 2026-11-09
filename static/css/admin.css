@@ -11,7 +11,7 @@ body.admin { --text-display-s: 1.75rem; --text-section: 1.4375rem; --text-title:
 .admin-shell { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; }
 .admin-sidebar { background: var(--color-ink); color: var(--color-paper-3); display: flex; flex-direction: column; padding: var(--space-lg) var(--space-md);
   position: sticky; top: 0; height: 100vh; }
-.admin-brand { font-family: var(--font-display); font-weight: 800; font-variation-settings: "wdth" 75, "opsz" 96; font-size: 1.75rem; line-height: 1;
+.admin-brand { font-family: var(--font-display); font-weight: 800; font-variation-settings: var(--wordmark-axes); font-size: 1.625rem; letter-spacing: var(--wordmark-tracking); line-height: 1;
   color: var(--color-paper); text-decoration: none; margin-bottom: var(--space-xl); display: inline-block; }
 .admin-brand span { font-family: var(--font-ui); font-variation-settings: normal; font-weight: 500; font-size: var(--text-sm); color: var(--color-rule-2); margin-left: var(--space-2xs); }
 .admin-nav { display: grid; gap: var(--space-3xs); }

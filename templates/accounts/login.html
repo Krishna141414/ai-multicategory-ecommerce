@@ -17,7 +17,7 @@
         {% include "partials/field.html" with field=form.password %}
         <button class="btn btn-primary" type="submit" data-loading-label="Signing in…" data-testid="login-submit">Sign in</button>
       </form>
-      <p class="auth-switch">New to Chowk? <a href="{% url 'accounts:register' %}{% if next %}?next={{ next|urlencode }}{% endif %}" data-testid="register-link">Create an account</a></p>
+      <p class="auth-switch">New to {{ STORE_NAME }}? <a href="{% url 'accounts:register' %}{% if next %}?next={{ next|urlencode }}{% endif %}" data-testid="register-link">Create an account</a></p>
     </div>
   </section>
   {% include "accounts/_auth_aside.html" %}

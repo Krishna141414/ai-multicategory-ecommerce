@@ -9,7 +9,7 @@ from accounts.services import DEACTIVATED_MESSAGE, INVALID_LOGIN_MESSAGE, regist
 
 pytestmark = [pytest.mark.unit, pytest.mark.django_db]
 
-PASSWORD = "Chowk#Test-2026"
+PASSWORD = "Velora#Test-2026"
 REGISTRATION = {
     "name": "Meera Iyer", "email": "Meera.Iyer@Example.com", "mobile_number": "+91 98450 12345",
     "address": "22 Temple Street, Malleshwaram, Bengaluru 560003", "password1": PASSWORD, "password2": PASSWORD,

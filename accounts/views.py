@@ -1,5 +1,6 @@
 """Customer registration, login/logout and profile pages."""
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.shortcuts import redirect, render
@@ -31,7 +32,7 @@ def register(request):
         customer = services.register_customer(name=data["name"], email=data["email"], password=data["password1"],
                                               mobile_number=data["mobile_number"], address=data["address"])
         login(request, customer.user, backend=BACKEND)
-        messages.success(request, f"Welcome to Chowk, {customer.first_name}. Your account is ready.")
+        messages.success(request, f"Welcome to {settings.STORE_NAME}, {customer.first_name}. Your account is ready.")
         return redirect(_next_url(request))
     return render(request, "accounts/register.html", {"form": form})
 

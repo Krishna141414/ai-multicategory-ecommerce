@@ -1,4 +1,4 @@
-/* Chowk shared UI behaviour (store + admin). Vanilla JS, no framework.
+/* Velora shared UI behaviour (store + admin). Vanilla JS, no framework.
    - toasts: auto-dismiss after 4s, paused while hovered/focused, closable
    - header: gains a hairline shadow once the page scrolls
    - forms: one submit only (button shows a spinner), password show/hide

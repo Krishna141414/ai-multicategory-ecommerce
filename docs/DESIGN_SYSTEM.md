@@ -1,11 +1,11 @@
-# Design system: Chowk
+# Design system: Velora
 
 Decided with Hallmark (theme dealt: **Editorial**, 2/3, seed `multi-category-indian-online-store-e661·2b0b2b23·2026-11-07·r0`, genre editorial) and the patterns in `docs/research/ui-trends.md`. Reasons are in `docs/DECISIONS.md`.
 
 ## 1. Brand
 
-- **Name:** **Chowk** (a *chowk* is the square at the centre of an Indian town where every lane meets and every kind of shop sits side by side). Ten categories, one square.
-- **Wordmark:** "Chowk" set in Bricolage Grotesque 800, condensed (`wdth` 75), ink, with a 4px ink rule under the masthead. No logo glyph, no icon.
+- **Name:** **Velora** (renamed from the working name "Chowk" on 2026-11-09 at the owner's request). A coined, easy-to-say name with no meaning to explain: it reads as a store, not a product, and holds ten categories under one roof.
+- **Wordmark:** "Velora" set in Bricolage Grotesque 800 at `wdth` 82 with tracking −0.005em (the open V and the round o–r–a need a little more width than the old condensed setting), ink. No logo glyph, no icon.
 - **Personality:** a well-edited department-store catalogue. Exact, calm, a little literary, never shouty. It names the thing, the price and the delivery date. It does not say "amazing deals!!!".
 - **Voice rules:** verbs on buttons ("Add to cart", "Place order", "Pay ₹4,598", "Remove item"); sentence case everywhere; no exclamation marks; no emoji; errors say what happened and what to do; empty states say what's empty and give one action.
 

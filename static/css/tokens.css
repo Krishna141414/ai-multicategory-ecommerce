@@ -1,4 +1,4 @@
-/* Chowk design tokens. Every colour, font, size, space, radius, shadow and duration in the
+/* Velora design tokens. Every colour, font, size, space, radius, shadow and duration in the
    store and the admin comes from here (docs/DESIGN_SYSTEM.md). Base: Hallmark "Editorial" scaffold. */
 :root {
   color-scheme: light;
@@ -48,6 +48,7 @@
   --font-ui: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Source Serif 4", ui-serif, Georgia, serif;
   --tracking-display: -0.012em; --display-weight: 800;
+  --wordmark-axes: "wdth" 82, "opsz" 96; --wordmark-tracking: -0.005em;
 
   /* Shape */
   --radius: 0; --rule-hair: 1px; --rule-heavy: 4px;

@@ -24,7 +24,7 @@ Short log of design and architecture choices (decision → reason). Newest at th
 - **New-customer fallback shows a "Popularity" score instead of pretending it is a similarity score.** → Honest labelling; still shows a score as the brief requires.
 
 ## Design (Phase 1.2, Hallmark)
-- **Store name "Chowk"** (the town square where every lane and shop meets). → Fits ten categories under one roof; short, Indian, fictional, works as a condensed wordmark.
+- ~~Store name "Chowk"~~ → **renamed "Velora" (owner request, 2026-11-09).** Shown everywhere users see the brand via `settings.STORE_NAME`; code identifiers (modules, folders, the `window.Chowk` JS namespace) were left unchanged on purpose. Wordmark width opened from `wdth` 75 to 82 so the V and the round letters don't look cramped.
 - **Hallmark theme Editorial** (dealt 2 of 3; Atelier and Carnival rejected). → A catalogue of 110 products needs a confident print-catalogue voice that frames product photos; Atelier is too hushed/luxury for electronics and toys, Carnival too loud for dense listings and an admin side.
 - **Ink primary buttons, green only as a signal (<5% of a screen).** → Keeps the store from looking like a stock Bootstrap/SaaS template; green carries meaning (in stock, focus, sponsored).
 - **Square corners, hairline rules, no card shadows.** → The theme's material; immediately distinct from default Bootstrap's rounded cards.
