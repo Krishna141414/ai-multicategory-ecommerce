@@ -71,8 +71,8 @@
 - **Gate 6:** full shopping flow verified in the browser + service tests pass; commit.
 
 ## Phase 7 — Ratings, reviews, queries (customer side)
-- [ ] 7.1 Add rating (1–5) and add review (only for purchased products; one rating per product, editable).
-- [ ] 7.2 Post query (new conversation), view own queries, reply, view conversation history. Customers can only see their own conversations (test this with a second customer).
+- [x] 7.1 Add rating (1–5) and add review (only for purchased products; one rating per product, editable).
+- [x] 7.2 Post query (new conversation), view own queries, reply, view conversation history. Customers can only see their own conversations (test this with a second customer).
 - **Gate 7:** verified with two customers + admin replying; commit.
 
 ## Phase 8 — AI recommender + AI Explainer

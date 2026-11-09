@@ -74,7 +74,7 @@
       <ol class="review-list" data-testid="review-list">
         {% for item in reviews %}
         <li class="review" data-testid="review">
-          <header><span class="fw-semibold">{{ item.review.customer.first_name }}</span>{% if item.rating %} {% include "partials/stars.html" with value=item.rating %}{% endif %}
+          <header><span class="fw-semibold">{{ item.review.customer.first_name }}</span>{% if item.review.customer_id == current_customer.id %} <span class="badge-status status-info">You</span>{% endif %}{% if item.rating %} {% include "partials/stars.html" with value=item.rating %}{% endif %}
             <time class="muted small" datetime="{{ item.review.posted_date|date:'c' }}">{{ item.review.posted_date|date:"j M Y" }}</time></header>
           <p class="prose">{{ item.review.review }}</p>
         </li>
@@ -82,9 +82,9 @@
       </ol>
     </div>
     {% else %}
-      <p class="muted">No ratings yet. Customers who buy this can rate and review it from their order page.</p>
+      <p class="muted">No ratings yet. Customers who buy this can rate and review it here.</p>
     {% endif %}
-    {% block review_form %}{% endblock %}
+    {% include "reviews/_feedback.html" %}
   </section>
 </div>
 {% endblock %}

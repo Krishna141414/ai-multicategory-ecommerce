@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Ask a question{% endblock %}
+{% block page_id %}query-new{% endblock %}
+{% block content %}
+<div class="container page">
+  <header class="page-head">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'messaging:list' %}">Your queries</a></li><li aria-current="page">New query</li></ol></nav>
+    <h1>Ask a question</h1>
+    <p class="lead">Our team reads every message and replies in the same conversation.</p>
+  </header>
+  <div class="account-layout">
+    {% include "accounts/_account_nav.html" with active="queries" %}
+    <form method="post" novalidate class="form-narrow" data-testid="query-form">
+      {% csrf_token %}
+      {% include "partials/field.html" with field=form.subject %}
+      {% include "partials/field.html" with field=form.message %}
+      <div class="actions-row">
+        <button class="btn btn-primary" type="submit" data-loading-label="Sending…" data-testid="send-query">Send query</button>
+        <a class="btn btn-text" href="{% url 'messaging:list' %}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

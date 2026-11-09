@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Your queries{% endblock %}
+{% block page_id %}queries{% endblock %}
+{% block content %}
+<div class="container page">
+  <header class="page-head page-head--split">
+    <div><h1>Your queries</h1><p class="lead">Questions you've sent us and our replies.</p></div>
+    <a class="btn btn-primary" href="{% url 'messaging:new' %}" data-testid="new-query"><i class="bi bi-pencil-square" aria-hidden="true"></i>Ask a question</a>
+  </header>
+  <div class="account-layout">
+    {% include "accounts/_account_nav.html" with active="queries" %}
+    <section>
+      {% if conversations %}
+      <ul class="query-list" data-testid="query-list">
+        {% for c in conversations %}
+        <li class="query-row{% if c.unread %} is-unread{% endif %}" data-testid="query-row">
+          <a class="query-row-link" href="{% url 'messaging:thread' c.conversation_id %}" data-testid="query-link">
+            <span class="query-row-subject">{{ c.subject }}</span>
+            <span class="query-row-last small muted">{% if c.last_sender_type == "admin" %}{{ STORE_NAME }} replied: {% else %}You: {% endif %}{{ c.last_message|truncatechars:90 }}</span>
+          </a>
+          <span class="query-row-meta small">
+            {% if c.unread %}<span class="badge-status status-unread" data-testid="query-unread">{{ c.unread }} new</span>{% endif %}
+            <span class="muted">{{ c.message_count }} message{{ c.message_count|pluralize }}</span>
+            <time class="muted" datetime="{{ c.last_posted|date:'c' }}">{{ c.last_posted|date:"j M Y" }}</time>
+          </span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <div class="empty-state" data-testid="empty-queries">
+        <h2>No queries yet</h2>
+        <p>Have a question about a product, an order or a delivery? Send it here and we'll reply in the same thread.</p>
+        <a class="btn btn-primary" href="{% url 'messaging:new' %}">Ask a question</a>
+      </div>
+      {% endif %}
+    </section>
+  </div>
+</div>
+{% endblock %}

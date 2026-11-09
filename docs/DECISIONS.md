@@ -48,3 +48,10 @@ Short log of design and architecture choices (decision → reason). Newest at th
 - **The simulated outcome is an explicit "Result to simulate" choice marked "Demo only".** → Honest for a demo store and easy to show both paths on video; no fake card numbers to remember.
 - **Order email is rendered from text + HTML templates and sent with `transaction.on_commit`.** → No email goes out if the payment transaction rolls back. The HTML version uses inline hex colours because email clients ignore CSS variables and OKLCH.
 - **On phones the checkout and confirmation tables drop the unit Price column (Qty and Amount stay).** → Keeps the 16 px gutter at 390 px without a horizontally scrolling table; the unit price is still on the order detail page.
+
+## Ratings, reviews and customer queries (Phase 7)
+- **"Bought" means an order row for the product in Confirmed, Shipped or Delivered.** → CLAUDE.md says confirmed/delivered; Shipped sits between the two and is just as paid. Pending (unpaid) and Cancelled orders don't count.
+- **Rating and review are two small forms with their own buttons, side by side on the product page.** → The brief lists Add Rating and Add Review as separate features with separate tables and test cases; a customer can rate without writing anything. Saving again updates the same row (one per customer per product).
+- **The star picker keeps the radios in 1 to 5 order and fills stars with `:has()`.** → The common row-reverse trick makes arrow keys move the opposite way to what you see.
+- **A customer opening another customer's conversation gets 403 (the shared 403 page), for both viewing and replying.** → `services.thread` / `reply` raise PermissionDenied, so the rule lives in one place for both sides.
+- **On phones, `scroll-padding-bottom` on the root and a raised toast stack keep controls and toasts clear of the fixed tab bar.** → Found in Gate 7: "Send reply" scrolled under the tab bar and could not be clicked; keyboard focus would have been hidden there too.

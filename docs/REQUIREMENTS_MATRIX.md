@@ -43,7 +43,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | ADM-15 | View Product Ratings / Reviews | `views/reviews.review_list` | `test_admin_services.py::test_admin_pages_render_and_are_staff_only` | Tested |
 | ADM-16 | View Queries | `messaging/services.conversations_for`, `views/queries.query_inbox` | `test_admin_services.py::test_customer_cannot_see_other_thread` | Tested |
 | ADM-17 | Post Query / Reply Query (id, conversation_id, sender_id, sender_type, receiver_id, receiver_type, parent_message_id, subject, message, posted_date, status) | `messaging/services.start_conversation` / `reply`, `views/queries.query_new` / `query_thread` | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
-| ADM-18 | View Conversation History | `messaging/services.thread`, `templates/partials/thread.html` | TC-ADM-21 | Implemented |
+| ADM-18 | View Conversation History | `messaging/services.thread`, `templates/partials/thread.html` | `test_reviews_queries.py::test_admin_reply_shows_in_customer_thread_and_marks_read`; TC-ADM-21 (Phase 10) | Tested |
 | ADM-19 | Logout | `adminpanel/views/auth.admin_logout` (POST) | TC-ADM-22 | Implemented |
 
 ## C. Customer features
@@ -68,12 +68,12 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | CUS-17 | Order Information Email | `orders/emails.send_order_email`, `templates/emails/order_confirmation.*` (file backend to `sent_emails/`) | `test_checkout_service.py::test_payment_success_confirms_and_clears_cart_and_emails`; E2E-01 (Phase 10) | Tested |
 | CUS-18 | View Order History | `orders/views.history`, `orders/services/queries.order_groups` | `test_order_views.py::test_full_flow_pages`; TC-CUS-19 (Phase 10) | Tested |
 | CUS-19 | View Order Details | `orders/views.detail` (+ `status_track`), `templates/orders/detail.html` | `test_order_views.py::test_full_flow_pages`, `::test_customer_cannot_open_another_customers_order`; TC-CUS-20 (Phase 10) | Tested |
-| CUS-20 | Add Rating (id, product_id, customer_id, rating, posted_date) | | TC-CUS-21 | Planned |
-| CUS-21 | Add Review (id, product_id, customer_id, review, posted_date) | | TC-CUS-22 | Planned |
-| CUS-22 | Post Query | | TC-CUS-23 | Planned |
-| CUS-23 | View Queries | | TC-CUS-24 | Planned |
-| CUS-24 | Reply Query | | TC-CUS-25 | Planned |
-| CUS-25 | View Conversation History | | TC-CUS-26 | Planned |
+| CUS-20 | Add Rating (id, product_id, customer_id, rating, posted_date) | `reviews/services.save_rating` (buyers only, update_or_create), `reviews/views.rate`, star picker in `templates/reviews/_feedback.html` | `test_reviews_queries.py::test_rating_is_updated_not_duplicated`, `::test_cannot_review_without_purchase`, `::test_rate_and_review_views`; TC-CUS-21 (Phase 10) | Tested |
+| CUS-21 | Add Review (id, product_id, customer_id, review, posted_date) | `reviews/services.save_review` (buyers only, editable), `reviews/views.review`, `templates/reviews/_feedback.html` | `test_reviews_queries.py::test_review_is_updated_not_duplicated`, `::test_rate_and_review_views`; TC-CUS-22 (Phase 10) | Tested |
+| CUS-22 | Post Query | `messaging/views.query_new` → `services.start_customer_query` (parent NULL, new conversation_id) | `test_reviews_queries.py::test_post_query_starts_a_conversation`, `::test_query_form_validates`; TC-CUS-23 (Phase 10) | Tested |
+| CUS-23 | View Queries | `messaging/views.query_list` → `services.conversations_for` (own conversations, unread count) | `test_reviews_queries.py::test_customer_sees_only_own_conversations`; TC-CUS-24 (Phase 10) | Tested |
+| CUS-24 | Reply Query | `messaging/views.query_thread` (POST) → `services.reply` | `test_reviews_queries.py::test_reply_reuses_conversation_id_and_points_to_parent`; TC-CUS-25 (Phase 10) | Tested |
+| CUS-25 | View Conversation History | `messaging/views.query_thread` → `services.thread` + `mark_read`, `templates/messaging/thread.html` | `test_reviews_queries.py::test_admin_reply_shows_in_customer_thread_and_marks_read`; TC-CUS-26 (Phase 10) | Tested |
 | CUS-26 | Logout | `accounts/views.logout_view` (POST only) | `tests/unit/test_auth.py::test_logout_requires_post` | Tested |
 
 ## D. Product categories (exact names)
@@ -237,8 +237,8 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R6.3 | conversation_id groups a conversation | `messaging/services.new_conversation_id` / `reply` | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
 | R6.4 | parent_message_id identifies the message replied to | `messaging/services.reply` (parent = latest message) | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
 | R6.5 | New conversation starts with parent_message_id = NULL | `messaging/services.start_conversation` (parent_message=None) | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
-| R6.6 | Customers view only their own conversations | `messaging/services.ensure_can_view` / `conversations_for` | `test_admin_services.py::test_customer_cannot_see_other_thread` | Tested |
-| R6.7 | Admin can view and respond to customer conversations | `adminpanel/views/queries.py` |  | Implemented |
+| R6.6 | Customers view only their own conversations | `messaging/services.ensure_can_view` / `conversations_for` | `test_admin_services.py::test_customer_cannot_see_other_thread`, `test_reviews_queries.py::test_customer_sees_only_own_conversations` (403 on view and reply) | Tested |
+| R6.7 | Admin can view and respond to customer conversations | `adminpanel/views/queries.py` | `test_reviews_queries.py::test_admin_reply_shows_in_customer_thread_and_marks_read`; verified in the browser (Gate 7) | Tested |
 | R7.1 | Playwright with Python automates browser functional tests | | | Planned |
 | R7.2 | Pytest manages execution, fixtures, assertions | | | Planned |
 | R7.3 | Tests verify expected vs actual behaviour | | | Planned |

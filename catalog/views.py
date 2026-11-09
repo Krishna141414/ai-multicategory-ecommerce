@@ -9,6 +9,8 @@ from catalog.forms import ProductSearchForm
 from catalog.models import Category, Product, Status
 from core.permissions import get_customer
 from recommender.interactions import VIEW, log_interaction
+from reviews.forms import RatingForm, ReviewForm
+from reviews.services import my_feedback
 
 PER_PAGE = 12
 
@@ -58,8 +60,11 @@ def product_detail(request, slug: str):
     stats = product.ratings.aggregate(avg=Avg("rating"), count=Count("id"))
     customer = get_customer(request)
     log_interaction(customer, product, VIEW)
+    feedback = my_feedback(customer, product)
     return render(request, "catalog/product_detail.html", {
         "product": product, "avg_rating": stats["avg"], "rating_count": stats["count"],
         "breakdown": services.rating_breakdown(product), "reviews": services.product_reviews(product),
-        "max_qty": min(product.quantity, 10),
+        "max_qty": min(product.quantity, 10), "signed_in_customer": customer is not None, "feedback": feedback,
+        "rating_form": RatingForm(initial={"rating": feedback.rating.rating if feedback.rating else None}),
+        "review_form": ReviewForm(initial={"review": feedback.review.review if feedback.review else ""}),
     })

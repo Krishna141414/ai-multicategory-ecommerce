@@ -47,6 +47,7 @@
 .tab-bar { display: none; }
 @media (max-width: 47.99rem) {
   body { padding-bottom: 64px; }
+  html { scroll-padding-bottom: calc(64px + var(--space-md)); } /* keep focused or scrolled-to controls clear of the tab bar */
   .tab-bar { display: grid; grid-template-columns: repeat(5, 1fr); position: fixed; inset: auto 0 0 0; z-index: var(--z-sticky-nav);
     background: var(--color-paper); border-top: var(--rule-hair) solid var(--color-ink); height: 64px; }
   .tab-bar a, .tab-bar button { display: grid; place-items: center; align-content: center; gap: var(--space-3xs); min-height: 48px; border: 0; background: none;
@@ -55,6 +56,7 @@
   .tab-bar [aria-current="page"] { color: var(--color-ink); font-weight: 600; }
   .tab-bar .cart-count { position: absolute; top: 6px; left: calc(50% + 6px); min-width: 18px; height: 18px; }
   .header-actions .cart-link, .header-actions .account-menu { display: none; }
+  .toast-stack { left: var(--space-md); right: var(--space-md); width: auto; bottom: calc(64px + var(--space-sm)); }
 }
 
 /* ---------- Page scaffolding ---------- */
@@ -338,4 +340,46 @@
   .order-card-head { grid-template-columns: minmax(0, 1fr) auto; }
   .order-card-total { grid-column: 1 / -1; text-align: left; }
   .checkout-steps li { font-size: var(--text-xs); }
+}
+
+/* ---------- Your rating and review (product page) ---------- */
+.feedback { margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: var(--rule-hair) solid var(--color-rule); scroll-margin-top: calc(var(--header-h) + 64px); }
+.feedback-title { font-size: var(--text-title); margin-bottom: var(--space-md); }
+.feedback-grid { display: grid; grid-template-columns: minmax(220px, 300px) minmax(0, 1fr); gap: var(--space-2xl); align-items: start; max-width: 960px; }
+.feedback-form { display: grid; gap: var(--space-sm); justify-items: start; }
+.feedback-form .form-field { width: 100%; }
+.star-picker-group { border: 0; margin: 0; padding: 0; }
+.star-picker-group legend { float: none; font-size: var(--text-sm); margin-bottom: var(--space-xs); }
+.star-picker { display: inline-flex; gap: var(--space-3xs); }
+.star-picker input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.star-picker label { display: grid; place-items: center; width: 44px; height: 44px; font-size: 1.6rem; color: var(--color-rule-2); cursor: pointer;
+  transition: color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out); }
+/* fill every star up to the chosen one (DOM order 1 to 5, so arrow keys match what you see) */
+.star-picker label:has(~ input:checked), .star-picker input:checked + label { color: var(--color-star); }
+.star-picker:hover label { color: var(--color-star); }
+.star-picker label:hover ~ label { color: var(--color-rule-2); }
+.star-picker label:hover { transform: scale(1.08); }
+.star-picker input:focus-visible + label { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+
+/* ---------- Customer queries ---------- */
+.page-head--split { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-md); }
+.query-list { list-style: none; margin: 0; padding: 0; border-top: var(--rule-heavy) solid var(--color-ink); }
+.query-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-xs) var(--space-lg); align-items: center;
+  padding: var(--space-md) 0; border-bottom: var(--rule-hair) solid var(--color-rule); }
+.query-row-link { display: grid; gap: var(--space-3xs); min-width: 0; text-decoration: none; color: inherit; }
+.query-row-subject { font-weight: 600; color: var(--color-ink); }
+.query-row-link:hover .query-row-subject { text-decoration: underline; text-decoration-color: var(--color-accent); text-underline-offset: 3px; }
+.query-row-last { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.query-row.is-unread .query-row-subject::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: var(--space-xs); background: var(--color-accent); vertical-align: middle; }
+.query-row-meta { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; justify-content: flex-end; }
+
+@media (max-width: 47.99rem) {
+  .feedback-grid { grid-template-columns: 1fr; gap: var(--space-xl); }
+  .page-head--split { grid-template-columns: 1fr; align-items: start; }
+  .page-head--split .btn { justify-self: start; }
+  .query-row { grid-template-columns: 1fr; }
+  .query-row-meta { justify-content: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .star-picker label:hover { transform: none; }
 }

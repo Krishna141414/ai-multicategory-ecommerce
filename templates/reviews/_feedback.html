@@ -1,0 +1,31 @@
+{% url 'reviews:rate' product.id as rate_url %}{% url 'reviews:review' product.id as review_url %}
+<div class="feedback" id="your-feedback" data-testid="your-feedback">
+  {% if feedback.can_review %}
+    <h3 class="feedback-title">{% if feedback.rating or feedback.review %}Your rating and review{% else %}Rate and review this product{% endif %}</h3>
+    <div class="feedback-grid">
+      <form method="post" action="{{ rate_url }}" class="feedback-form" data-testid="rating-form">
+        {% csrf_token %}
+        <fieldset class="star-picker-group">
+          <legend class="form-label">Your rating</legend>
+          <div class="star-picker">
+            {% for radio in rating_form.rating %}
+              {{ radio.tag }}<label for="{{ radio.id_for_label }}" data-testid="star-{{ radio.data.value }}"><i class="bi bi-star-fill" aria-hidden="true"></i><span class="visually-hidden">{{ radio.choice_label }}</span></label>
+            {% endfor %}
+          </div>
+        </fieldset>
+        {% if feedback.rating %}<p class="small muted" data-testid="my-rating">You rated this {{ feedback.rating.rating }} out of 5 on {{ feedback.rating.posted_date|date:"j M Y" }}.</p>{% endif %}
+        <button class="btn btn-outline btn-sm" type="submit" data-loading-label="Saving…" data-testid="save-rating">{% if feedback.rating %}Update rating{% else %}Save rating{% endif %}</button>
+      </form>
+      <form method="post" action="{{ review_url }}" class="feedback-form" data-testid="review-form">
+        {% csrf_token %}
+        {% include "partials/field.html" with field=review_form.review %}
+        {% if feedback.review %}<p class="small muted" data-testid="my-review-date">Posted {{ feedback.review.posted_date|date:"j M Y" }}. Posting again replaces it.</p>{% endif %}
+        <button class="btn btn-primary btn-sm" type="submit" data-loading-label="Posting…" data-testid="post-review">{% if feedback.review %}Update review{% else %}Post review{% endif %}</button>
+      </form>
+    </div>
+  {% elif signed_in_customer %}
+    <p class="muted" data-testid="review-not-allowed">You can rate and review this product once you have bought it.</p>
+  {% else %}
+    <p class="muted"><a href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}%23your-feedback">Sign in</a> to rate or review a product you have bought.</p>
+  {% endif %}
+</div>

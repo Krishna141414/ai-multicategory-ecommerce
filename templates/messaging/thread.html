@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ subject }}{% endblock %}
+{% block page_id %}query-thread{% endblock %}
+{% block content %}
+<div class="container page">
+  <header class="page-head">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'messaging:list' %}">Your queries</a></li><li aria-current="page">{{ conversation_id }}</li></ol></nav>
+    <h1 data-testid="thread-subject">{{ subject }}</h1>
+    <p class="lead">Conversation {{ conversation_id }}, started {{ thread.0.posted_date|date:"j F Y" }}.</p>
+  </header>
+  <div class="account-layout">
+    {% include "accounts/_account_nav.html" with active="queries" %}
+    <div class="thread-layout">
+      {% include "partials/thread.html" with viewer=user %}
+      <form method="post" novalidate class="reply-form" data-testid="reply-form">
+        {% csrf_token %}
+        {% include "partials/field.html" with field=form.message %}
+        <button class="btn btn-primary" type="submit" data-loading-label="Sending…" data-testid="send-reply">Send reply</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

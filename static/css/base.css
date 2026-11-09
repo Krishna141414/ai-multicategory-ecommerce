@@ -140,7 +140,7 @@ textarea.form-control { min-height: 112px; padding-block: var(--space-sm); }
   font-family: var(--font-ui); font-size: var(--text-xs); font-weight: 600; line-height: 1.5; white-space: nowrap; }
 .status-pending { color: var(--color-warn); background: var(--color-warn-wash); }
 .status-confirmed, .status-active, .status-passed, .status-success, .status-in-stock { color: var(--color-accent); background: var(--color-accent-wash); }
-.status-shipped, .status-skipped { color: var(--color-info); background: var(--color-info-wash); }
+.status-shipped, .status-skipped, .status-info { color: var(--color-info); background: var(--color-info-wash); }
 .status-delivered { color: var(--color-ink); background: var(--color-paper-3); }
 .status-cancelled, .status-inactive, .status-failed, .status-out-of-stock { color: var(--color-danger); background: var(--color-danger-wash); }
 .status-low-stock, .status-unread { color: var(--color-warn); background: var(--color-warn-wash); }
@@ -229,6 +229,8 @@ textarea.form-control { min-height: 112px; padding-block: var(--space-sm); }
 .message-body p { margin: 0 0 var(--space-xs); }
 .message-body p:last-child { margin-bottom: 0; }
 .message-reply-to { margin-top: var(--space-xs); }
+.thread-layout { display: grid; gap: var(--space-xl); max-width: 860px; }
+.reply-form { border-top: var(--rule-heavy) solid var(--color-ink); padding-top: var(--space-md); }
 
 /* Confirm dialog (destructive actions) */
 .confirm-dialog { border: var(--rule-hair) solid var(--color-ink); border-top-width: var(--rule-heavy); padding: var(--space-lg); width: min(440px, calc(100vw - 32px));

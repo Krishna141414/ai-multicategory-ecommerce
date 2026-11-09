@@ -153,7 +153,6 @@ body.admin { --text-display-s: 1.75rem; --text-section: 1.4375rem; --text-title:
 .inbox-meta { grid-area: meta; font-size: var(--text-sm); }
 .inbox-last { grid-area: last; font-size: var(--text-sm); }
 .inbox-date { grid-area: date; text-align: right; }
-.thread-layout { display: grid; gap: var(--space-xl); max-width: 860px; }
 
 @media (max-width: 75rem) {
   .stat-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }

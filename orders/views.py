@@ -17,6 +17,7 @@ from orders.services.cart import CartError
 from orders.services.checkout import CheckoutError, is_paid, order_rows, order_total, submit_cart
 from orders.services.payment import pay
 from orders.services.queries import order_groups
+from reviews.services import PURCHASED_STATUSES
 
 CHECKOUT_KEY = "checkout_key"
 
@@ -202,5 +203,5 @@ def detail(request, order_id: str):
     return render(request, "orders/detail.html", {
         "order_id": order_id, "rows": rows, "status": status, "total": order_total(order_id), "track": status_track(status),
         "payments": Payment.objects.filter(order_id=order_id).order_by("-payment_date"), "paid": is_paid(order_id),
-        "customer": request.customer,
+        "customer": request.customer, "reviewable": status in PURCHASED_STATUSES,
     })

@@ -27,7 +27,7 @@
           <div class="cart-line-info">
             {% if r.product.is_active %}<a class="cart-line-name" href="{{ r.product.get_absolute_url }}">{{ r.product_name }}</a>{% else %}<span class="cart-line-name">{{ r.product_name }}</span>{% endif %}
             <p class="small muted">{{ r.price|inr }} × {{ r.quantity }}</p>
-            {% block item_actions %}{% endblock %}
+            {% if reviewable and r.product.is_active %}<a class="btn btn-text btn-sm" href="{{ r.product.get_absolute_url }}#your-feedback" data-testid="rate-review-link">Rate and review</a>{% endif %}
           </div>
           <p class="cart-line-total num">{{ r.amount|inr }}</p>
         </li>
