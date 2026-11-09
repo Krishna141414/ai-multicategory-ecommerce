@@ -4,8 +4,8 @@ Claude Code updates this after every step. A new session reads it first and cont
 
 ## Status
 - Current phase: Phase 8 — AI recommender + AI Explainer
-- Last completed step: Gate 7 passed
-- Next: 8.1 recommender/engine.py (Pandas preprocessing, TF-IDF, cosine similarity, cached)
+- Last completed step: 8.1
+- Next: 8.2 Similar products on the product page
 
 ## Next — Phase 8 (AI recommender + AI Explainer)
 Owner requests: **Velora rename DONE**, **3 new photos DONE** (only the Thread & Thali analog watch still uses the placeholder).
@@ -53,6 +53,7 @@ Phase 8 plan (docs/plans/implementation-plan.md Phase 8): `recommender/engine.py
 | 2026-11-09 | 7.1 Ratings and reviews | reviews/services.py (can_review = Confirmed/Shipped/Delivered order; save_rating / save_review via update_or_create; ReviewError), reviews/forms.py, reviews/views.py (rate, review; POST, customer only), templates/reviews/_feedback.html on the product page (accessible star picker + review box, pre-filled when editing), 'You' badge on own review, 'Rate and review' links on paid order detail rows. Browser: Asha changed her Arc 3 earbuds rating 5 → 4; average and breakdown updated. |
 | 2026-11-09 | 7.2 Customer queries | messaging/views.py + urls (list, new with ?subject= prefill, thread with reply), templates/messaging/{list,new,thread}.html reusing partials/thread.html; unread badge per conversation; thread-layout moved to base.css (shared with admin). Browser: Asha posted 'Earbuds case hinge' (parent NULL, CNV-B458ED28), admin replied, Asha replied twice; rows chain parent → previous message with the same conversation_id; Rahul gets 403 on Asha's thread and only sees his own. |
 | 2026-11-09 | Gate 7 | Verified with two customers (Asha, Rahul) + admin replying, at 1440 + 390 px (screenshots/gate7/). Fixes found during the check: Send reply hidden under the mobile tab bar (added scroll-padding-bottom), toasts overlapping the tab bar (stack raised, follows the gutters). 90 unit tests pass (19 new in tests/unit/test_reviews_queries.py), also in random order. Matrix CUS-20…25, ADM-18, R6.6, R6.7 marked Tested. |
+| 2026-11-09 | 8.1 Engine | recommender/engine.py: clean_text, build_frame (Pandas), weighted_document (name x3, keywords x3, category x2, brand, description), TfidfVectorizer(stop_words=english, ngram (1,2), sublinear_tf, min_df=2 with a min_df=1 fallback), cosine_similarity, Engine.similar / interests / personalized / top_terms / shared_terms / explain, popular() fallback, get_engine() cached by ProductFeature fingerprint (stock/status read live). recommender/features.py: ProductFeature sync via post_save signals + sync_all_features when counts drift. build_recommender command: 110 products, 623 terms, 0.06 s. min_df=2 chosen after comparing: same ranking, scores 12% → 49% for earbuds/headphones, weak cross-category matches dropped. tests/unit/test_engine.py 13 passed; suite 103 passed (random order x2). |
 
 ## Pending owner actions / follow-ups
 - **Last placeholder:** "Thread & Thali Women's Minimalist Analog Watch". The owner's "smartwatch" photo was a smartwatch, so it went to "Orvia Fit Smartwatch with Calling" (replacing a weaker Openverse photo) instead of the analog watch listing. If Krishna adds an analog women's watch photo, import it the same way (scripts/import_manual_photos.py + brand_labels.py if plain, credits, seed_demo).

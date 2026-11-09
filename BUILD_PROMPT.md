@@ -76,7 +76,7 @@
 - **Gate 7:** verified with two customers + admin replying; commit.
 
 ## Phase 8 — AI recommender + AI Explainer
-- [ ] 8.1 `recommender/` module: collect product info → Pandas preprocessing → TF-IDF features → cosine similarity → cached matrix, rebuilt when products change (signal or explicit rebuild + management command `build_recommender`). Keep `ProductFeature` in sync.
+- [x] 8.1 `recommender/` module: collect product info → Pandas preprocessing → TF-IDF features → cosine similarity → cached matrix, rebuilt when products change (signal or explicit rebuild + management command `build_recommender`). Keep `ProductFeature` in sync.
 - [ ] 8.2 Similar products on product page (exclude self; active + in-stock only; show name, category, image, price, similarity score).
 - [ ] 8.3 Personalised "Recommended for you" (home + a dedicated "View AI Recommended Products" page): interests from viewed/cart/purchased with weights, exclusions, top-N with scores and a "because you viewed …" reason. New-customer fallback: popular / category-based.
 - [ ] 8.4 **AI Explainer page**: choose any product → animated steps with Next/Back (and optional autoplay with pause): (1) raw product text, (2) cleaned/combined text, (3) top TF-IDF terms with weight bars, (4) similarity scores against other products (sorted), (5) final top-N cards. Plus a small panel explaining personalised recs for the logged-in customer (their interests → aggregated scores).
