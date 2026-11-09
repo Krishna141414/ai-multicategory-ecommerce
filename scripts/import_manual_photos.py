@@ -26,6 +26,10 @@ PHOTOS = {
     "Sleek Charcoal Beard Trimmer Set.png": ("groomwell-cordless-beard-trimmer", 0.5),
     "Sleek Smartphone with Screen Protector.png": ("shieldguard-tempered-glass-screen-protector-for-nova", 0.5),
     "pexels-kindelmedia-9029794.jpg": ("tinkerbox-solar-robot-science-kit", 0.5),
+    "Minimalist Black Soundbar and Subwoofer.png": ("sonvale-soundbar-21-with-subwoofer", 0.5),
+    # A smartwatch, so it goes on the Orvia smartwatch listing (the Thread & Thali watch is analog).
+    "Modern Smartwatch with Gradient Wave Dial.png": ("orvia-fit-smartwatch-with-calling", 0.5),
+    "Modern Stainless Steel Microwave Oven.png": ("tadka-home-solo-microwave-oven-20-l", 0.5),
 }
 
 

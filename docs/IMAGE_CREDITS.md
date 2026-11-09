@@ -2,10 +2,10 @@
 
 Product photos are openly licensed images from [Openverse](https://openverse.org), [Wikimedia Commons](https://commons.wikimedia.org) and [Pexels](https://www.pexels.com), downloaded once into `media/products/`.
 Each photo was cropped to a square and resized to 900 px. The products pictured stand in for the fictional brands sold in this demo store; photos were chosen to avoid visible real brand logos, and any small marks that remain belong to their owners.
-Nine photos were AI-generated and supplied by the project owner, and one comes from Pexels (Kindel Media, Pexels License); these are marked in the table.
+Twelve photos were AI-generated and supplied by the project owner, and one comes from Pexels (Kindel Media, Pexels License); these are marked in the table.
 Products without a suitable photo use the store's placeholder (`static/img/product-placeholder.svg`).
 
-**Edits.** Eleven photos show plain packaging or unbranded devices, so `scripts/brand_labels.py` printed the product's own fictional brand and name on them
+**Edits.** Fourteen photos show plain packaging or unbranded devices, so `scripts/brand_labels.py` printed the product's own fictional brand and name on them
 (for example "dewlab SPF 50" on the sunscreen tube). The unedited files are kept in `media/products/originals/`. One router photo had the maker's name removed.
 All edited photos are marked "edited" below. Manual photos are imported with `scripts/import_manual_photos.py`.
 
@@ -21,7 +21,7 @@ All edited photos are marked "edited" below. Manual photos are imported with `sc
 | Electronics | Ferrow Trail Action Camera | [black action camera white laptop](https://www.rawpixel.com/image/3303210/free-photo-image-video-camera-macbook-gopro) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | Electronics | Hearthline Smart Plug, Pack of 2 | [Smart plug adapter front view with power button.jpg](https://commons.wikimedia.org/wiki/File:Smart_plug_adapter_front_view_with_power_button.jpg) | Sokolikmawwer0 | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
 | Electronics | Hearthline Indoor Security Camera 2K | AI-generated image supplied by the project owner (Krishna) (edited: fictional brand label added) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
-| Electronics | Sonvale Soundbar 2.1 with Subwoofer | placeholder | — | — |
+| Electronics | Sonvale Soundbar 2.1 with Subwoofer | AI-generated image supplied by the project owner (Krishna) (edited: fictional brand label added) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
 | Fashion and Clothing | Indigo Loom Men's Slim-Fit Oxford Shirt | [Camisade puño doble.jpg](https://commons.wikimedia.org/wiki/File:Camisade_pu%C3%B1o_doble.jpg) | Incal | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
 | Fashion and Clothing | Indigo Loom Women's Block-Print Straight Kurta | [Traditional white embroidered kurta](https://www.rawpixel.com/image/9004113/coat) | artinstitutechicago | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | Fashion and Clothing | Kaarigar Co. Handloom Cotton Saree | [Photo L200603147792](https://www.flickr.com/photos/8212496@N06/27365257396) | public.resource.org | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
@@ -85,7 +85,7 @@ All edited photos are marked "edited" below. Manual photos are imported with `sc
 | Mobile Phones and Accessories | ShieldGuard Tempered Glass Screen Protector for Nova | AI-generated image supplied by the project owner (Krishna) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
 | Mobile Phones and Accessories | ShieldGuard Rugged Case for Nova | [Black phone case drying](https://www.flickr.com/photos/196301716@N03/52749995363) | ospp0 | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | Mobile Phones and Accessories | Chargelink 15 W Wireless Charging Pad | [LG WCP-300 Qi wireless charger.jpg](https://commons.wikimedia.org/wiki/File:LG_WCP-300_Qi_wireless_charger.jpg) | Dsimic | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
-| Mobile Phones and Accessories | Orvia Fit Smartwatch with Calling | [Suunto 9 Peak Sako 100](https://www.flickr.com/photos/194647935@N05/51771122575) | ozfir | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| Mobile Phones and Accessories | Orvia Fit Smartwatch with Calling | AI-generated image supplied by the project owner (Krishna) (edited: fictional brand label added) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
 | Mobile Phones and Accessories | ShieldGuard Magnetic Car Phone Mount | [51bDoXGj9eL.jpg](https://commons.wikimedia.org/wiki/File:51bDoXGj9eL.jpg) | Briottie | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
 | Mobile Phones and Accessories | Chargelink Bluetooth Selfie Stick Tripod | [Untitled](https://www.rawpixel.com/image/6058786/free-public-domain-cc0-photo) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | Computers and Laptops | Corelane Air 14 Laptop, Ryzen 5, 16 GB, 512 GB SSD | [A laptop on the wooden table (2, Pixabay).jpg](https://commons.wikimedia.org/wiki/File:A_laptop_on_the_wooden_table_(2,_Pixabay).jpg) | By Free-Photos from Pixabay | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) |
@@ -119,6 +119,6 @@ Derivative work: AGreuet (talk · contribs) | [Public domain](https://commons.w
 | Kitchen and Home Appliances | Tadka Home Digital Air Fryer, 4.2 L | [Toaster and Air Fryer - Breakfast - Quality Hotel City Centre - Coffs ](https://www.flickr.com/photos/54549113@N00/54005130467) | Haydn Blackey | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) |
 | Kitchen and Home Appliances | Chakki Pro Table-Top Wet Grinder, 2 L | [Wet grinder - Commercial.jpg](https://commons.wikimedia.org/wiki/File:Wet_grinder_-_Commercial.jpg) | Ramesh NG | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) |
 | Kitchen and Home Appliances | Steelwell Induction Cooktop, 2000 W | [Induction cooktop](https://www.flickr.com/photos/154752783@N05/52185189352) | tjmills1520 | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) |
-| Kitchen and Home Appliances | Tadka Home Solo Microwave Oven, 20 L | placeholder | — | — |
+| Kitchen and Home Appliances | Tadka Home Solo Microwave Oven, 20 L | AI-generated image supplied by the project owner (Krishna) (edited: fictional brand label added) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
 | Kitchen and Home Appliances | Steelwell RO + UV Water Purifier | AI-generated image supplied by the project owner (Krishna) (edited: fictional brand label added) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
 | Kitchen and Home Appliances | Brewmate Hand Blender, 400 W | [NG-HB3.jpg](https://commons.wikimedia.org/wiki/File:NG-HB3.jpg) | A.dardiry | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |

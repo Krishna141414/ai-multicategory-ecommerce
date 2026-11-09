@@ -138,6 +138,18 @@ LABELS = {
         "at": (432, 650), "ink": (200, 178, 156), "mode": "light", "angle": 90, "blur": 0.5, "opacity": 0.85, "lines": [
             ("GROOMWELL", "display", 20, 700, 0, {"tracking": 0.26}),
         ]},
+    "sonvale-soundbar-21-with-subwoofer": {
+        "at": (705, 612), "ink": (200, 200, 204), "mode": "light", "angle": -8.5, "blur": 0.5, "opacity": 0.8, "lines": [
+            ("SONVALE", "display", 17, 700, 0, {"tracking": 0.3}),
+        ]},
+    "orvia-fit-smartwatch-with-calling": {
+        "at": (348, 470), "ink": (246, 246, 250), "mode": "light", "blur": 0.4, "opacity": 0.9, "lines": [
+            ("ORVIA", "display", 18, 700, 0, {"tracking": 0.32}),
+        ]},
+    "tadka-home-solo-microwave-oven-20-l": {
+        "at": (300, 628), "ink": (196, 196, 200), "mode": "light", "blur": 0.45, "opacity": 0.85, "lines": [
+            ("TADKA HOME", "display", 16, 700, 0, {"tracking": 0.26}),
+        ]},
     "lumora-55-inch-qled-smart-tv": {
         "at": (450, 0), "ink": (170, 170, 176), "mode": "light", "blur": 0.4, "opacity": 0.9, "lines": [
             ("LUMORA", "display", 11, 700, 0, {"tracking": 0.3}),
