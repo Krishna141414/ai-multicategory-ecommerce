@@ -57,7 +57,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | CUS-06 | Search Product (product_name, category, min_price, max_price) | `catalog/forms.ProductSearchForm`, `catalog/services.search_products` | `test_search.py::test_search_by_name_icontains`, `::test_search_by_category`, `::test_search_by_price_range`, `::test_combined_filters`, `::test_invalid_price_range_shows_error` | Tested |
 | CUS-07 | View Products | `catalog/views.product_list` (pagination, sorting) | `test_search.py::test_sort_by_price`, `::test_empty_result_state` | Tested |
 | CUS-08 | View Product Details (product_name, category, brand, price, description, image, available_quantity, rating) | `catalog/views.product_detail`, `templates/catalog/product_detail.html` | `test_search.py::test_product_detail_shows_fields_and_out_of_stock` | Tested |
-| CUS-09 | View AI Recommended Products | | TC-AI-03, TC-AI-04 | Planned |
+| CUS-09 | View AI Recommended Products | `recommender/views.recommended` (/recommendations/) | `test_recommender_views.py`::test_recommended_requires_login, ::test_recommendations_follow_views_and_cart; TC-AI-03, TC-AI-04 | Tested |
 | CUS-10 | Add to Cart (id, customer_id, product_id, quantity, added_date) | `orders/services/cart.add_to_cart`, `orders/views.cart_add` (JSON + form), `static/js/app.js` add-to-cart | `test_checkout_service.py::test_add_merges_lines_and_logs_cart_interaction`, `test_order_views.py::test_add_to_cart_json`; TC-CUS-12 (Phase 10) | Tested |
 | CUS-11 | View Cart | `orders/services/cart.get_cart`, `orders/views.cart`, `templates/orders/cart.html` | `test_order_views.py::test_full_flow_pages`; TC-CUS-13 (Phase 10) | Tested |
 | CUS-12 | Update Cart Quantity | `orders/services/cart.update_quantity`, `orders/views.cart_update` (live totals) | `test_checkout_service.py::test_cart_qty_cannot_exceed_stock`; TC-CUS-14 (Phase 10) | Tested |
@@ -93,23 +93,23 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 ## E. AI data, functionalities and output
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| AI-D1 | Product Features table (id, product_id, category, product_name, brand, description, keywords, price) | `recommender/models.py` ProductFeature | TC-AI-01 | Implemented |
-| AI-D2 | Customer Product Interaction table (id, customer_id, product_id, interaction_type, interaction_date) | `recommender/models.py` CustomerProductInteraction; `recommender/interactions.log_interaction` (view) | `test_search.py::test_product_view_is_logged_for_customers_once` | Tested |
-| AI-F1 | Collect Product Information | | TC-AI-01 | Planned |
-| AI-F2 | Product Data Preprocessing | | TC-AI-01 | Planned |
-| AI-F3 | Extract Product Features Using TF-IDF | | TC-AI-01 | Planned |
-| AI-F4 | Calculate Product Similarity Using Cosine Similarity | | TC-AI-02 | Planned |
-| AI-F5 | Identify Customer Interests (viewed_products, cart_products, purchased_products) | | TC-AI-03, 06, 07 | Planned |
-| AI-F6 | Generate Related Product Recommendations | | TC-AI-02 | Planned |
-| AI-F7 | Generate Personalized Product Recommendations | | TC-AI-03 | Planned |
-| AI-F8 | Display Recommended Products | | TC-AI-04 | Planned |
-| AI-F9 | View Similar Products | | TC-AI-02, E2E-02 | Planned |
-| AI-O1 | Output: recommended product name | | TC-AI-05 | Planned |
-| AI-O2 | Output: product category | | TC-AI-05 | Planned |
-| AI-O3 | Output: product image | | TC-AI-05 | Planned |
-| AI-O4 | Output: product price | | TC-AI-05 | Planned |
-| AI-O5 | Output: product similarity score | | TC-AI-05 | Planned |
-| AI-O6 | Output: top recommended products | | TC-AI-04 | Planned |
+| AI-D1 | Product Features table (id, product_id, category, product_name, brand, description, keywords, price) | `recommender/models.py` ProductFeature | `test_engine.py`::test_feature_rows_follow_products | Tested |
+| AI-D2 | Customer Product Interaction table (id, customer_id, product_id, interaction_type, interaction_date) | `recommender/models.py` CustomerProductInteraction; `recommender/interactions.log_interaction` (view) | `test_engine.py`::test_interest_weights_purchase_over_cart_over_view, `test_recommender_views.py`::test_recommendations_follow_views_and_cart | Tested |
+| AI-F1 | Collect Product Information | `recommender/engine.py` build_frame, `recommender/features.py` (ProductFeature sync) | `test_engine.py`::test_feature_rows_follow_products; TC-AI-01 (Phase 10) | Tested |
+| AI-F2 | Product Data Preprocessing | `recommender/engine.py` clean_text, weighted_document (Pandas) | `test_engine.py`::test_clean_text, ::test_explain_payload; TC-AI-01 | Tested |
+| AI-F3 | Extract Product Features Using TF-IDF | `recommender/engine.py` Engine._fit (TfidfVectorizer), top_terms | `test_engine.py`::test_feature_matrix_shape, ::test_top_terms_include_keywords; TC-AI-01 | Tested |
+| AI-F4 | Calculate Product Similarity Using Cosine Similarity | `recommender/engine.py` Engine (cosine_similarity matrix, cached by fingerprint) | `test_engine.py`::test_scores_sorted_desc_and_reason, ::test_engine_rebuilds_when_products_change; TC-AI-02 | Tested |
+| AI-F5 | Identify Customer Interests (viewed_products, cart_products, purchased_products) | `recommender/engine.py` Engine.interests (purchase 3 > cart 2 > view 1, 14-day half-life) | `test_engine.py`::test_interest_weights_purchase_over_cart_over_view, `test_recommender_views.py`::test_recommendations_follow_views_and_cart; TC-AI-03/06/07 | Tested |
+| AI-F6 | Generate Related Product Recommendations | `recommender/engine.py` Engine.similar | `test_engine.py`::test_similar_same_category_first; TC-AI-02 | Tested |
+| AI-F7 | Generate Personalized Product Recommendations | `recommender/engine.py` Engine.personalized | `test_engine.py`::test_personalized_uses_interests_and_excludes_them; TC-AI-03 | Tested |
+| AI-F8 | Display Recommended Products | `recommender/views.recommended`, home shelf (`core/views.home`), `templates/recommender/_rec_card.html` | `test_recommender_views.py`::test_recommendations_follow_views_and_cart, ::test_home_shows_popular_when_signed_out; TC-AI-04 | Tested |
+| AI-F9 | View Similar Products | `templates/recommender/_similar.html` on the product page (`catalog/views.product_detail`) | `test_recommender_views.py`::test_product_page_shows_similar_products; TC-AI-02, E2E-02 | Tested |
+| AI-O1 | Output: recommended product name | `_rec_card.html` (rec-name) | `test_recommender_views.py`::test_product_page_shows_similar_products; TC-AI-05 | Tested |
+| AI-O2 | Output: product category | `_rec_card.html` (rec-category) | `test_recommender_views.py`::test_explainer_json; TC-AI-05 | Tested |
+| AI-O3 | Output: product image | `_rec_card.html` (product image) | TC-AI-05 (Phase 10) | Implemented |
+| AI-O4 | Output: product price | `_rec_card.html` (rec-price) | TC-AI-05 (Phase 10) | Implemented |
+| AI-O5 | Output: product similarity score | `_rec_card.html` (rec-score bar + value, data-score) | `test_engine.py`::test_scores_sorted_desc_and_reason; TC-AI-05 | Tested |
+| AI-O6 | Output: top recommended products | Top-N in `Engine.similar` / `personalized` (settings.RECOMMENDER) | `test_engine.py`::test_similar_same_category_first; TC-AI-04 | Tested |
 
 ## F. Test cases — Test Case table (id, test_name, module, test_description, expected_result)
 | ID | Brief item | Implemented in | Covered by test | Status |
@@ -206,16 +206,16 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R2.4 | Product quantity cannot be negative | `catalog/models.py` CheckConstraint quantity>=0 | `tests/unit/test_models.py::test_quantity_cannot_be_negative` | Tested |
 | R2.5 | Zero-quantity products cannot be added to the cart | `orders/services/cart.add_to_cart` (CartError on zero stock), Add-to-cart button disabled on the product page | `test_checkout_service.py::test_add_to_cart_blocks_zero_stock` | Tested |
 | R2.6 | Products with existing orders keep historical order info even if removed from listings | `catalog/services.delete_product` + Order.product_name/price snapshot | `test_admin_services.py::test_delete_product_with_orders_soft_deletes` | Tested |
-| R3.1 | Engine uses category, name, brand, description, keywords | | | Planned |
-| R3.2 | TF-IDF converts product text into numeric feature vectors | | | Planned |
-| R3.3 | Cosine similarity calculates similarity between products | | | Planned |
-| R3.4 | Recommends the most relevant products by similarity | | | Planned |
-| R3.5 | Views, cart additions, purchases select products representing interests | | | Planned |
-| R3.6 | Recommendations generated from products similar to those interests | | | Planned |
-| R3.7 | Already selected products excluded from their own results | | | Planned |
-| R3.8 | Only active and available products recommended | | | Planned |
-| R3.9 | New customers get popular or category-based suggestions | | | Planned |
-| R3.10 | Runs locally, no paid AI APIs | | | Planned |
+| R3.1 | Engine uses category, name, brand, description, keywords | `recommender/engine.py` weighted_document (all five fields) | `test_engine.py`::test_explain_payload | Tested |
+| R3.2 | TF-IDF converts product text into numeric feature vectors | `recommender/engine.py` Engine._fit (TfidfVectorizer) | `test_engine.py`::test_feature_matrix_shape | Tested |
+| R3.3 | Cosine similarity calculates similarity between products | `recommender/engine.py` cosine_similarity | `test_engine.py`::test_scores_sorted_desc_and_reason | Tested |
+| R3.4 | Recommends the most relevant products by similarity | `recommender/engine.py` Engine.similar (highest scores first) | `test_engine.py`::test_similar_same_category_first | Tested |
+| R3.5 | Views, cart additions, purchases select products representing interests | `recommender/engine.py` Engine.interests; logging in `recommender/interactions.py` (view, cart, purchase) | `test_recommender_views.py`::test_recommendations_follow_views_and_cart | Tested |
+| R3.6 | Recommendations generated from products similar to those interests | `recommender/engine.py` Engine.personalized (weighted average similarity) | `test_engine.py`::test_personalized_uses_interests_and_excludes_them | Tested |
+| R3.7 | Already selected products excluded from their own results | `recommender/engine.py` similar (self excluded), personalized (interests + cart excluded) | `test_engine.py`::test_similar_excludes_self, ::test_personalized_uses_interests_and_excludes_them | Tested |
+| R3.8 | Only active and available products recommended | `recommender/engine.py` available_ids() read live | `test_engine.py`::test_similar_excludes_inactive_and_out_of_stock | Tested |
+| R3.9 | New customers get popular or category-based suggestions | `recommender/engine.py` popular() fallback (most ordered, then best rated) | `test_engine.py`::test_new_customer_gets_popular | Tested |
+| R3.10 | Runs locally, no paid AI APIs | scikit-learn + Pandas in-process; no network calls | `test_engine.py` (runs offline) | Tested |
 | R4.1 | Customers can add multiple products to cart | `orders/models.CartItem` (one line per product), `orders/services/cart` | `test_checkout_service.py::test_submit_creates_one_row_per_item_with_shared_order_id` | Tested |
 | R4.2 | Cart quantity cannot exceed available stock | `orders/services/cart.add_to_cart` / `update_quantity` + re-check in `checkout.submit_cart` | `test_checkout_service.py::test_cart_qty_cannot_exceed_stock`, `::test_submit_rolls_back_when_one_item_short` | Tested |
 | R4.3 | Each cart product inserted as a separate orders record | `orders/services/checkout.submit_cart` (one Order row per CartItem) | `test_checkout_service.py::test_submit_creates_one_row_per_item_with_shared_order_id` | Tested |
@@ -274,6 +274,6 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | ID | Item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
 | EXT-01 | Sponsored / featured deals carousel with hover quick-view card; admin sponsored toggle | Admin sponsored toggle: `views/products.product_toggle_sponsored` (store carousel in Phase 9.2) |  | Planned |
-| EXT-02 | AI Explainer page (step-by-step, animated, Next/Back) | | | Planned |
+| EXT-02 | AI Explainer page (step-by-step, animated, Next/Back) | `recommender/views.explainer`, `templates/recommender/explainer.html`, `static/js/explainer.js` (GSAP, Back/Next, step buttons, arrow keys, Play/Pause, reduced motion) | `test_recommender_views.py`::test_explainer_page_is_public_and_follows_the_choice, ::test_explainer_json | Tested |
 | EXT-03 | Admin Test Reports page | | | Planned |
 | EXT-04 | docs/CODE_MAP.md | | | Planned |

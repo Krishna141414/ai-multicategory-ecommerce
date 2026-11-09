@@ -7,5 +7,17 @@
     <h1>Ten aisles, one store.</h1>
     <p class="lead">Electronics to kitchenware, books to beauty. The full homepage arrives in a later build step.</p>
   </header>
+
+  {% if recs %}
+  <section class="rec-section" aria-labelledby="recs-head" data-testid="home-recommendations">
+    <div class="section-head">
+      <h2 id="recs-head">{% if personal %}Recommended for you{% else %}Popular right now{% endif %}</h2>
+      {% if personal %}<a class="section-link" href="{% url 'recommender:recommended' %}">See all picks</a>{% else %}<a class="section-link" href="{% url 'recommender:explainer' %}">How picks work</a>{% endif %}
+    </div>
+    <ul class="rec-grid">
+      {% for rec in recs %}<li>{% include "recommender/_rec_card.html" %}</li>{% endfor %}
+    </ul>
+  </section>
+  {% endif %}
 </div>
 {% endblock %}

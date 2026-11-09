@@ -8,6 +8,7 @@ from catalog import services
 from catalog.forms import ProductSearchForm
 from catalog.models import Category, Product, Status
 from core.permissions import get_customer
+from recommender.engine import get_engine
 from recommender.interactions import VIEW, log_interaction
 from reviews.forms import RatingForm, ReviewForm
 from reviews.services import my_feedback
@@ -65,6 +66,7 @@ def product_detail(request, slug: str):
         "product": product, "avg_rating": stats["avg"], "rating_count": stats["count"],
         "breakdown": services.rating_breakdown(product), "reviews": services.product_reviews(product),
         "max_qty": min(product.quantity, 10), "signed_in_customer": customer is not None, "feedback": feedback,
+        "similar": get_engine().similar(product.id),
         "rating_form": RatingForm(initial={"rating": feedback.rating.rating if feedback.rating else None}),
         "review_form": ReviewForm(initial={"review": feedback.review.review if feedback.review else ""}),
     })

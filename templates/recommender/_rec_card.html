@@ -1,0 +1,21 @@
+{% load shop_tags %}{% with product=rec.product %}<article class="product-card rec-card" data-testid="rec-card" data-product-id="{{ product.id }}" data-score="{{ rec.score }}" data-category="{{ product.category.category_name }}">
+  <a class="product-card-link" href="{% url 'catalog:product_detail' product.slug %}" data-testid="rec-link">
+    <div class="product-card-media">
+      <img src="{{ product.image_url }}" alt="{{ product.product_name }} by {{ product.brand }}" width="900" height="900" loading="lazy" decoding="async">
+      {% if product.discount_percent %}<span class="card-flag">{{ product.discount_percent }}% off</span>{% endif %}
+    </div>
+    <div class="product-card-body">
+      <p class="product-card-brand" data-testid="rec-category">{{ product.category.category_name }}</p>
+      <h3 class="product-card-name" data-testid="rec-name">{{ product.product_name }}</h3>
+      <p class="product-card-price"><span class="price" data-testid="rec-price">{{ product.price|inr:0 }}</span>{% if product.discount_percent %}<s class="mrp">{{ product.mrp|inr:0 }}</s>{% endif %}</p>
+    </div>
+  </a>
+  <div class="rec-meta">
+    <p class="rec-score" data-testid="rec-score">
+      <span class="rec-score-label">{{ rec.score_label }}</span>
+      <span class="rec-score-bar" aria-hidden="true"><span style="--score: {{ rec.percent }}%"></span></span>
+      <span class="num">{{ rec.score|floatformat:2 }}</span>
+    </p>
+    <p class="rec-reason" data-testid="rec-reason" title="{{ rec.reason }}">{{ rec.reason }}</p>
+  </div>
+</article>{% endwith %}

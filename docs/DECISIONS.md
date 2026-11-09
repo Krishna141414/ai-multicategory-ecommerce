@@ -55,3 +55,12 @@ Short log of design and architecture choices (decision → reason). Newest at th
 - **The star picker keeps the radios in 1 to 5 order and fills stars with `:has()`.** → The common row-reverse trick makes arrow keys move the opposite way to what you see.
 - **A customer opening another customer's conversation gets 403 (the shared 403 page), for both viewing and replying.** → `services.thread` / `reply` raise PermissionDenied, so the rule lives in one place for both sides.
 - **On phones, `scroll-padding-bottom` on the root and a raised toast stack keep controls and toasts clear of the fixed tab bar.** → Found in Gate 7: "Send reply" scrolled under the tab bar and could not be clicked; keyboard focus would have been hidden there too.
+
+## Recommender build (Phase 8)
+- **`min_df=2` in the TF-IDF vectoriser (falls back to 1 for a tiny catalogue).** → Compared on the demo data: the ranking stays the same but scores rise from about 0.12 to 0.49 for earbuds vs headphones, because words only one product uses no longer dilute every vector. Weak cross-category matches drop out.
+- **Vectors are cached; stock and status are read live on every call.** → A product that sells out or is deactivated disappears from recommendations at once without a rebuild. The cache key is the ProductFeature count + latest update, so text, category or price edits trigger a rebuild.
+- **ProductFeature is kept in sync by post_save signals, plus a full resync when counts drift.** → Seeding uses bulk paths that skip signals; the engine repairs the table on first use instead of failing.
+- **Scores are shown as the raw cosine value (0.00 to 1.00) with a small bar, labelled "Similarity" or "Popularity".** → The brief asks for the similarity score; a percentage would read like a confidence it isn't.
+- **Similar-product reasons name the shared terms ("Similar to X: wireless, bluetooth"); personal reasons name the strongest source ("Because you bought X").** → Each pick explains itself in a few words, which is also what the video needs.
+- **Personalised shelves are topped up with popular products when too few similar ones are available.** → The shelf never looks half empty; the topped-up cards are labelled "Popularity", not "Similarity".
+- **AI Explainer is public; the personal panel only appears for signed-in customers.** → Anyone can see how the engine works; personal data stays personal.

@@ -1,0 +1,121 @@
+{% extends "base.html" %}{% load static shop_tags %}
+{% block title %}AI Explainer{% endblock %}
+{% block meta_description %}How {{ STORE_NAME }} recommends products: TF-IDF and cosine similarity, shown step by step for {{ product.product_name }}.{% endblock %}
+{% block page_id %}explainer{% endblock %}
+{% block content %}
+<div class="container page explainer" data-explainer>
+  <header class="page-head xp-head">
+    <p class="eyebrow">AI Explainer</p>
+    <h1>How a recommendation is made</h1>
+    <p class="lead">Pick a product and walk through what the recommender does with it, from the raw product text to the final list. Everything runs on this computer with scikit-learn; no outside AI service is used.</p>
+  </header>
+
+  <form method="get" class="xp-picker" data-testid="explainer-picker">
+    <label class="form-label" for="xp-product">Product to explain</label>
+    <div class="xp-picker-row">
+      <select id="xp-product" name="product" class="form-select" data-autosubmit data-testid="explainer-product-select">
+        {% regroup choices by category.category_name as groups %}
+        {% for group in groups %}<optgroup label="{{ group.grouper }}">{% for p in group.list %}<option value="{{ p.id }}"{% if p.id == product.id %} selected{% endif %}>{{ p.product_name }}</option>{% endfor %}</optgroup>{% endfor %}
+      </select>
+      <noscript><button class="btn btn-primary" type="submit">Explain</button></noscript>
+    </div>
+  </form>
+
+  <div class="xp-stage" data-testid="explainer">
+    <ol class="xp-nav" aria-label="Steps" data-xp-nav hidden>
+      <li><button type="button" data-goto="0">Product text</button></li>
+      <li><button type="button" data-goto="1">Clean and combine</button></li>
+      <li><button type="button" data-goto="2">TF-IDF terms</button></li>
+      <li><button type="button" data-goto="3">Similarity scores</button></li>
+      <li><button type="button" data-goto="4">Top picks</button></li>
+    </ol>
+
+    <div class="xp-steps">
+      <section class="xp-step" data-step aria-labelledby="xp-s1" data-testid="explainer-step-1">
+        <p class="xp-step-no">Step 1 of 5</p>
+        <h2 id="xp-s1">Collect the product information</h2>
+        <p class="xp-note">The engine reads one row of the ProductFeature table for each product. This is the row for <strong>{{ product.product_name }}</strong>.</p>
+        <dl class="facts xp-raw" data-testid="explainer-raw">
+          <dt>Category</dt><dd>{{ data.raw.category }}</dd>
+          <dt>Product name</dt><dd>{{ data.raw.product_name }}</dd>
+          <dt>Brand</dt><dd>{{ data.raw.brand }}</dd>
+          <dt>Description</dt><dd class="prose">{{ data.raw.description }}</dd>
+          <dt>Keywords</dt><dd>{{ data.raw.keywords|default:"None" }}</dd>
+        </dl>
+      </section>
+
+      <section class="xp-step" data-step aria-labelledby="xp-s2" data-testid="explainer-step-2">
+        <p class="xp-step-no">Step 2 of 5</p>
+        <h2 id="xp-s2">Clean and combine the text</h2>
+        <p class="xp-note">Pandas lowercases everything and removes punctuation and plain numbers. The fields are then joined into one document. The name and keywords are repeated three times and the category twice, so they count for more than a passing word in the description.</p>
+        <ul class="xp-weights" aria-label="Field weights">
+          {% for field, weight in data.weights.items %}<li><span>{% if field == "product_name" %}Name{% else %}{{ field|capfirst }}{% endif %}</span><strong class="num">× {{ weight }}</strong></li>{% endfor %}
+        </ul>
+        <p class="xp-label">Cleaned text</p>
+        <p class="xp-code" data-testid="explainer-clean-text">{{ data.clean_text }}</p>
+      </section>
+
+      <section class="xp-step" data-step aria-labelledby="xp-s3" data-testid="explainer-step-3">
+        <p class="xp-step-no">Step 3 of 5</p>
+        <h2 id="xp-s3">Turn the words into numbers with TF-IDF</h2>
+        <p class="xp-note">TF-IDF gives every word and two-word phrase a weight: high when it appears often in this product and in few others. Words like "and" are dropped, and so are terms only one product uses, since they can't link it to anything else. The store has {{ data.vocabulary_size }} shared terms across {{ data.product_count }} products. These are this product's strongest:</p>
+        <ol class="xp-bars" data-testid="explainer-terms">
+          {% for term, weight, share in terms %}
+          <li><span class="xp-bar-label">{{ term }}</span><span class="xp-bar" aria-hidden="true"><span data-bar style="--score: {{ share }}%"></span></span><span class="num">{{ weight|floatformat:3 }}</span></li>
+          {% endfor %}
+        </ol>
+      </section>
+
+      <section class="xp-step" data-step aria-labelledby="xp-s4" data-testid="explainer-step-4">
+        <p class="xp-step-no">Step 4 of 5</p>
+        <h2 id="xp-s4">Compare it with every other product</h2>
+        <p class="xp-note">Cosine similarity measures how closely two TF-IDF vectors point the same way: 1 means the same words in the same proportions, 0 means nothing in common. Here are the closest products, highest first. Products that are out of stock or hidden are skipped.</p>
+        <ol class="xp-bars xp-bars--scores" data-testid="explainer-scores">
+          {% for s in data.scores %}
+          <li class="{% if not s.available %}is-skipped{% endif %}" data-testid="explainer-score-row">
+            <span class="xp-bar-label">{{ s.name }}{% if s.same_category %} <span class="badge-status status-info">Same category</span>{% endif %}{% if not s.available %} <span class="badge-status status-out-of-stock">Skipped</span>{% endif %}</span>
+            <span class="xp-bar" aria-hidden="true"><span data-bar style="--score: {% widthratio s.score 1 100 %}%"></span></span>
+            <span class="num">{{ s.score|floatformat:3 }}</span>
+          </li>
+          {% endfor %}
+        </ol>
+      </section>
+
+      <section class="xp-step" data-step aria-labelledby="xp-s5" data-testid="explainer-step-5">
+        <p class="xp-step-no">Step 5 of 5</p>
+        <h2 id="xp-s5">Recommend the top {{ data.top|length }}</h2>
+        <p class="xp-note">The highest-scoring products that are active and in stock become the "Similar products" on the product page, each with its score and the words it shares with {{ product.product_name }}.</p>
+        {% if data.top %}
+        <ul class="rec-grid xp-top">{% for rec in data.top %}<li>{% include "recommender/_rec_card.html" %}</li>{% endfor %}</ul>
+        {% else %}<p class="muted">No other product shares enough words with this one yet.</p>{% endif %}
+      </section>
+    </div>
+
+    <div class="xp-controls" data-xp-controls hidden>
+      <button type="button" class="btn btn-outline" data-xp-prev data-testid="explainer-back"><i class="bi bi-arrow-left" aria-hidden="true"></i>Back</button>
+      <p class="xp-progress" aria-live="polite" data-xp-status data-testid="explainer-status"></p>
+      <button type="button" class="btn btn-text" data-xp-play aria-pressed="false" data-testid="explainer-play"><i class="bi bi-play-fill" aria-hidden="true"></i><span>Play</span></button>
+      <button type="button" class="btn btn-primary" data-xp-next data-testid="explainer-next">Next<i class="bi bi-arrow-right" aria-hidden="true"></i></button>
+    </div>
+  </div>
+
+  <section class="xp-personal" aria-labelledby="xp-personal-head" data-testid="explainer-personal">
+    <h2 id="xp-personal-head">And your own recommendations?</h2>
+    {% if personal %}
+      {% if personal.is_new %}
+        <p class="xp-note">You haven't viewed or bought anything yet, so "Recommended for you" shows the most ordered and best rated products. As you browse, the engine starts using your history.</p>
+      {% else %}
+        <p class="xp-note">"Recommended for you" uses the same similarity scores. Each product you interacted with gets a weight (bought 3, added to cart 2, viewed 1, halving every 14 days). A candidate's score is the weighted average of its similarity to those products. Your strongest interests right now:</p>
+        <ol class="interest-list">
+          {% for i in personal.interests %}<li><a href="{{ i.product.get_absolute_url }}">{{ i.product.product_name }}</a><span class="badge-status status-{% if i.type == 'purchase' %}confirmed{% elif i.type == 'cart' %}shipped{% else %}delivered{% endif %}">{% if i.type == 'purchase' %}Bought{% elif i.type == 'cart' %}Added to cart{% else %}Viewed{% endif %}</span><span class="interest-bar" aria-hidden="true"><span style="--score: {{ i.share }}%"></span></span><span class="num small muted">{{ i.weight|floatformat:2 }}</span></li>{% endfor %}
+        </ol>
+      {% endif %}
+      {% if personal.recs %}<ul class="rec-grid xp-top">{% for rec in personal.recs %}<li>{% include "recommender/_rec_card.html" %}</li>{% endfor %}</ul>{% endif %}
+      <a class="section-link" href="{% url 'recommender:recommended' %}">See all your picks</a>
+    {% else %}
+      <p class="xp-note">Signed-in customers get personal picks built from what they view, add to the cart and buy. <a href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}">Sign in</a> to see how yours are made.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/explainer.js' %}?v={{ ASSET_VERSION }}"></script>{% endblock %}

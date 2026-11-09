@@ -1,0 +1,11 @@
+{% if similar %}
+<section class="product-section rec-section" aria-labelledby="similar-head" data-testid="similar-products">
+  <div class="section-head">
+    <h2 id="similar-head">Similar products</h2>
+    <a class="section-link" href="{% url 'recommender:explainer' %}?product={{ product.id }}" data-testid="explain-link">How these are picked</a>
+  </div>
+  <ul class="rec-grid">
+    {% for rec in similar %}<li>{% include "recommender/_rec_card.html" %}</li>{% endfor %}
+  </ul>
+</section>
+{% endif %}

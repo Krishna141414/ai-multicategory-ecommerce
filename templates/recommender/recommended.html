@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Recommended for you{% endblock %}
+{% block page_id %}recommended{% endblock %}
+{% block content %}
+<div class="container page">
+  <header class="page-head">
+    <h1>Recommended for you</h1>
+    <p class="lead">{% if is_new %}You haven't viewed or bought anything yet, so these are the most popular products in the store. Browse a few and this page will follow your taste.{% else %}Picked by comparing the products you viewed, added to your cart and bought with everything in stock.{% endif %}</p>
+  </header>
+  <div class="account-layout">
+    {% include "accounts/_account_nav.html" with active="recs" %}
+    <div class="rec-page">
+      {% if recs %}
+      <ul class="rec-grid rec-grid--wide" data-testid="recommendations">
+        {% for rec in recs %}<li>{% include "recommender/_rec_card.html" %}</li>{% endfor %}
+      </ul>
+      {% else %}
+      <div class="empty-state" data-testid="empty-recommendations">
+        <h2>Nothing to suggest yet</h2>
+        <p>Everything we could suggest is out of stock right now. Check back soon.</p>
+        <a class="btn btn-primary" href="{% url 'catalog:category_list' %}">Browse categories</a>
+      </div>
+      {% endif %}
+
+      {% if interests %}
+      <section class="interest-panel" aria-labelledby="interests-head" data-testid="interest-list">
+        <h2 id="interests-head" class="section-title">What these are based on</h2>
+        <p class="small muted">Buying counts 3 times as much as adding to cart, and adding to cart twice as much as viewing. Older activity counts less (half every 14 days).</p>
+        <ol class="interest-list">
+          {% for i in interests %}
+          <li>
+            <a href="{{ i.product.get_absolute_url }}">{{ i.product.product_name }}</a>
+            <span class="badge-status status-{% if i.type == 'purchase' %}confirmed{% elif i.type == 'cart' %}shipped{% else %}delivered{% endif %}">{% if i.type == 'purchase' %}Bought{% elif i.type == 'cart' %}Added to cart{% else %}Viewed{% endif %}</span>
+            <span class="interest-bar" aria-hidden="true"><span style="--score: {{ i.share }}%"></span></span>
+            <span class="num small muted">{{ i.weight|floatformat:2 }}</span>
+          </li>
+          {% endfor %}
+        </ol>
+        <a class="section-link" href="{% url 'recommender:explainer' %}">See the full method in the AI Explainer</a>
+      </section>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

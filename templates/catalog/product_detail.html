@@ -57,7 +57,7 @@
     {% if product.keyword_list %}<ul class="chips chips--quiet" aria-label="Tags">{% for k in product.keyword_list %}<li><a class="chip" href="{% url 'catalog:product_list' %}?product_name={{ k|urlencode }}">{{ k }}</a></li>{% endfor %}</ul>{% endif %}
   </section>
 
-  {% block similar_products %}{% endblock %}
+  {% include "recommender/_similar.html" %}
 
   <section class="product-section" id="reviews" aria-labelledby="reviews-head">
     <h2 id="reviews-head">Ratings and reviews</h2>
