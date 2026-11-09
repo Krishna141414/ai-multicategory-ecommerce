@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Create an account{% endblock %}
+{% block page_id %}register{% endblock %}
+{% block content %}
+<div class="auth auth--wide">
+  <section class="auth-form">
+    <div class="auth-form-inner">
+      <h1>Create an account</h1>
+      <p class="lead">It takes a minute. We use your address for deliveries and your mobile for order updates.</p>
+      <form method="post" novalidate data-testid="register-form">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <div class="form-errors" role="alert">{% for e in form.non_field_errors %}<p>{{ e }}</p>{% endfor %}</div>
+        {% endif %}
+        <div class="form-grid">
+          {% include "partials/field.html" with field=form.name wide=True %}
+          {% include "partials/field.html" with field=form.email %}
+          {% include "partials/field.html" with field=form.mobile_number %}
+          {% include "partials/field.html" with field=form.address wide=True %}
+          {% include "partials/field.html" with field=form.password1 %}
+          {% include "partials/field.html" with field=form.password2 %}
+        </div>
+        <button class="btn btn-primary" type="submit" data-loading-label="Creating your account…" data-testid="register-submit">Create account</button>
+      </form>
+      <p class="auth-switch">Already have an account? <a href="{% url 'accounts:login' %}" data-testid="login-link">Sign in</a></p>
+    </div>
+  </section>
+  {% include "accounts/_auth_aside.html" %}
+</div>
+{% endblock %}

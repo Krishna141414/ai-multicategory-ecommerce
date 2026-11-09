@@ -1,0 +1,36 @@
+{% load static %}<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ STORE_NAME }}{% endblock %} · {{ STORE_NAME }}</title>
+  <meta name="description" content="{% block meta_description %}Chowk is an online store for electronics, fashion, home, books, beauty, sports, mobiles, laptops, toys and kitchen appliances.{% endblock %}">
+  <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+  <link rel="preload" href="{% static 'fonts/bricolage-grotesque-latin-standard-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{% static 'fonts/fonts.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}?v={{ ASSET_VERSION }}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}?v={{ ASSET_VERSION }}">
+  {% block layout_css %}<link rel="stylesheet" href="{% static 'css/store.css' %}?v={{ ASSET_VERSION }}">{% endblock %}
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="{% block body_class %}store{% endblock %}" data-testid="page-{% block page_id %}generic{% endblock %}">
+  <a class="skip-link" href="#main">Skip to content</a>
+  {% block header %}{% include "partials/header.html" %}{% endblock %}
+
+  <main id="main" tabindex="-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block footer %}{% include "partials/footer.html" %}{% endblock %}
+  {% block tab_bar %}{% include "partials/tab_bar.html" %}{% endblock %}
+  {% include "partials/toasts.html" %}
+
+  <script src="{% static 'vendor/bootstrap/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/gsap/gsap.min.js' %}"></script>
+  <script src="{% static 'vendor/gsap/ScrollTrigger.min.js' %}"></script>
+  <script src="{% static 'js/app.js' %}?v={{ ASSET_VERSION }}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

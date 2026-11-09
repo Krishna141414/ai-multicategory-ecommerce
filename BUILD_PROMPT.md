@@ -40,10 +40,10 @@
 - **Gate 2:** `migrate` + `create_default_admin` + `seed_demo` run cleanly; Django shell shows correct counts; commit.
 
 ## Phase 3 — Authentication & roles
-- [ ] 3.1 Customer registration (all brief fields, unique email, password hashed, Active by default), customer login (email + password), logout.
-- [ ] 3.2 Admin login (username + password), logout. Invalid logins show a clear error (no detail leaks).
-- [ ] 3.3 Deactivated customer cannot log in (clear message). Role decorators/mixins: customer-only pages and admin-only pages; wrong role → redirect/403.
-- [ ] 3.4 View/update profile (server-side validation; email stays unique).
+- [x] 3.1 Customer registration (all brief fields, unique email, password hashed, Active by default), customer login (email + password), logout.
+- [x] 3.2 Admin login (username + password), logout. Invalid logins show a clear error (no detail leaks).
+- [x] 3.3 Deactivated customer cannot log in (clear message). Role decorators/mixins: customer-only pages and admin-only pages; wrong role → redirect/403.
+- [x] 3.4 View/update profile (server-side validation; email stays unique).
 - **Gate 3:** manually verify every auth path in the browser via Playwright MCP; commit.
 
 ## Phase 4 — Admin panel (custom UI, not Django's /admin)

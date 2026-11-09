@@ -1,0 +1,9 @@
+<div class="toast-stack" data-toast-stack aria-live="polite">
+  {% for message in messages %}
+    <div class="toast-item toast-{{ message.tags|default:'info' }}" role="{% if message.tags == 'danger' %}alert{% else %}status{% endif %}" data-testid="toast">
+      <i class="bi {% if message.tags == 'success' %}bi-check-circle{% elif message.tags == 'danger' %}bi-exclamation-octagon{% elif message.tags == 'warning' %}bi-exclamation-triangle{% else %}bi-info-circle{% endif %}" aria-hidden="true"></i>
+      <p>{{ message }}</p>
+      <button type="button" class="toast-close" aria-label="Dismiss message"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+    </div>
+  {% endfor %}
+</div>

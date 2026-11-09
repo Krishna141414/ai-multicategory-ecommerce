@@ -169,6 +169,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # --- Project settings -------------------------------------------------------------------
 STORE_NAME = "Chowk"
+# Appended to CSS/JS URLs (?v=...) so browsers pick up new files after a server restart.
+ASSET_VERSION = os.getenv("ASSET_VERSION") or str(int(__import__("time").time()))
 RECOMMENDER = {
     "TOP_N_SIMILAR": 6,
     "TOP_N_PERSONAL": 8,

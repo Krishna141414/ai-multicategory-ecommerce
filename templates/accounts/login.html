@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block page_id %}login{% endblock %}
+{% block content %}
+<div class="auth">
+  <section class="auth-form">
+    <div class="auth-form-inner">
+      <h1>Sign in</h1>
+      <p class="lead">Use the email and password you registered with.</p>
+      <form method="post" novalidate data-testid="login-form">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        {% if form.non_field_errors %}
+          <div class="form-errors" role="alert" data-testid="login-error">{% for e in form.non_field_errors %}<p>{{ e }}</p>{% endfor %}</div>
+        {% endif %}
+        {% include "partials/field.html" with field=form.email %}
+        {% include "partials/field.html" with field=form.password %}
+        <button class="btn btn-primary" type="submit" data-loading-label="Signing in…" data-testid="login-submit">Sign in</button>
+      </form>
+      <p class="auth-switch">New to Chowk? <a href="{% url 'accounts:register' %}{% if next %}?next={{ next|urlencode }}{% endif %}" data-testid="register-link">Create an account</a></p>
+    </div>
+  </section>
+  {% include "accounts/_auth_aside.html" %}
+</div>
+{% endblock %}

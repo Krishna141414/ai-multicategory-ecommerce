@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Page not found{% endblock %}
+{% block page_id %}404{% endblock %}
+{% block content %}
+<div class="container error-page" data-testid="not-found">
+  <p class="code" aria-hidden="true">404</p>
+  <h1>We couldn’t find that page</h1>
+  <p>The link may be old, or the product may have been taken off the shelves.</p>
+  <a class="btn btn-primary" href="{% url 'core:home' %}">Back to the store</a>
+</div>
+{% endblock %}

@@ -45,3 +45,25 @@ def register_customer(*, name: str, email: str, password: str, mobile_number: st
     user = User.objects.create_user(username=email, email=email, password=password, first_name=name.split()[0])
     return Customer.objects.create(user=user, name=name.strip(), email=email, mobile_number=mobile_number,
                                    address=address.strip())
+
+
+def login_error_for(email: str, password: str) -> str:
+    """The message to show after a failed customer login.
+
+    The "deactivated" message is only shown when the password is correct, so the form never
+    reveals whether an email is registered (no detail leaks).
+    """
+    customer = Customer.objects.select_related("user").filter(email__iexact=(email or "").strip()).first()
+    if customer and not customer.is_active and customer.user.check_password(password or ""):
+        return DEACTIVATED_MESSAGE
+    return INVALID_LOGIN_MESSAGE
+
+
+@transaction.atomic
+def set_customer_status(customer: Customer, status: str) -> Customer:
+    """Activate or deactivate a customer. The login account follows the profile status."""
+    customer.status = status
+    customer.save(update_fields=["status"])
+    customer.user.is_active = status == Customer.Status.ACTIVE
+    customer.user.save(update_fields=["is_active"])
+    return customer

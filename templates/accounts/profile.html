@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Your profile{% endblock %}
+{% block page_id %}profile{% endblock %}
+{% block content %}
+<div class="container page">
+  <header class="page-head">
+    <h1>Your profile</h1>
+    <p class="lead">The details we use for deliveries and order updates.</p>
+  </header>
+  <div class="account-layout">
+    {% include "accounts/_account_nav.html" with active="profile" %}
+    <section>
+      <dl class="facts" data-testid="profile-details">
+        <dt>Name</dt><dd data-testid="profile-name">{{ customer.name }}</dd>
+        <dt>Email</dt><dd data-testid="profile-email">{{ customer.email }}</dd>
+        <dt>Mobile number</dt><dd data-testid="profile-mobile">{{ customer.mobile_number }}</dd>
+        <dt>Delivery address</dt><dd data-testid="profile-address">{{ customer.address|linebreaksbr }}</dd>
+        <dt>Member since</dt><dd data-testid="profile-registered">{{ customer.registered_date|date:"j F Y" }}</dd>
+        <dt>Account status</dt><dd><span class="badge-status status-{{ customer.status|lower }}" data-testid="profile-status">{{ customer.status }}</span></dd>
+      </dl>
+      <div class="actions-row">
+        <a class="btn btn-outline" href="{% url 'accounts:profile_edit' %}" data-testid="edit-profile">Edit profile</a>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}

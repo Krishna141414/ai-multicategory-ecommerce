@@ -1,0 +1,7 @@
+{% url 'orders:history' as orders_url %}{% url 'messaging:list' as queries_url %}{% url 'recommender:recommended' as recs_url %}
+<nav class="account-nav" aria-label="Your account" data-testid="account-nav">
+  <a href="{% url 'accounts:profile' %}" {% if active == 'profile' %}aria-current="page"{% endif %}>Profile</a>
+  {% if orders_url %}<a href="{{ orders_url }}" {% if active == 'orders' %}aria-current="page"{% endif %}>Orders</a>{% endif %}
+  {% if recs_url %}<a href="{{ recs_url }}" {% if active == 'recs' %}aria-current="page"{% endif %}>Recommended for you</a>{% endif %}
+  {% if queries_url %}<a href="{{ queries_url }}" {% if active == 'queries' %}aria-current="page"{% endif %}>Queries</a>{% endif %}
+</nav>

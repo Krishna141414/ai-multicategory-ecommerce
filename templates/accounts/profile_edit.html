@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Edit profile{% endblock %}
+{% block page_id %}profile-edit{% endblock %}
+{% block content %}
+<div class="container page">
+  <header class="page-head">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'accounts:profile' %}">Your profile</a></li><li aria-current="page">Edit</li></ol></nav>
+    <h1>Edit profile</h1>
+  </header>
+  <div class="account-layout">
+    {% include "accounts/_account_nav.html" with active="profile" %}
+    <section>
+      <form method="post" novalidate class="opens form-narrow" data-testid="profile-form">
+        {% csrf_token %}
+        <div class="form-grid">
+          {% include "partials/field.html" with field=form.name wide=True %}
+          {% include "partials/field.html" with field=form.email %}
+          {% include "partials/field.html" with field=form.mobile_number %}
+          {% include "partials/field.html" with field=form.address wide=True %}
+        </div>
+        <div class="actions-row">
+          <button class="btn btn-primary" type="submit" data-loading-label="Saving…" data-testid="profile-save">Save changes</button>
+          <a class="btn btn-outline" href="{% url 'accounts:profile' %}">Cancel</a>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}{% load static %}
+{% block title %}{% block admin_title %}Admin{% endblock %} · Admin{% endblock %}
+{% block body_class %}admin{% endblock %}
+{% block layout_css %}<link rel="stylesheet" href="{% static 'css/admin.css' %}?v={{ ASSET_VERSION }}">{% endblock %}
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block tab_bar %}{% endblock %}
+{% block content %}
+{% url 'adminpanel:categories' as categories_url %}{% url 'adminpanel:products' as products_url %}{% url 'adminpanel:customers' as customers_url %}{% url 'adminpanel:orders' as orders_url %}{% url 'adminpanel:reviews' as reviews_url %}{% url 'adminpanel:queries' as queries_url %}{% url 'adminpanel:test_reports' as reports_url %}
+<div class="admin-shell">
+  <aside class="admin-sidebar collapse d-lg-flex" id="admin-sidebar" aria-label="Admin sections">
+    <a class="admin-brand" href="{% url 'adminpanel:dashboard' %}">{{ STORE_NAME }} <span>admin</span></a>
+    <nav class="admin-nav" data-testid="admin-nav">
+      <a href="{% url 'adminpanel:dashboard' %}" {% if section == 'dashboard' %}aria-current="page"{% endif %} data-testid="admin-nav-dashboard"><i class="bi bi-grid-1x2" aria-hidden="true"></i>Dashboard</a>
+      {% if categories_url %}<a href="{{ categories_url }}" {% if section == 'categories' %}aria-current="page"{% endif %} data-testid="admin-nav-categories"><i class="bi bi-tags" aria-hidden="true"></i>Categories</a>{% endif %}
+      {% if products_url %}<a href="{{ products_url }}" {% if section == 'products' %}aria-current="page"{% endif %} data-testid="admin-nav-products"><i class="bi bi-box-seam" aria-hidden="true"></i>Products</a>{% endif %}
+      {% if customers_url %}<a href="{{ customers_url }}" {% if section == 'customers' %}aria-current="page"{% endif %} data-testid="admin-nav-customers"><i class="bi bi-people" aria-hidden="true"></i>Customers</a>{% endif %}
+      {% if orders_url %}<a href="{{ orders_url }}" {% if section == 'orders' %}aria-current="page"{% endif %} data-testid="admin-nav-orders"><i class="bi bi-receipt" aria-hidden="true"></i>Orders</a>{% endif %}
+      {% if reviews_url %}<a href="{{ reviews_url }}" {% if section == 'reviews' %}aria-current="page"{% endif %} data-testid="admin-nav-reviews"><i class="bi bi-star" aria-hidden="true"></i>Ratings &amp; reviews</a>{% endif %}
+      {% if queries_url %}<a href="{{ queries_url }}" {% if section == 'queries' %}aria-current="page"{% endif %} data-testid="admin-nav-queries"><i class="bi bi-chat-left-text" aria-hidden="true"></i>Queries</a>{% endif %}
+      {% if reports_url %}<a href="{{ reports_url }}" {% if section == 'reports' %}aria-current="page"{% endif %} data-testid="admin-nav-reports"><i class="bi bi-clipboard-check" aria-hidden="true"></i>Test reports</a>{% endif %}
+    </nav>
+    <div class="admin-sidebar-foot">
+      <a href="{% url 'core:home' %}" target="_blank" rel="noopener">View store <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a>
+    </div>
+  </aside>
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <button class="btn btn-outline btn-sm admin-menu-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#admin-sidebar" aria-controls="admin-sidebar" aria-expanded="false">
+        <i class="bi bi-list" aria-hidden="true"></i> Menu
+      </button>
+      <p class="admin-topbar-title">{% block topbar_title %}{% endblock %}</p>
+      <div class="admin-user">
+        <span class="muted">Signed in as <strong data-testid="admin-username">{{ user.username }}</strong></span>
+        <form method="post" action="{% url 'adminpanel:logout' %}">{% csrf_token %}
+          <button class="btn btn-outline btn-sm" type="submit" data-no-spinner data-testid="admin-logout">Sign out</button>
+        </form>
+      </div>
+    </header>
+    <div class="admin-content">
+      {% block admin_content %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}

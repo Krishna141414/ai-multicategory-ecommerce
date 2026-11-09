@@ -26,7 +26,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 ## B. Admin features
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| ADM-01 | Login (username, password) — default admin credentials | | TC-ADM-01, TC-ADM-02 | Planned |
+| ADM-01 | Login (username, password) — default admin credentials | `accounts/forms.AdminLoginForm`, `adminpanel/views/auth.py`, `create_default_admin` (.env) | `tests/unit/test_auth.py::test_admin_login_with_username`, `::test_invalid_admin_login_and_customer_account_refused` | Tested |
 | ADM-02 | Dashboard: total_customers, total_categories, total_products, total_orders, total_sales | | TC-ADM-03 | Planned |
 | ADM-03 | Add Category (id, category_name, description, status, created_date) | | TC-ADM-04 | Planned |
 | ADM-04 | View Categories | | TC-ADM-05 | Planned |
@@ -44,15 +44,15 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | ADM-16 | View Queries | | TC-ADM-18 | Planned |
 | ADM-17 | Post Query / Reply Query (id, conversation_id, sender_id, sender_type, receiver_id, receiver_type, parent_message_id, subject, message, posted_date, status) | | TC-ADM-19, TC-ADM-20 | Planned |
 | ADM-18 | View Conversation History | | TC-ADM-21 | Planned |
-| ADM-19 | Logout | | TC-ADM-22 | Planned |
+| ADM-19 | Logout | `adminpanel/views/auth.admin_logout` (POST) | TC-ADM-22 | Implemented |
 
 ## C. Customer features
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| CUS-01 | Registration (id, name, email, mobile_number, password, address, registered_date, status) | | TC-CUS-01 | Planned |
-| CUS-02 | Login (email, password) | | TC-CUS-02, TC-CUS-03 | Planned |
-| CUS-03 | View Profile | | TC-CUS-04 | Planned |
-| CUS-04 | Update Profile | | TC-CUS-05 | Planned |
+| CUS-01 | Registration (id, name, email, mobile_number, password, address, registered_date, status) | `accounts/forms.RegistrationForm`, `accounts/views.register`, `accounts/services.register_customer` | `tests/unit/test_auth.py::test_register_creates_active_customer` | Tested |
+| CUS-02 | Login (email, password) | `accounts/backends.EmailBackend`, `accounts/views.login_view` | `tests/unit/test_auth.py::test_customer_login_with_email`, `::test_invalid_login_shows_generic_error` | Tested |
+| CUS-03 | View Profile | `accounts/views.profile`, `templates/accounts/profile.html` | TC-CUS-04 | Implemented |
+| CUS-04 | Update Profile | `accounts/forms.ProfileForm`, `accounts/views.profile_edit` | `tests/unit/test_auth.py::test_profile_update_keeps_email_unique` | Tested |
 | CUS-05 | View Product Categories | | TC-CUS-06 | Planned |
 | CUS-06 | Search Product (product_name, category, min_price, max_price) | | TC-CUS-07, 08, 09 | Planned |
 | CUS-07 | View Products | | TC-CUS-10 | Planned |
@@ -74,7 +74,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | CUS-23 | View Queries | | TC-CUS-24 | Planned |
 | CUS-24 | Reply Query | | TC-CUS-25 | Planned |
 | CUS-25 | View Conversation History | | TC-CUS-26 | Planned |
-| CUS-26 | Logout | | TC-CUS-27 | Planned |
+| CUS-26 | Logout | `accounts/views.logout_view` (POST only) | `tests/unit/test_auth.py::test_logout_requires_post` | Tested |
 
 ## D. Product categories (exact names)
 | ID | Brief item | Implemented in | Covered by test | Status |
@@ -195,11 +195,11 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 ## I. Implementation rules
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| R1.1 | New customers register with Active status by default | `accounts/models.py` Customer.status default Active | `tests/unit/test_models.py::test_new_customer_is_active_by_default` | Tested |
-| R1.2 | Customer email addresses must be unique | `accounts/models.py` UniqueConstraint(Lower(email)) | `tests/unit/test_models.py::test_duplicate_email_case_insensitive` | Tested |
-| R1.3 | Passwords stored with Django's secure password hashing | | | Planned |
-| R1.4 | Only authenticated customers access cart, checkout, order history, profile | | | Planned |
-| R1.5 | Deactivated customers cannot log in | | | Planned |
+| R1.1 | New customers register with Active status by default | `accounts/models.py` default Active; `register_customer` | `tests/unit/test_auth.py::test_register_creates_active_customer` | Tested |
+| R1.2 | Customer email addresses must be unique | UniqueConstraint(Lower(email)) + `RegistrationForm.clean_email` / `ProfileForm.clean_email` | `test_models.py::test_duplicate_email_case_insensitive`, `test_auth.py::test_duplicate_email_case_insensitive` | Tested |
+| R1.3 | Passwords stored with Django's secure password hashing | Django `User.set_password` via `create_user` | `tests/unit/test_auth.py::test_password_is_hashed` | Tested |
+| R1.4 | Only authenticated customers access cart, checkout, order history, profile | `core/permissions.customer_required` | `tests/unit/test_auth.py::test_profile_requires_login` | Tested |
+| R1.5 | Deactivated customers cannot log in | `EmailBackend`, `login_error_for`, `set_customer_status`, `ActiveCustomerMiddleware` | `test_auth.py::test_inactive_customer_cannot_login`, `::test_deactivated_session_is_logged_out` | Tested |
 | R2.1 | Only Admin can add/update/delete categories and products | | | Planned |
 | R2.2 | Each product belongs to one category | `catalog/models.py` Product.category FK (PROTECT) |  | Implemented |
 | R2.3 | Product price must be greater than zero | `catalog/models.py` CheckConstraint price>0 | `tests/unit/test_models.py::test_price_must_be_positive` | Tested |
@@ -256,10 +256,10 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R8.4 | AI tests verify relevance to product / customer interests | | | Planned |
 | R8.5 | Headed and headless modes supported | | | Planned |
 | R8.6 | Repeatable on a local laptop | | | Planned |
-| R9.1 | Django Authentication for login/password management | | | Planned |
-| R9.2 | Role-based authorization (Admin vs Customer) | | | Planned |
-| R9.3 | CSRF protection on form submissions | | | Planned |
-| R9.4 | Server-side input validation | | | Planned |
+| R9.1 | Django Authentication for login/password management | `django.contrib.auth` + `accounts/backends.EmailBackend` |  | Implemented |
+| R9.2 | Role-based authorization (Admin vs Customer) | `core/permissions.py` customer_required / admin_required | `test_auth.py::test_customer_cannot_open_admin`, `::test_admin_cannot_use_customer_pages`, `::test_guest_is_sent_to_admin_login` | Tested |
+| R9.3 | CSRF protection on form submissions | CsrfViewMiddleware + `{% csrf_token %}` on every form | `tests/unit/test_auth.py::test_forms_carry_csrf_tokens` | Tested |
+| R9.4 | Server-side input validation | Django forms in `accounts/forms.py` (server-side clean_* methods) | `tests/unit/test_auth.py::test_registration_rejects_bad_mobile_and_mismatched_passwords` | Tested |
 | R9.5 | No hardcoded credentials in public source | `.env` (git-ignored) + `.env.example`; `config/settings.py` |  | Implemented |
 | R9.6 | Default admin credentials changed before deployment (documented) | | | Planned |
 | R10.1 | Whole app runs locally with Django | | | Planned |

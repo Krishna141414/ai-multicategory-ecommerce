@@ -1,0 +1,27 @@
+{% extends "base.html" %}{% load static %}
+{% block title %}Admin sign in{% endblock %}
+{% block page_id %}admin-login{% endblock %}
+{% block body_class %}admin admin-auth{% endblock %}
+{% block layout_css %}<link rel="stylesheet" href="{% static 'css/admin.css' %}?v={{ ASSET_VERSION }}">{% endblock %}
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block tab_bar %}{% endblock %}
+{% block content %}
+<div class="admin-login">
+  <div class="admin-login-card opens">
+    <p class="admin-brand">{{ STORE_NAME }} <span>admin</span></p>
+    <h1>Store admin sign in</h1>
+    <p class="muted">For store staff. Shoppers sign in on the <a href="{% url 'accounts:login' %}">customer sign-in page</a>.</p>
+    <form method="post" novalidate data-testid="admin-login-form">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+      {% if form.non_field_errors %}
+        <div class="form-errors" role="alert" data-testid="admin-login-error">{% for e in form.non_field_errors %}<p>{{ e }}</p>{% endfor %}</div>
+      {% endif %}
+      {% include "partials/field.html" with field=form.username %}
+      {% include "partials/field.html" with field=form.password %}
+      <button class="btn btn-primary btn-block" type="submit" data-loading-label="Signing in…" data-testid="admin-login-submit">Sign in</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

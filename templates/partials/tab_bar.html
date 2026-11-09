@@ -1,0 +1,13 @@
+{% url 'catalog:category_list' as categories_url %}{% url 'catalog:product_list' as products_url %}{% url 'orders:cart' as cart_url %}
+<nav class="tab-bar" aria-label="Quick links" data-testid="tab-bar">
+  <a href="{% url 'core:home' %}" {% if request.path == '/' %}aria-current="page"{% endif %}><i class="bi bi-house" aria-hidden="true"></i>Home</a>
+  <a href="{{ categories_url|default:'#' }}" {% if request.path == categories_url %}aria-current="page"{% endif %}><i class="bi bi-grid" aria-hidden="true"></i>Categories</a>
+  <a href="{{ products_url|default:'#' }}" {% if request.path == products_url %}aria-current="page"{% endif %}><i class="bi bi-search" aria-hidden="true"></i>Search</a>
+  <a href="{{ cart_url|default:'#' }}" {% if request.path == cart_url %}aria-current="page"{% endif %}><i class="bi bi-bag" aria-hidden="true"></i>Cart
+    <span class="cart-count{% if not cart_count %} is-empty{% endif %}" data-cart-count>{{ cart_count }}</span></a>
+  {% if current_customer %}
+    <a href="{% url 'accounts:profile' %}" {% if request.path == '/account/' %}aria-current="page"{% endif %}><i class="bi bi-person" aria-hidden="true"></i>Account</a>
+  {% else %}
+    <a href="{% url 'accounts:login' %}"><i class="bi bi-person" aria-hidden="true"></i>Sign in</a>
+  {% endif %}
+</nav>

@@ -1,0 +1,56 @@
+{% url 'catalog:product_list' as products_url %}{% url 'orders:cart' as cart_url %}{% url 'orders:history' as orders_url %}{% url 'messaging:list' as queries_url %}{% url 'recommender:recommended' as recs_url %}
+<header class="site-header" data-testid="site-header">
+  <div class="container header-row">
+    <a class="wordmark" href="{% url 'core:home' %}" aria-label="{{ STORE_NAME }} home" data-testid="home-link">{{ STORE_NAME }}</a>
+
+    <form class="header-search" role="search" action="{{ products_url|default:'/products/' }}" method="get" data-testid="header-search">
+      <label for="header-q" class="visually-hidden">Search products</label>
+      <input id="header-q" class="form-control" type="search" name="product_name" placeholder="Search earbuds, kurtas, kettles…"
+             value="{{ request.GET.product_name|default:'' }}" autocomplete="off" data-testid="header-search-input">
+      <button class="btn btn-primary" type="submit" data-no-spinner data-testid="header-search-button">
+        <i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">Search</span>
+      </button>
+    </form>
+
+    <nav class="header-actions" aria-label="Account">
+      {% if current_customer %}
+        <div class="dropdown account-menu">
+          <button class="header-link" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Account menu for {{ current_customer.first_name }}" data-testid="account-menu">
+            <i class="bi bi-person" aria-hidden="true"></i><span class="label">{{ current_customer.first_name }}</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="{% url 'accounts:profile' %}" data-testid="nav-profile">Your profile</a></li>
+            {% if orders_url %}<li><a class="dropdown-item" href="{{ orders_url }}" data-testid="nav-orders">Your orders</a></li>{% endif %}
+            {% if recs_url %}<li><a class="dropdown-item" href="{{ recs_url }}" data-testid="nav-recommended">Recommended for you</a></li>{% endif %}
+            {% if queries_url %}<li><a class="dropdown-item" href="{{ queries_url }}" data-testid="nav-queries">Your queries</a></li>{% endif %}
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}
+                <button class="dropdown-item" type="submit" data-no-spinner data-testid="logout-button">Sign out</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      {% elif user.is_authenticated and user.is_staff %}
+        <a class="header-link" href="{% url 'adminpanel:dashboard' %}" aria-label="Admin panel" data-testid="nav-admin"><i class="bi bi-speedometer2" aria-hidden="true"></i><span class="label">Admin panel</span></a>
+      {% else %}
+        <a class="header-link account-menu" href="{% url 'accounts:login' %}" aria-label="Sign in" data-testid="nav-login"><i class="bi bi-person" aria-hidden="true"></i><span class="label">Sign in</span></a>
+      {% endif %}
+      <a class="header-link cart-link" href="{{ cart_url|default:'#' }}" data-testid="nav-cart" aria-label="Cart, {{ cart_count }} item{{ cart_count|pluralize }}">
+        <i class="bi bi-bag" aria-hidden="true"></i><span class="label">Cart</span>
+        <span class="cart-count{% if not cart_count %} is-empty{% endif %}" data-cart-count data-testid="cart-count">{{ cart_count }}</span>
+      </a>
+    </nav>
+  </div>
+
+  <nav class="category-bar" aria-label="Categories">
+    <div class="container">
+      <ul data-testid="category-bar">
+        {% for category in nav_categories %}
+          {% url 'catalog:category' category.slug as category_url %}
+          <li><a href="{{ category_url|default:'#' }}" {% if request.path == category_url %}aria-current="page"{% endif %}>{{ category.category_name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </nav>
+</header>

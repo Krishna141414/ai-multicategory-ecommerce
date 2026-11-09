@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Not allowed{% endblock %}
+{% block page_id %}403{% endblock %}
+{% block content %}
+<div class="container error-page" data-testid="forbidden">
+  <p class="code" aria-hidden="true">403</p>
+  <h1>This page isn’t for this account</h1>
+  <p>{% if exception %}{{ exception }} {% endif %}Customer pages need a customer account, and the store admin uses its own sign-in.</p>
+  <a class="btn btn-primary" href="{% url 'core:home' %}">Back to the store</a>
+</div>
+{% endblock %}

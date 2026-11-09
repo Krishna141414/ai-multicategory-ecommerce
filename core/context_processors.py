@@ -13,6 +13,7 @@ def store_context(request) -> dict:
         cart_count = sum(customer.cart_items.values_list("quantity", flat=True))
     return {
         "STORE_NAME": settings.STORE_NAME,
+        "ASSET_VERSION": settings.ASSET_VERSION,
         "nav_categories": Category.objects.filter(status=Status.ACTIVE).only("category_name", "slug"),
         "current_customer": customer,
         "cart_count": cart_count,

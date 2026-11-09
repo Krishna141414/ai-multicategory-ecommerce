@@ -1,0 +1,47 @@
+{% url 'catalog:category_list' as categories_url %}{% url 'orders:history' as orders_url %}{% url 'messaging:list' as queries_url %}{% url 'recommender:explainer' as explainer_url %}{% url 'recommender:recommended' as recs_url %}
+<footer class="site-footer" data-testid="site-footer">
+  <div class="container">
+    <p class="footer-mast" aria-hidden="true">{{ STORE_NAME }}</p>
+    <div class="footer-cols">
+      <div>
+        <h2>Shop</h2>
+        <ul>
+          {% for category in nav_categories|slice:":5" %}{% url 'catalog:category' category.slug as category_url %}
+            <li><a href="{{ category_url|default:'#' }}">{{ category.category_name }}</a></li>{% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h2>More aisles</h2>
+        <ul>
+          {% for category in nav_categories|slice:"5:" %}{% url 'catalog:category' category.slug as category_url %}
+            <li><a href="{{ category_url|default:'#' }}">{{ category.category_name }}</a></li>{% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h2>Your account</h2>
+        <ul>
+          {% if current_customer %}
+            <li><a href="{% url 'accounts:profile' %}">Profile</a></li>
+            {% if orders_url %}<li><a href="{{ orders_url }}">Orders</a></li>{% endif %}
+            {% if queries_url %}<li><a href="{{ queries_url }}">Ask a question</a></li>{% endif %}
+          {% else %}
+            <li><a href="{% url 'accounts:login' %}">Sign in</a></li>
+            <li><a href="{% url 'accounts:register' %}">Create an account</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      <div>
+        <h2>How picks work</h2>
+        <ul>
+          {% if recs_url %}<li><a href="{{ recs_url }}">Recommended for you</a></li>{% endif %}
+          {% if explainer_url %}<li><a href="{{ explainer_url }}">How recommendations are made</a></li>{% endif %}
+          <li><a href="{% url 'adminpanel:login' %}">Store admin</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="colophon">
+      <p>{{ STORE_NAME }} is a demo store built for a college project. Brands are fictional, prices are in ₹ and payments are simulated.</p>
+      <p>Product photo credits: <code>docs/IMAGE_CREDITS.md</code></p>
+    </div>
+  </div>
+</footer>
