@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}All categories{% endblock %}
+{% block page_id %}categories{% endblock %}
+{% block content %}
+<div class="container page">
+  <header class="page-head">
+    <h1>Ten aisles</h1>
+    <p class="lead">Pick an aisle, or search everything from the bar at the top.</p>
+  </header>
+  <ul class="category-grid" data-testid="category-grid">
+    {% for c in categories %}
+    <li>
+      <a class="category-tile" href="{% url 'catalog:category' c.slug %}" data-testid="category-tile">
+        <span class="category-tile-media">{% if c.cover %}<img src="{{ c.cover.image_url }}" alt="" width="900" height="900" loading="lazy">{% endif %}</span>
+        <span class="category-tile-text">
+          <span class="category-tile-name" data-testid="category-name">{{ c.category_name }}</span>
+          <span class="category-tile-desc">{{ c.description }}</span>
+          <span class="category-tile-count num">{{ c.product_count }} product{{ c.product_count|pluralize }}</span>
+        </span>
+      </a>
+    </li>
+    {% empty %}
+    <li class="empty-state"><h2>No categories yet</h2><p>The store is being stocked. Check back soon.</p></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

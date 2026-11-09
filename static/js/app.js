@@ -170,3 +170,25 @@
     });
   });
 })();
+
+/* Storefront helpers: auto-submit selects (sort) and the quantity stepper. */
+(function () {
+  "use strict";
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("select[data-autosubmit]").forEach((select) => {
+      select.addEventListener("change", () => select.form.requestSubmit());
+    });
+    document.querySelectorAll("[data-qty-stepper]").forEach((stepper) => {
+      const input = stepper.querySelector("input");
+      stepper.querySelectorAll("[data-step]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const min = Number(input.min || 1);
+          const max = Number(input.max || 99);
+          const next = Math.min(max, Math.max(min, Number(input.value || 1) + Number(button.dataset.step)));
+          input.value = next;
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+      });
+    });
+  });
+})();

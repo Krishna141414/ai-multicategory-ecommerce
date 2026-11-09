@@ -6,7 +6,7 @@ Each product: (product_name, brand, price, mrp or None, quantity, keywords, desc
 """
 
 CATEGORIES = [
-    ("Electronics", "Headphones, speakers, TVs, cameras, power banks and smart-home plugs and cameras."),
+    ("Electronics", "Headphones, speakers, TVs, cameras, power banks and smart-home devices."),
     ("Fashion and Clothing", "Everyday shirts and jeans, festive ethnic wear, jackets, bags and watches."),
     ("Home and Furniture", "Solid-wood furniture, sofas, bedding, curtains, rugs and lamps."),
     ("Books and Stationery", "Novels, cookbooks and how-to guides, plus pens, notebooks and art supplies."),

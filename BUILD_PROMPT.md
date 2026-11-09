@@ -57,9 +57,9 @@
 - **Gate 4:** every admin feature works end-to-end in the browser (Playwright MCP screenshots); matrix updated; commit.
 
 ## Phase 5 — Customer catalogue
-- [ ] 5.1 View categories (category grid/menu).
-- [ ] 5.2 View products (listing with pagination/sorting) and **search** by product_name, category, min_price, max_price (combinable; validated; empty-result state).
-- [ ] 5.3 Product details: product_name, category, brand, price, description, image, available_quantity, average rating, reviews list; out-of-stock state; log a `view` interaction.
+- [x] 5.1 View categories (category grid/menu).
+- [x] 5.2 View products (listing with pagination/sorting) and **search** by product_name, category, min_price, max_price (combinable; validated; empty-result state).
+- [x] 5.3 Product details: product_name, category, brand, price, description, image, available_quantity, average rating, reviews list; out-of-stock state; log a `view` interaction.
 - **Gate 5:** search combinations verified; commit.
 
 ## Phase 6 — Cart, checkout, dummy payment, orders, email

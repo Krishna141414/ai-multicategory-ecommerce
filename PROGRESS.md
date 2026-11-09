@@ -3,14 +3,14 @@
 Claude Code updates this after every step. A new session reads it first and continues from "Next".
 
 ## Status
-- Current phase: Phase 5 — Customer catalogue
-- Last completed step: Gate 4 passed
-- Next: 5.1 View categories
+- Current phase: Phase 6 — Cart, checkout, payment
+- Last completed step: Gate 5 passed
+- Next: 6.1 Add to cart / cart page
 
-## Next — Phase 5 (customer catalogue)
+## Next — Phase 6 (cart, checkout, dummy payment, orders, email)
 Owner requests: **Velora rename DONE**, **3 new photos DONE** (only the Thread & Thali analog watch still uses the placeholder).
-Demo data was changed by Gate 4 checks (Mixer Grinder Inactive, order DM06 Cancelled, extra admin reply + "Welcome to Velora" query, Toys category description edited). Run `python manage.py reset_demo --yes` before recording.
-Phase 5 plan: catalog/forms.ProductSearchForm (product_name, category, min_price, max_price, sort), catalog/services.search_products (active only, avg_rating/rating_count), views: category grid `/categories/`, category listing `/category/<slug>/`, search/listing `/products/`, product detail `/product/<slug>/` (logs a `view` interaction); URL names used by the header already: catalog:product_list, catalog:category, catalog:category_list, catalog:product_detail.
+Demo data was changed by Gate 4 checks; run `python manage.py reset_demo --yes` before recording.
+Phase 6 plan (docs/plans/implementation-plan.md Phase 6): `orders/services/cart.py` (add_to_cart / update_quantity / remove_item / get_cart, CartError), `orders/services/checkout.py` (submit_cart with checkout_key, IMMEDIATE txn + select_for_update + conditional F() decrement), `orders/services/payment.py` (pay; Success → Confirmed, clear cart, purchase interactions, email on_commit; Failure → Pending; idempotent), `orders/emails.py`. URL names the templates already use: `orders:cart_add` (POST, product id) on the product page, `orders:cart`, `orders:history`. Add-to-cart: button state + cart badge bump (Chowk.setCartCount) + toast.
 
 ## Log
 | Date | Step | Result / notes |
@@ -41,6 +41,9 @@ Phase 5 plan: catalog/forms.ProductSearchForm (product_name, category, min_price
 | 2026-11-09 | 3 photos added | Soundbar → Sonvale Soundbar 2.1; microwave → Tadka Home Solo Microwave; smartwatch → Orvia Fit Smartwatch (it is a smartwatch, the remaining placeholder is an analog watch). Fictional labels SONVALE / ORVIA / TADKA HOME added and checked by eye; credited as owner AI-generated; 109/110 products have photos. |
 | 2026-11-09 | Phase 4 (partial) | Admin panel code complete: dashboard, categories, products (+ sponsored toggle, soft delete), customers (activate/deactivate), orders (grouped ledger, status transitions, cancel restores stock), ratings/reviews, queries (inbox, new, thread, reply). 37 unit tests pass. Browser checks part-done (see In progress). |
 | 2026-11-07 | 4.1–4.7 + Gate 4 | Browser-verified (screenshots/gate4/): dashboard totals + 14-day chart; category add / edit / delete refused while products exist; product add with image upload, edit (image kept), sponsored switch on/off, delete → soft delete with orders / hard delete without; customers deactivate + activate; orders ledger, cancel with confirm dialog restores stock (62→64); ratings & reviews list; queries inbox, admin reply, admin new query to a customer; admin at 390 px. 37 unit tests pass. Fixes during checks: stars partial tag load, breadcrumbs/facts moved to base.css, row actions on one line, customer table width. |
+| 2026-11-07 | 5.1 Categories | D:/ANACONDA/Git/categories/ grid with cover photo, description, product count (active only). |
+| 2026-11-07 | 5.2 Search | /products/ and /category/<slug>/: ProductSearchForm (product_name, category, min_price, max_price, in stock, sort), combinable, validated (min>max and bad numbers show errors, page still 200), removable filter chips, 12 per page, empty state; filters in an offcanvas bottom sheet on phones. |
+| 2026-11-07 | 5.3 Detail + Gate 5 | /product/<slug>/: all brief fields + avg rating, breakdown, reviews, out-of-stock state, quantity stepper (add-to-cart form appears once orders:cart_add exists); logs a 'view' interaction (deduped 10 min). tests/unit/test_search.py 11 tests; 48 unit tests pass. Browser: grid, combined search (bluetooth + Electronics + ≤₹5000 → 2), product page, category at 390 (screenshots/gate5/). Fixed: select arrow padding, legend size, Electronics description. |
 
 ## Pending owner actions / follow-ups
 - **Last placeholder:** "Thread & Thali Women's Minimalist Analog Watch". The owner's "smartwatch" photo was a smartwatch, so it went to "Orvia Fit Smartwatch with Calling" (replacing a weaker Openverse photo) instead of the analog watch listing. If Krishna adds an analog women's watch photo, import it the same way (scripts/import_manual_photos.py + brand_labels.py if plain, credits, seed_demo).

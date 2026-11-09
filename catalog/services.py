@@ -1,7 +1,7 @@
 """Catalogue rules used by the admin panel and the storefront."""
 
 from django.db import transaction
-from django.db.models import Avg, Count, Q, QuerySet
+from django.db.models import Avg, Case, Count, IntegerField, Q, QuerySet, Value, When
 
 from catalog.models import Category, Product, Status
 
@@ -64,3 +64,76 @@ def admin_product_list(params: dict) -> QuerySet[Product]:
     if params.get("sponsored") == "1":
         qs = qs.filter(is_sponsored=True)
     return qs
+
+
+# --- Storefront ------------------------------------------------------------------
+
+SORTS = {
+    "price_asc": ["price", "product_name"],
+    "price_desc": ["-price", "product_name"],
+    "newest": ["-added_date"],
+    "rating": ["-avg_rating", "-rating_count", "product_name"],
+}
+
+
+def search_products(cleaned: dict) -> QuerySet[Product]:
+    """Brief: Search Product by product_name, category, min_price, max_price (all combinable).
+
+    Only active products in active categories are shown. Text matches the product name,
+    brand or keywords. Results carry avg_rating and rating_count.
+    """
+    qs = with_ratings(Product.objects.active().select_related("category"))
+    text = (cleaned.get("product_name") or "").strip()
+    if text:
+        for word in text.split():
+            qs = qs.filter(Q(product_name__icontains=word) | Q(brand__icontains=word) | Q(keywords__icontains=word))
+    if cleaned.get("category"):
+        qs = qs.filter(category=cleaned["category"])
+    if cleaned.get("min_price") is not None:
+        qs = qs.filter(price__gte=cleaned["min_price"])
+    if cleaned.get("max_price") is not None:
+        qs = qs.filter(price__lte=cleaned["max_price"])
+    if cleaned.get("in_stock"):
+        qs = qs.filter(quantity__gt=0)
+    sort = cleaned.get("sort") or "relevance"
+    if sort in SORTS:
+        return qs.order_by(*SORTS[sort])
+    # "Featured": in-stock first, then sponsored, then best rated, then newest
+    return qs.order_by(in_stock_first(), "-is_sponsored", "-avg_rating", "-added_date")
+
+
+def in_stock_first():
+    """Order key that puts out-of-stock products last."""
+    return Case(When(quantity__gt=0, then=Value(0)), default=Value(1), output_field=IntegerField()).asc()
+
+
+def storefront_categories() -> QuerySet[Category]:
+    """Active categories with the number of products a customer can see."""
+    return (Category.objects.filter(status=Status.ACTIVE)
+            .annotate(product_count=Count("products", filter=Q(products__status=Status.ACTIVE)))
+            .order_by("category_name"))
+
+
+def category_cover(category: Category) -> Product | None:
+    """A representative product photo for a category tile (sponsored or best stocked first)."""
+    return (category.products.filter(status=Status.ACTIVE).exclude(image="")
+            .order_by("-is_sponsored", "-quantity").first())
+
+
+def product_reviews(product: Product) -> list[dict]:
+    """Reviews for the product page, each with that customer's star rating when there is one."""
+    from reviews.models import Rating, Review
+
+    ratings = {r.customer_id: r.rating for r in Rating.objects.filter(product=product)}
+    return [{"review": rv, "rating": ratings.get(rv.customer_id)}
+            for rv in Review.objects.filter(product=product).select_related("customer").order_by("-posted_date")]
+
+
+def rating_breakdown(product: Product) -> dict[int, int]:
+    """How many 5, 4, 3, 2 and 1 star ratings the product has."""
+    from reviews.models import Rating
+
+    counts = {n: 0 for n in range(5, 0, -1)}
+    for row in Rating.objects.filter(product=product).values("rating").annotate(n=Count("id")):
+        counts[row["rating"]] = row["n"]
+    return counts

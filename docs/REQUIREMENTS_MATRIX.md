@@ -53,10 +53,10 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | CUS-02 | Login (email, password) | `accounts/backends.EmailBackend`, `accounts/views.login_view` | `tests/unit/test_auth.py::test_customer_login_with_email`, `::test_invalid_login_shows_generic_error` | Tested |
 | CUS-03 | View Profile | `accounts/views.profile`, `templates/accounts/profile.html` | TC-CUS-04 | Implemented |
 | CUS-04 | Update Profile | `accounts/forms.ProfileForm`, `accounts/views.profile_edit` | `tests/unit/test_auth.py::test_profile_update_keeps_email_unique` | Tested |
-| CUS-05 | View Product Categories | | TC-CUS-06 | Planned |
-| CUS-06 | Search Product (product_name, category, min_price, max_price) | | TC-CUS-07, 08, 09 | Planned |
-| CUS-07 | View Products | | TC-CUS-10 | Planned |
-| CUS-08 | View Product Details (product_name, category, brand, price, description, image, available_quantity, rating) | | TC-CUS-11 | Planned |
+| CUS-05 | View Product Categories | `catalog/views.category_list`, `templates/catalog/categories.html` | `tests/unit/test_search.py::test_category_page_and_grid` | Tested |
+| CUS-06 | Search Product (product_name, category, min_price, max_price) | `catalog/forms.ProductSearchForm`, `catalog/services.search_products` | `test_search.py::test_search_by_name_icontains`, `::test_search_by_category`, `::test_search_by_price_range`, `::test_combined_filters`, `::test_invalid_price_range_shows_error` | Tested |
+| CUS-07 | View Products | `catalog/views.product_list` (pagination, sorting) | `test_search.py::test_sort_by_price`, `::test_empty_result_state` | Tested |
+| CUS-08 | View Product Details (product_name, category, brand, price, description, image, available_quantity, rating) | `catalog/views.product_detail`, `templates/catalog/product_detail.html` | `test_search.py::test_product_detail_shows_fields_and_out_of_stock` | Tested |
 | CUS-09 | View AI Recommended Products | | TC-AI-03, TC-AI-04 | Planned |
 | CUS-10 | Add to Cart (id, customer_id, product_id, quantity, added_date) | | TC-CUS-12 | Planned |
 | CUS-11 | View Cart | | TC-CUS-13 | Planned |
@@ -94,7 +94,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
 | AI-D1 | Product Features table (id, product_id, category, product_name, brand, description, keywords, price) | `recommender/models.py` ProductFeature | TC-AI-01 | Implemented |
-| AI-D2 | Customer Product Interaction table (id, customer_id, product_id, interaction_type, interaction_date) | `recommender/models.py` CustomerProductInteraction | TC-AI-06, TC-AI-07 | Implemented |
+| AI-D2 | Customer Product Interaction table (id, customer_id, product_id, interaction_type, interaction_date) | `recommender/models.py` CustomerProductInteraction; `recommender/interactions.log_interaction` (view) | `test_search.py::test_product_view_is_logged_for_customers_once` | Tested |
 | AI-F1 | Collect Product Information | | TC-AI-01 | Planned |
 | AI-F2 | Product Data Preprocessing | | TC-AI-01 | Planned |
 | AI-F3 | Extract Product Features Using TF-IDF | | TC-AI-01 | Planned |

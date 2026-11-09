@@ -1,0 +1,90 @@
+{% extends "base.html" %}{% load shop_tags %}
+{% block title %}{{ product.product_name }}{% endblock %}
+{% block meta_description %}{{ product.brand }} {{ product.product_name }}, {{ product.price|inr:0 }}. {{ product.description|truncatechars:140 }}{% endblock %}
+{% block page_id %}product{% endblock %}
+{% block content %}
+{% url 'orders:cart_add' product.id as add_url %}
+<div class="container page product-page">
+  <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'core:home' %}">Home</a></li><li><a href="{% url 'catalog:category' product.category.slug %}" data-testid="product-category-link">{{ product.category.category_name }}</a></li><li aria-current="page">{{ product.product_name }}</li></ol></nav>
+
+  <div class="product-hero">
+    <figure class="product-gallery">
+      <img src="{{ product.image_url }}" alt="{{ product.product_name }} by {{ product.brand }}" width="900" height="900" data-testid="product-image">
+      {% if product.discount_percent and product.in_stock %}<span class="card-flag">{{ product.discount_percent }}% off</span>{% endif %}
+    </figure>
+
+    <section class="buy-box" aria-labelledby="product-title">
+      <p class="buy-box-brand" data-testid="product-brand">{{ product.brand }}</p>
+      <h1 id="product-title" data-testid="product-title">{{ product.product_name }}</h1>
+      <p class="buy-box-rating" data-testid="product-rating">
+        {% if rating_count %}{% include "partials/stars.html" with value=avg_rating %}<span class="num">{{ avg_rating|floatformat:1 }} out of 5</span> <a href="#reviews">{{ rating_count }} rating{{ rating_count|pluralize }}</a>
+        {% else %}<span class="muted">No ratings yet</span>{% endif %}
+      </p>
+      <p class="buy-box-price"><span class="price" data-testid="product-price">{{ product.price|inr }}</span>
+        {% if product.discount_percent %}<s class="mrp">MRP {{ product.mrp|inr }}</s> <span class="saving">You save {{ product.discount_percent }}%</span>{% endif %}</p>
+      <p class="small muted">Inclusive of all taxes.</p>
+
+      {% if product.in_stock %}
+        <p class="stock-line" data-testid="stock-status"><span class="badge-status status-in-stock"><i class="bi bi-check2" aria-hidden="true"></i>In stock</span>
+          <span data-testid="available-quantity">{{ product.quantity }} available</span>{% if product.low_stock %} <span class="badge-status status-low-stock">Only {{ product.quantity }} left</span>{% endif %}</p>
+        {% if add_url %}
+        <form method="post" action="{{ add_url }}" class="add-to-cart" data-add-to-cart data-testid="add-to-cart-form">
+          {% csrf_token %}
+          <div class="qty-stepper" data-qty-stepper>
+            <button type="button" data-step="-1" aria-label="Decrease quantity">−</button>
+            <label class="visually-hidden" for="qty">Quantity</label>
+            <input id="qty" name="quantity" type="number" inputmode="numeric" value="1" min="1" max="{{ max_qty }}" data-testid="quantity-input">
+            <button type="button" data-step="1" aria-label="Increase quantity">+</button>
+          </div>
+          <button class="btn btn-primary btn-add" type="submit" data-loading-label="Adding…" data-testid="add-to-cart"><i class="bi bi-bag-plus" aria-hidden="true"></i>Add to cart</button>
+        </form>
+        {% endif %}
+      {% else %}
+        <p class="stock-line" data-testid="stock-status"><span class="badge-status status-out-of-stock">Out of stock</span> <span data-testid="available-quantity">0 available</span></p>
+        <p class="muted">This item can’t be added to the cart right now. Similar products are below.</p>
+      {% endif %}
+
+      <dl class="facts facts--compact" data-testid="product-facts">
+        <dt>Category</dt><dd><a href="{% url 'catalog:category' product.category.slug %}">{{ product.category.category_name }}</a></dd>
+        <dt>Brand</dt><dd>{{ product.brand }}</dd>
+      </dl>
+    </section>
+  </div>
+
+  <section class="product-section" aria-labelledby="about-head">
+    <h2 id="about-head">About this product</h2>
+    <div class="prose" data-testid="product-description">{{ product.description|linebreaks }}</div>
+    {% if product.keyword_list %}<ul class="chips chips--quiet" aria-label="Tags">{% for k in product.keyword_list %}<li><a class="chip" href="{% url 'catalog:product_list' %}?product_name={{ k|urlencode }}">{{ k }}</a></li>{% endfor %}</ul>{% endif %}
+  </section>
+
+  {% block similar_products %}{% endblock %}
+
+  <section class="product-section" id="reviews" aria-labelledby="reviews-head">
+    <h2 id="reviews-head">Ratings and reviews</h2>
+    {% if rating_count %}
+    <div class="reviews-layout">
+      <div class="rating-summary">
+        <p class="rating-big num">{{ avg_rating|floatformat:1 }}</p>
+        {% include "partials/stars.html" with value=avg_rating %}
+        <p class="muted small">{{ rating_count }} rating{{ rating_count|pluralize }}</p>
+        <ul class="rating-bars" aria-label="Rating breakdown">
+          {% for stars, n in breakdown.items %}<li><span class="num">{{ stars }}★</span><span class="rating-bar"><span style="--w: {% widthratio n rating_count 100 %}%"></span></span><span class="num muted">{{ n }}</span></li>{% endfor %}
+        </ul>
+      </div>
+      <ol class="review-list" data-testid="review-list">
+        {% for item in reviews %}
+        <li class="review" data-testid="review">
+          <header><span class="fw-semibold">{{ item.review.customer.first_name }}</span>{% if item.rating %} {% include "partials/stars.html" with value=item.rating %}{% endif %}
+            <time class="muted small" datetime="{{ item.review.posted_date|date:'c' }}">{{ item.review.posted_date|date:"j M Y" }}</time></header>
+          <p class="prose">{{ item.review.review }}</p>
+        </li>
+        {% empty %}<li class="muted">Ratings only so far. No written reviews yet.</li>{% endfor %}
+      </ol>
+    </div>
+    {% else %}
+      <p class="muted">No ratings yet. Customers who buy this can rate and review it from their order page.</p>
+    {% endif %}
+    {% block review_form %}{% endblock %}
+  </section>
+</div>
+{% endblock %}

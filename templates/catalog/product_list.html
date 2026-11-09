@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}{% if category %}{{ category.category_name }}{% elif searching %}Search: {{ form.product_name.value }}{% else %}All products{% endif %}{% endblock %}
+{% block page_id %}{% if category %}category{% else %}products{% endif %}{% endblock %}
+{% block content %}
+<div class="container page listing">
+  <header class="page-head listing-head">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'core:home' %}">Home</a></li>{% if category %}<li><a href="{% url 'catalog:category_list' %}">Categories</a></li><li aria-current="page">{{ category.category_name }}</li>{% else %}<li aria-current="page">Products</li>{% endif %}</ol></nav>
+    <h1 data-testid="listing-title">{% if category %}{{ category.category_name }}{% elif searching %}Results for “{{ form.product_name.value }}”{% else %}All products{% endif %}</h1>
+    {% if category and category.description %}<p class="lead">{{ category.description }}</p>{% endif %}
+  </header>
+
+  <div class="listing-layout">
+    <aside class="filters offcanvas-lg offcanvas-bottom" id="filters" tabindex="-1" aria-labelledby="filters-title">
+      <div class="offcanvas-header">
+        <h2 class="offcanvas-title" id="filters-title">Filters</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#filters" aria-label="Close filters"></button>
+      </div>
+      <div class="offcanvas-body">
+        <form method="get" action="" novalidate class="filter-form" data-testid="search-form" data-no-guard>
+          {% if form.non_field_errors %}<div class="form-errors" role="alert">{% for e in form.non_field_errors %}<p>{{ e }}</p>{% endfor %}</div>{% endif %}
+          {% include "partials/field.html" with field=form.product_name %}
+          {% if not category %}{% include "partials/field.html" with field=form.category %}{% endif %}
+          <fieldset class="price-range">
+            <legend class="form-label">Price</legend>
+            <div class="price-range-fields">
+              {% include "partials/field.html" with field=form.min_price %}
+              {% include "partials/field.html" with field=form.max_price %}
+            </div>
+          </fieldset>
+          <div class="form-check form-field">
+            <input class="form-check-input" type="checkbox" name="in_stock" id="id_in_stock" value="on" {% if form.in_stock.value %}checked{% endif %} data-testid="filter-in-stock">
+            <label class="form-check-label" for="id_in_stock">In stock only</label>
+          </div>
+          {% if form.sort.value %}<input type="hidden" name="sort" value="{{ form.sort.value }}">{% endif %}
+          <div class="actions-row">
+            <button class="btn btn-primary" type="submit" data-testid="search-submit">Show results</button>
+            {% if chips %}<a class="btn btn-text" href="{% if category %}{% url 'catalog:category' category.slug %}{% else %}{% url 'catalog:product_list' %}{% endif %}" data-testid="clear-filters">Clear all</a>{% endif %}
+          </div>
+        </form>
+      </div>
+    </aside>
+
+    <section class="results" aria-labelledby="results-count">
+      <div class="results-bar">
+        <p id="results-count" class="results-count" data-testid="results-count" role="status"><strong class="num">{{ total }}</strong> product{{ total|pluralize }}</p>
+        <button class="btn btn-outline btn-sm d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters" aria-controls="filters"><i class="bi bi-sliders" aria-hidden="true"></i>Filters{% if chips %} ({{ chips|length }}){% endif %}</button>
+        <form method="get" class="sort-form" data-testid="sort-form" data-no-guard>
+          {% for key, value in request.GET.items %}{% if key != "sort" and key != "page" %}<input type="hidden" name="{{ key }}" value="{{ value }}">{% endif %}{% endfor %}
+          <label for="id_sort_select" class="small muted">Sort by</label>
+          <select id="id_sort_select" name="sort" class="form-select form-select-sm" data-autosubmit data-testid="sort-select">
+            {% for value, label in form.fields.sort.choices %}<option value="{{ value }}" {% if form.sort.value == value or not form.sort.value and value == "relevance" %}selected{% endif %}>{{ label }}</option>{% endfor %}
+          </select>
+          <noscript><button class="btn btn-outline btn-sm" type="submit">Sort</button></noscript>
+        </form>
+      </div>
+
+      {% if chips %}
+      <ul class="chips" aria-label="Filters in use" data-testid="active-filters">
+        {% for name, label, without in chips %}
+          <li><a class="chip is-active" href="?{{ without }}" aria-label="Remove filter {{ label }}">{{ label }} <i class="bi bi-x" aria-hidden="true"></i></a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if page.object_list %}
+        <ul class="product-grid" data-testid="product-grid">
+          {% for product in page %}<li>{% include "catalog/_product_card.html" %}</li>{% endfor %}
+        </ul>
+        {% if page.has_other_pages %}
+        <nav class="pager pager--store" aria-label="Pages">
+          {% if page.has_previous %}<a class="btn btn-outline" href="?{% if qs %}{{ qs }}&amp;{% endif %}page={{ page.previous_page_number }}" rel="prev" data-testid="prev-page">Previous</a>{% else %}<span></span>{% endif %}
+          <span class="muted">Page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+          {% if page.has_next %}<a class="btn btn-outline" href="?{% if qs %}{{ qs }}&amp;{% endif %}page={{ page.next_page_number }}" rel="next" data-testid="next-page">Next</a>{% else %}<span></span>{% endif %}
+        </nav>
+        {% endif %}
+      {% else %}
+        <div class="empty-state" data-testid="empty-results">
+          <h2>No products match</h2>
+          <p>{% if form.errors %}Fix the highlighted filter and try again.{% else %}Try a shorter search, a wider price range or another category.{% endif %}</p>
+          <a class="btn btn-primary" href="{% url 'catalog:product_list' %}">See all products</a>
+        </div>
+      {% endif %}
+    </section>
+  </div>
+</div>
+{% endblock %}

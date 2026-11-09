@@ -1,0 +1,17 @@
+{% load shop_tags %}<article class="product-card{% if not product.in_stock %} is-out{% endif %}" data-testid="product-card" data-product-id="{{ product.id }}">
+  <a class="product-card-link" href="{% url 'catalog:product_detail' product.slug %}" data-testid="product-link">
+    <div class="product-card-media">
+      <img src="{{ product.image_url }}" alt="{{ product.product_name }} by {{ product.brand }}" width="900" height="900" loading="lazy" decoding="async">
+      {% if not product.in_stock %}<span class="card-flag card-flag--out">Out of stock</span>{% elif product.discount_percent %}<span class="card-flag">{{ product.discount_percent }}% off</span>{% endif %}
+    </div>
+    <div class="product-card-body">
+      <p class="product-card-brand">{{ product.brand }}</p>
+      <h3 class="product-card-name" data-testid="product-name">{{ product.product_name }}</h3>
+      {% if product.rating_count %}
+        <p class="product-card-rating">{% include "partials/stars.html" with value=product.avg_rating %}<span class="num">{{ product.avg_rating|floatformat:1 }}</span><span class="muted">({{ product.rating_count }})</span><span class="visually-hidden">rated {{ product.avg_rating|floatformat:1 }} out of 5 by {{ product.rating_count }} customer{{ product.rating_count|pluralize }}</span></p>
+      {% endif %}
+      <p class="product-card-price"><span class="price" data-testid="product-price">{{ product.price|inr:0 }}</span>{% if product.discount_percent %}<s class="mrp">{{ product.mrp|inr:0 }}</s>{% endif %}</p>
+      {% if product.low_stock %}<p class="product-card-stock">Only {{ product.quantity }} left</p>{% endif %}
+    </div>
+  </a>
+</article>
