@@ -6,19 +6,14 @@ and their credits (photographer + Pexels page URL) added to `docs/IMAGE_CREDITS.
 Put the photographer name and the Pexels page URL for each file in `credits.txt` (one line per file:
 `file.jpg | Photographer Name | https://www.pexels.com/photo/...`).
 
+Status (2026-11-09): 10 photos imported. Still wanted:
+
 | File name | Product it replaces |
 |---|---|
-| tv-55.jpg | Lumora 55-inch QLED Smart TV |
-| mirrorless-camera.jpg | Ferrow Snap 24 Mirrorless Camera |
-| security-camera.jpg | Hearthline Indoor Security Camera 2K |
 | soundbar.jpg | Sonvale Soundbar 2.1 with Subwoofer |
 | watch.jpg | Thread & Thali Women's Minimalist Analog Watch |
-| face-wash.jpg | Neem & Ash Neem and Tea Tree Face Wash |
-| sunscreen.jpg | Dewlab SPF 50 Sunscreen Gel |
-| screen-protector.jpg | ShieldGuard Tempered Glass Screen Protector for Nova |
-| ludo.jpg | Gameshala Ludo and Snakes and Ladders, 2-in-1 |
-| solar-robot-kit.jpg | Tinkerbox Solar Robot Science Kit |
 | microwave.jpg | Tadka Home Solo Microwave Oven, 20 L |
-| water-purifier.jpg | Steelwell RO + UV Water Purifier |
+
+Add each new file to the `PHOTOS` map in `scripts/import_manual_photos.py`, run it, then `python manage.py seed_demo`.
 
 Pick photos without visible real brand logos.

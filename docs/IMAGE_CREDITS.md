@@ -2,7 +2,12 @@
 
 Product photos are openly licensed images from [Openverse](https://openverse.org), [Wikimedia Commons](https://commons.wikimedia.org) and [Pexels](https://www.pexels.com), downloaded once into `media/products/`.
 Each photo was cropped to a square and resized to 900 px. The products pictured stand in for the fictional brands sold in this demo store; photos were chosen to avoid visible real brand logos, and any small marks that remain belong to their owners.
+Nine photos were AI-generated and supplied by the project owner, and one comes from Pexels (Kindel Media, Pexels License); these are marked in the table.
 Products without a suitable photo use the store's placeholder (`static/img/product-placeholder.svg`).
+
+**Edits.** Eleven photos show plain packaging or unbranded devices, so `scripts/brand_labels.py` printed the product's own fictional brand and name on them
+(for example "dewlab SPF 50" on the sunscreen tube). The unedited files are kept in `media/products/originals/`. One router photo had the maker's name removed.
+All edited photos are marked "edited" below. Manual photos are imported with `scripts/import_manual_photos.py`.
 
 | Category | Product (demo listing) | Photo | Creator | Licence |
 |---|---|---|---|---|
@@ -10,12 +15,12 @@ Products without a suitable photo use the store's placeholder (`static/img/produ
 | Electronics | Sonvale Field 700 Over-Ear Headphones | [Close-up image of a pair of over-ear headphones with red accents and a](https://wordpress.org/photos/photo/18766603c1/) | Nilo Velez | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | Electronics | Sonvale Pocket Bluetooth Speaker | [A portable Bluetooth speaker with great bass? Yep! The ARCHEER A320. M](https://www.flickr.com/photos/22473198@N00/33573968431) | HighTechDad | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
 | Electronics | Lumora 43-inch 4K Smart TV | [The living room will be televised](https://www.flickr.com/photos/58435577@N00/159762082) | diametrik | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
-| Electronics | Lumora 55-inch QLED Smart TV | placeholder | — | — |
+| Electronics | Lumora 55-inch QLED Smart TV | AI-generated image supplied by the project owner (Krishna) (edited: fictional brand label added) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
 | Electronics | Voltrek 20000 mAh Power Bank | [Infinite Power!....Problem?](https://www.flickr.com/photos/52365139@N05/14627546992) | dvanzuijlekom | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) |
-| Electronics | Ferrow Snap 24 Mirrorless Camera | placeholder | — | — |
+| Electronics | Ferrow Snap 24 Mirrorless Camera | AI-generated image supplied by the project owner (Krishna) (edited: fictional brand label added) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
 | Electronics | Ferrow Trail Action Camera | [black action camera white laptop](https://www.rawpixel.com/image/3303210/free-photo-image-video-camera-macbook-gopro) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | Electronics | Hearthline Smart Plug, Pack of 2 | [Smart plug adapter front view with power button.jpg](https://commons.wikimedia.org/wiki/File:Smart_plug_adapter_front_view_with_power_button.jpg) | Sokolikmawwer0 | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
-| Electronics | Hearthline Indoor Security Camera 2K | placeholder | — | — |
+| Electronics | Hearthline Indoor Security Camera 2K | AI-generated image supplied by the project owner (Krishna) (edited: fictional brand label added) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
 | Electronics | Sonvale Soundbar 2.1 with Subwoofer | placeholder | — | — |
 | Fashion and Clothing | Indigo Loom Men's Slim-Fit Oxford Shirt | [Camisade puño doble.jpg](https://commons.wikimedia.org/wiki/File:Camisade_pu%C3%B1o_doble.jpg) | Incal | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
 | Fashion and Clothing | Indigo Loom Women's Block-Print Straight Kurta | [Traditional white embroidered kurta](https://www.rawpixel.com/image/9004113/coat) | artinstitutechicago | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
@@ -50,16 +55,16 @@ Products without a suitable photo use the store's placeholder (`static/img/produ
 | Books and Stationery | Scribe Supply Watercolour Set, 24 Colours | [36 Pan Palette White Nights Russian Watercolour Paint Set](https://www.flickr.com/photos/53499099@N00/32522989847) | CharmaineZoe's Marvelous Melange | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
 | Books and Stationery | Scribe Supply Bamboo Desk Organiser | [Wooden desk organizer, pencil holder #2](https://www.flickr.com/photos/47257185@N03/30229628306) | ZERGE_VIOLATOR | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
 | Books and Stationery | Margin Books Tara and the Tiger Moth (Picture Book) | [***](https://www.flickr.com/photos/30845197@N00/53846192367) | RG TLV | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
-| Beauty and Personal Care | Neem & Ash Neem and Tea Tree Face Wash | placeholder | — | — |
-| Beauty and Personal Care | Dewlab 10% Vitamin C Face Serum | [Dropper bottle, blank retro label](https://www.rawpixel.com/image/11515770/dropper-bottle-blank-retro-label) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| Beauty and Personal Care | Dewlab SPF 50 Sunscreen Gel | placeholder | — | — |
-| Beauty and Personal Care | Kesari Botanicals Kumkumadi Face Oil | [Free essential oil image. Cosmetic](https://www.rawpixel.com/image/5910591/photo-image-flower-public-domain-free) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| Beauty and Personal Care | Mitti Naturals Onion Hair Oil | [Haare Öl - Hair oil](https://www.flickr.com/photos/194961536@N05/52303062503) | Relax Photos | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
-| Beauty and Personal Care | Mitti Naturals Sulphate-Free Shampoo | [Green shampoo bottle.jpg](https://commons.wikimedia.org/wiki/File:Green_shampoo_bottle.jpg) | Mezoneni | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
+| Beauty and Personal Care | Neem & Ash Neem and Tea Tree Face Wash | AI-generated image supplied by the project owner (Krishna) (edited: fictional brand label added) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
+| Beauty and Personal Care | Dewlab 10% Vitamin C Face Serum | [Dropper bottle, blank retro label](https://www.rawpixel.com/image/11515770/dropper-bottle-blank-retro-label) (edited: fictional brand label added) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| Beauty and Personal Care | Dewlab SPF 50 Sunscreen Gel | AI-generated image supplied by the project owner (Krishna) (edited: fictional brand label added) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
+| Beauty and Personal Care | Kesari Botanicals Kumkumadi Face Oil | [Free essential oil image. Cosmetic](https://www.rawpixel.com/image/5910591/photo-image-flower-public-domain-free) (edited: fictional brand label added) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| Beauty and Personal Care | Mitti Naturals Onion Hair Oil | [Haare Öl - Hair oil](https://www.flickr.com/photos/194961536@N05/52303062503) (edited: fictional brand label added) | Relax Photos | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| Beauty and Personal Care | Mitti Naturals Sulphate-Free Shampoo | [Green shampoo bottle.jpg](https://commons.wikimedia.org/wiki/File:Green_shampoo_bottle.jpg) (edited: fictional brand label added) | Mezoneni | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
 | Beauty and Personal Care | Neem & Ash Activated Charcoal Soap, Pack of 4 | [Natural Soap Bars (46363900951).jpg](https://commons.wikimedia.org/wiki/File:Natural_Soap_Bars_(46363900951).jpg) | Tony Webster from Minneapolis, Minnesota, United States | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) |
 | Beauty and Personal Care | Dewlab Hyaluronic Gel Moisturiser | [Lipneye Loose Powder_02](https://www.flickr.com/photos/22740419@N03/2297973764) | hello_bonnie | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
 | Beauty and Personal Care | Kesari Botanicals Long-Stay Matte Lipstick | [18 / 365 - On the Mauve](https://www.flickr.com/photos/47149893@N07/6031622829) | Kelly Hunter | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
-| Beauty and Personal Care | Groomwell Cordless Beard Trimmer | [Free electric shaver image](https://www.rawpixel.com/image/5902320/photo-image-background-public-domain-free) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| Beauty and Personal Care | Groomwell Cordless Beard Trimmer | AI-generated image supplied by the project owner (Krishna) (edited: fictional brand label added) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
 | Beauty and Personal Care | Groomwell Ionic Hair Dryer 1600 W | [Woman Hair](https://stocksnap.io/photo/woman-hair-D5CG6JAYN3) | Healthy Living | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | Sports and Fitness | Cricrest English Willow Cricket Bat | [Cricket Bat at Rest](https://www.flickr.com/photos/14040488@N02/4828759245) | A. Blight | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
 | Sports and Fitness | Cricrest Leather Cricket Ball, Pack of 2 | [Cricket Ball.](https://www.flickr.com/photos/30880820@N07/4398962599) | Luke Hayfield Photography | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
@@ -77,7 +82,7 @@ Products without a suitable photo use the store's placeholder (`static/img/produ
 | Mobile Phones and Accessories | Orvia Lite 4G, 4 GB / 64 GB | [Office Work](https://stocksnap.io/photo/office-work-QK8UF7C718) | Negative Space | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | Mobile Phones and Accessories | Chargelink 33 W USB-C Fast Charger | [Silicon vs GaN 30W USB-C chargers.jpg](https://commons.wikimedia.org/wiki/File:Silicon_vs_GaN_30W_USB-C_chargers.jpg) | 4300streetcar | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) |
 | Mobile Phones and Accessories | Chargelink Braided USB-C Cable, 1.5 m | [USB cable wire close up](https://www.rawpixel.com/image/6040523/photo-image-white-background-public-domain-technology) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| Mobile Phones and Accessories | ShieldGuard Tempered Glass Screen Protector for Nova | placeholder | — | — |
+| Mobile Phones and Accessories | ShieldGuard Tempered Glass Screen Protector for Nova | AI-generated image supplied by the project owner (Krishna) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
 | Mobile Phones and Accessories | ShieldGuard Rugged Case for Nova | [Black phone case drying](https://www.flickr.com/photos/196301716@N03/52749995363) | ospp0 | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | Mobile Phones and Accessories | Chargelink 15 W Wireless Charging Pad | [LG WCP-300 Qi wireless charger.jpg](https://commons.wikimedia.org/wiki/File:LG_WCP-300_Qi_wireless_charger.jpg) | Dsimic | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
 | Mobile Phones and Accessories | Orvia Fit Smartwatch with Calling | [Suunto 9 Peak Sako 100](https://www.flickr.com/photos/194647935@N05/51771122575) | ozfir | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
@@ -98,10 +103,10 @@ Derivative work: AGreuet (talk · contribs) | [Public domain](https://commons.w
 | Toys and Games | Brickyard City Fire Station Building Set, 720 Pieces | [Colorful Lego building blocks. Location](https://www.rawpixel.com/image/6113755/photo-image-public-domain-children-free) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | Toys and Games | Brickyard Starter Bricks Bucket, 300 Pieces | [Lego blocks close up](https://www.rawpixel.com/image/5921627/photo-image-public-domain-kids-free) | Unknown | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | Toys and Games | Gameshala Wooden Chess Set | [Chess Board](https://stocksnap.io/photo/chess-board-NUAITIXILP) | Kristin Hardwick | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| Toys and Games | Gameshala Ludo and Snakes and Ladders, 2-in-1 | placeholder | — | — |
+| Toys and Games | Gameshala Ludo and Snakes and Ladders, 2-in-1 | AI-generated image supplied by the project owner (Krishna) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
 | Toys and Games | Gameshala Full-Size Carrom Board | [SAS_3928](https://www.flickr.com/photos/14642507@N08/53068686031) | sasastro | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
 | Toys and Games | Tinkerbox Remote Control Racing Car | [RC BIT 1.JPG](https://commons.wikimedia.org/wiki/File:RC_BIT_1.JPG) | BITalino | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
-| Toys and Games | Tinkerbox Solar Robot Science Kit | placeholder | — | — |
+| Toys and Games | Tinkerbox Solar Robot Science Kit | [Robot kit parts on a wooden table](https://www.pexels.com/photo/9029794/) | Kindel Media (Pexels) | [Pexels License](https://www.pexels.com/license/) |
 | Toys and Games | Little Lantern Soft Teddy Bear, 40 cm | [Teddy bear early 1900s - Smithsonian Museum of Natural History.jpg](https://commons.wikimedia.org/wiki/File:Teddy_bear_early_1900s_-_Smithsonian_Museum_of_Natural_History.jpg) | Smithsonian Museum of Natural History | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) |
 | Toys and Games | Little Lantern Wooden Stacking Rings | [Baby Playing with Stacking Rings.JPG](https://commons.wikimedia.org/wiki/File:Baby_Playing_with_Stacking_Rings.JPG) | Barelyhere | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
 | Toys and Games | Gameshala 1000-Piece Jigsaw Puzzle, Spice Market | [Jigsaw puzzle](https://www.flickr.com/photos/192018235@N04/52612441739) | We Like Sharing | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
@@ -115,5 +120,5 @@ Derivative work: AGreuet (talk · contribs) | [Public domain](https://commons.w
 | Kitchen and Home Appliances | Chakki Pro Table-Top Wet Grinder, 2 L | [Wet grinder - Commercial.jpg](https://commons.wikimedia.org/wiki/File:Wet_grinder_-_Commercial.jpg) | Ramesh NG | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) |
 | Kitchen and Home Appliances | Steelwell Induction Cooktop, 2000 W | [Induction cooktop](https://www.flickr.com/photos/154752783@N05/52185189352) | tjmills1520 | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) |
 | Kitchen and Home Appliances | Tadka Home Solo Microwave Oven, 20 L | placeholder | — | — |
-| Kitchen and Home Appliances | Steelwell RO + UV Water Purifier | placeholder | — | — |
+| Kitchen and Home Appliances | Steelwell RO + UV Water Purifier | AI-generated image supplied by the project owner (Krishna) (edited: fictional brand label added) | Krishna (project owner), AI-generated | Owner-supplied, AI-generated; free to use in this project |
 | Kitchen and Home Appliances | Brewmate Hand Blender, 400 W | [NG-HB3.jpg](https://commons.wikimedia.org/wiki/File:NG-HB3.jpg) | A.dardiry | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
