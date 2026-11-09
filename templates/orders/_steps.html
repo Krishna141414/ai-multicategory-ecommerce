@@ -1,0 +1,6 @@
+<ol class="checkout-steps" aria-label="Checkout progress" data-testid="checkout-steps" style="--step: {{ step }}">
+  <li {% if step == 1 %}aria-current="step"{% elif step > 1 %}class="is-done"{% endif %}>Cart</li>
+  <li {% if step == 2 %}aria-current="step"{% elif step > 2 %}class="is-done"{% endif %}>Review</li>
+  <li {% if step == 3 %}aria-current="step"{% elif step > 3 %}class="is-done"{% endif %}>Pay</li>
+  <li {% if step == 4 %}aria-current="step"{% endif %}>Done</li>
+</ol>

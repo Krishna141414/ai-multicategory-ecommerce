@@ -1,0 +1,22 @@
+{% load shop_tags %}Hello {{ customer.first_name }},
+
+Thank you for shopping with {{ store }}. Your payment went through and your order is {{ status|lower }}.
+
+Order ID: {{ order_id }}
+Order date: {{ order_date|date:"j F Y, H:i" }}
+Status: {{ status }}
+
+Items
+{% for row in rows %}- {{ row.product_name }}
+  Quantity {{ row.quantity }} x {{ row.price|inr }} = {{ row.amount|inr }}
+{% endfor %}
+Total: {{ total|inr }}
+
+Delivering to:
+{{ customer.name }}
+{{ customer.address }}
+{{ customer.mobile_number }}
+
+You can follow this order under Your orders on {{ store }}.
+
+{{ store }} (demo store; payments are simulated)

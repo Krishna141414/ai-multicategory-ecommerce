@@ -1,0 +1,52 @@
+{% extends "base.html" %}{% load shop_tags %}
+{% block title %}Order {{ order_id }}{% endblock %}
+{% block page_id %}order-detail{% endblock %}
+{% block content %}
+<div class="container page">
+  <header class="page-head">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'orders:history' %}">Your orders</a></li><li aria-current="page">{{ order_id }}</li></ol></nav>
+    <h1 data-testid="order-detail-title">Order {{ order_id }}</h1>
+    <p class="lead">Placed {{ rows.0.order_date|date:"j F Y, H:i" }}.</p>
+  </header>
+
+  <ol class="status-track" data-testid="status-track" aria-label="Order status">
+    {% for name, state in track %}
+      <li class="{{ state }}" {% if state == "is-current" %}aria-current="step"{% endif %}>{{ name }}</li>
+    {% endfor %}
+  </ol>
+  <p class="order-status-line">Status: <span class="badge-status status-{{ status|lower }}" data-testid="order-detail-status">{{ status }}</span>
+    {% if status == "Pending" and not paid %}<a class="btn btn-primary btn-sm" href="{% url 'orders:payment' order_id %}" data-testid="complete-payment">Complete payment</a>{% endif %}</p>
+
+  <div class="cart-layout">
+    <section aria-labelledby="items-head">
+      <h2 id="items-head" class="section-title">Items</h2>
+      <ul class="cart-lines table-opens" data-testid="order-detail-items">
+        {% for r in rows %}
+        <li class="cart-line cart-line--static" data-testid="order-detail-item">
+          <img class="cart-line-media" src="{{ r.product.image_url }}" alt="" width="96" height="96" loading="lazy">
+          <div class="cart-line-info">
+            {% if r.product.is_active %}<a class="cart-line-name" href="{{ r.product.get_absolute_url }}">{{ r.product_name }}</a>{% else %}<span class="cart-line-name">{{ r.product_name }}</span>{% endif %}
+            <p class="small muted">{{ r.price|inr }} × {{ r.quantity }}</p>
+            {% block item_actions %}{% endblock %}
+          </div>
+          <p class="cart-line-total num">{{ r.amount|inr }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    <aside class="order-summary well" aria-labelledby="summary-head">
+      <h2 id="summary-head">Summary</h2>
+      <dl class="summary-rows">
+        <div class="summary-total"><dt>Total</dt><dd class="num" data-testid="order-detail-total">{{ total|inr }}</dd></div>
+      </dl>
+      <h3 class="summary-sub">Payment</h3>
+      {% for p in payments %}
+        <p class="small"><span class="badge-status status-{{ p.payment_status|lower }}">{{ p.payment_status }}</span> {{ p.get_payment_method_display }}, {{ p.payment_date|date:"j M, H:i" }}</p>
+      {% empty %}<p class="small muted">Not paid yet.</p>{% endfor %}
+      <h3 class="summary-sub">Deliver to</h3>
+      <p class="small">{{ customer.name }}<br>{{ customer.address|linebreaksbr }}</p>
+      {% url 'messaging:new' as new_query_url %}{% if new_query_url %}<a class="btn btn-outline btn-sm" href="{{ new_query_url }}?subject=Order%20{{ order_id }}">Ask about this order</a>{% endif %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

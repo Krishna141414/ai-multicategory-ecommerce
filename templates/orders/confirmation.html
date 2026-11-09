@@ -1,0 +1,28 @@
+{% extends "base.html" %}{% load shop_tags %}
+{% block title %}Order confirmed{% endblock %}
+{% block page_id %}confirmation{% endblock %}
+{% block content %}
+<div class="container page">
+  {% include "orders/_steps.html" with step=4 %}
+  <section class="confirmation" data-testid="order-confirmation">
+    <svg class="confirm-mark" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg>
+    <h1>Thank you, {{ customer.first_name }}. Your order is confirmed.</h1>
+    <p class="lead">We've emailed the details to {{ customer.email }}.</p>
+    <dl class="facts confirm-facts">
+      <dt>Order ID</dt><dd class="num" data-testid="confirmation-order-id">{{ order_id }}</dd>
+      <dt>Status</dt><dd><span class="badge-status status-{{ rows.0.order_status|lower }}" data-testid="confirmation-status">{{ rows.0.order_status }}</span></dd>
+      <dt>Paid</dt><dd>{{ payment.total_amount|inr }} by {{ payment.get_payment_method_display }} <span class="muted small">({{ payment.reference }})</span></dd>
+      <dt>Deliver to</dt><dd>{{ customer.name }}, {{ customer.address }}</dd>
+    </dl>
+    <table class="table table-opens" data-testid="confirmation-items">
+      <thead><tr><th>Item</th><th class="text-end">Qty</th><th class="text-end d-none d-sm-table-cell">Price</th><th class="text-end">Amount</th></tr></thead>
+      <tbody>{% for r in rows %}<tr><td>{{ r.product_name }}</td><td class="text-end num">{{ r.quantity }}</td><td class="text-end num d-none d-sm-table-cell">{{ r.price|inr }}</td><td class="text-end num">{{ r.amount|inr }}</td></tr>{% endfor %}</tbody>
+      <tfoot><tr><th colspan="2" class="text-end">Total</th><td class="d-none d-sm-table-cell"></td><th class="text-end num" data-testid="confirmation-total">{{ total|inr }}</th></tr></tfoot>
+    </table>
+    <div class="actions-row">
+      <a class="btn btn-primary" href="{% url 'orders:detail' order_id %}" data-testid="view-order">View order</a>
+      <a class="btn btn-outline" href="{% url 'catalog:category_list' %}">Keep shopping</a>
+    </div>
+  </section>
+</div>
+{% endblock %}

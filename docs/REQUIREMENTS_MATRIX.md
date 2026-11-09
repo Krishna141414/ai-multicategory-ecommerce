@@ -58,16 +58,16 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | CUS-07 | View Products | `catalog/views.product_list` (pagination, sorting) | `test_search.py::test_sort_by_price`, `::test_empty_result_state` | Tested |
 | CUS-08 | View Product Details (product_name, category, brand, price, description, image, available_quantity, rating) | `catalog/views.product_detail`, `templates/catalog/product_detail.html` | `test_search.py::test_product_detail_shows_fields_and_out_of_stock` | Tested |
 | CUS-09 | View AI Recommended Products | | TC-AI-03, TC-AI-04 | Planned |
-| CUS-10 | Add to Cart (id, customer_id, product_id, quantity, added_date) | | TC-CUS-12 | Planned |
-| CUS-11 | View Cart | | TC-CUS-13 | Planned |
-| CUS-12 | Update Cart Quantity | | TC-CUS-14 | Planned |
-| CUS-13 | Remove from Cart | | TC-CUS-15 | Planned |
-| CUS-14 | Submit Cart (id, order_id, product_id, customer_id, quantity, price, amount, order_date, order_status) | | TC-CUS-16 | Planned |
-| CUS-15 | Dummy Payment (id, order_id, customer_id, total_amount, payment_method, payment_status, payment_date) | | TC-CUS-17 | Planned |
-| CUS-16 | View Order Confirmation | | TC-CUS-18 | Planned |
-| CUS-17 | Order Information Email | | E2E-01 | Planned |
-| CUS-18 | View Order History | | TC-CUS-19 | Planned |
-| CUS-19 | View Order Details | | TC-CUS-20 | Planned |
+| CUS-10 | Add to Cart (id, customer_id, product_id, quantity, added_date) | `orders/services/cart.add_to_cart`, `orders/views.cart_add` (JSON + form), `static/js/app.js` add-to-cart | `test_checkout_service.py::test_add_merges_lines_and_logs_cart_interaction`, `test_order_views.py::test_add_to_cart_json`; TC-CUS-12 (Phase 10) | Tested |
+| CUS-11 | View Cart | `orders/services/cart.get_cart`, `orders/views.cart`, `templates/orders/cart.html` | `test_order_views.py::test_full_flow_pages`; TC-CUS-13 (Phase 10) | Tested |
+| CUS-12 | Update Cart Quantity | `orders/services/cart.update_quantity`, `orders/views.cart_update` (live totals) | `test_checkout_service.py::test_cart_qty_cannot_exceed_stock`; TC-CUS-14 (Phase 10) | Tested |
+| CUS-13 | Remove from Cart | `orders/services/cart.remove_item`, `orders/views.cart_remove` | `test_checkout_service.py::test_remove_item`; TC-CUS-15 (Phase 10) | Tested |
+| CUS-14 | Submit Cart (id, order_id, product_id, customer_id, quantity, price, amount, order_date, order_status) | `orders/services/checkout.submit_cart`, `orders/views.checkout` | `test_checkout_service.py::test_submit_creates_one_row_per_item_with_shared_order_id`, `::test_amount_and_total`; TC-CUS-16 (Phase 10) | Tested |
+| CUS-15 | Dummy Payment (id, order_id, customer_id, total_amount, payment_method, payment_status, payment_date) | `orders/services/payment.pay`, `orders/forms.PaymentForm`, `orders/views.payment` | `test_checkout_service.py::test_payment_success_confirms_and_clears_cart_and_emails`, `::test_payment_failure_keeps_pending`; TC-CUS-17 (Phase 10) | Tested |
+| CUS-16 | View Order Confirmation | `orders/views.confirmation`, `templates/orders/confirmation.html` | `test_order_views.py::test_full_flow_pages`; TC-CUS-18 (Phase 10) | Tested |
+| CUS-17 | Order Information Email | `orders/emails.send_order_email`, `templates/emails/order_confirmation.*` (file backend to `sent_emails/`) | `test_checkout_service.py::test_payment_success_confirms_and_clears_cart_and_emails`; E2E-01 (Phase 10) | Tested |
+| CUS-18 | View Order History | `orders/views.history`, `orders/services/queries.order_groups` | `test_order_views.py::test_full_flow_pages`; TC-CUS-19 (Phase 10) | Tested |
+| CUS-19 | View Order Details | `orders/views.detail` (+ `status_track`), `templates/orders/detail.html` | `test_order_views.py::test_full_flow_pages`, `::test_customer_cannot_open_another_customers_order`; TC-CUS-20 (Phase 10) | Tested |
 | CUS-20 | Add Rating (id, product_id, customer_id, rating, posted_date) | | TC-CUS-21 | Planned |
 | CUS-21 | Add Review (id, product_id, customer_id, review, posted_date) | | TC-CUS-22 | Planned |
 | CUS-22 | Post Query | | TC-CUS-23 | Planned |
@@ -204,7 +204,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R2.2 | Each product belongs to one category | `catalog/models.py` Product.category FK (PROTECT) |  | Implemented |
 | R2.3 | Product price must be greater than zero | `catalog/models.py` CheckConstraint price>0 | `tests/unit/test_models.py::test_price_must_be_positive` | Tested |
 | R2.4 | Product quantity cannot be negative | `catalog/models.py` CheckConstraint quantity>=0 | `tests/unit/test_models.py::test_quantity_cannot_be_negative` | Tested |
-| R2.5 | Zero-quantity products cannot be added to the cart | | | Planned |
+| R2.5 | Zero-quantity products cannot be added to the cart | `orders/services/cart.add_to_cart` (CartError on zero stock), Add-to-cart button disabled on the product page | `test_checkout_service.py::test_add_to_cart_blocks_zero_stock` | Tested |
 | R2.6 | Products with existing orders keep historical order info even if removed from listings | `catalog/services.delete_product` + Order.product_name/price snapshot | `test_admin_services.py::test_delete_product_with_orders_soft_deletes` | Tested |
 | R3.1 | Engine uses category, name, brand, description, keywords | | | Planned |
 | R3.2 | TF-IDF converts product text into numeric feature vectors | | | Planned |
@@ -216,22 +216,22 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R3.8 | Only active and available products recommended | | | Planned |
 | R3.9 | New customers get popular or category-based suggestions | | | Planned |
 | R3.10 | Runs locally, no paid AI APIs | | | Planned |
-| R4.1 | Customers can add multiple products to cart | | | Planned |
-| R4.2 | Cart quantity cannot exceed available stock | | | Planned |
-| R4.3 | Each cart product inserted as a separate orders record | | | Planned |
-| R4.4 | All products of one checkout share a common order_id | | | Planned |
-| R4.5 | Each order record has its own unique id | `orders/models.py` Order (one row, own id) |  | Implemented |
+| R4.1 | Customers can add multiple products to cart | `orders/models.CartItem` (one line per product), `orders/services/cart` | `test_checkout_service.py::test_submit_creates_one_row_per_item_with_shared_order_id` | Tested |
+| R4.2 | Cart quantity cannot exceed available stock | `orders/services/cart.add_to_cart` / `update_quantity` + re-check in `checkout.submit_cart` | `test_checkout_service.py::test_cart_qty_cannot_exceed_stock`, `::test_submit_rolls_back_when_one_item_short` | Tested |
+| R4.3 | Each cart product inserted as a separate orders record | `orders/services/checkout.submit_cart` (one Order row per CartItem) | `test_checkout_service.py::test_submit_creates_one_row_per_item_with_shared_order_id` | Tested |
+| R4.4 | All products of one checkout share a common order_id | `orders/services/checkout.new_order_id` shared by all rows of a checkout | `test_checkout_service.py::test_submit_creates_one_row_per_item_with_shared_order_id` | Tested |
+| R4.5 | Each order record has its own unique id | `orders/models.py` Order (one row, own id) | `test_checkout_service.py::test_submit_creates_one_row_per_item_with_shared_order_id` | Tested |
 | R4.6 | amount = price × quantity | `orders/models.py` Order.save() | `tests/unit/test_models.py::test_order_amount_is_price_times_quantity` | Tested |
-| R4.7 | Total order amount calculated from all cart items | | | Planned |
-| R4.8 | Cart submission + stock reservation in one DB transaction | | | Planned |
-| R4.9 | Payment confirmation must not create duplicate orders | | | Planned |
-| R4.10 | Cart cleared after successful order confirmation | | | Planned |
-| R5.1 | Payment simulated, no real financial transactions | | | Planned |
-| R5.2 | No real payment gateway | | | Planned |
-| R5.3 | Payment success and failure can be simulated | | | Planned |
-| R5.4 | After successful payment, order status → Confirmed | | | Planned |
-| R5.5 | Show order confirmation and send order info by email | | | Planned |
-| R5.6 | Failed payments do not mark orders paid/confirmed | | | Planned |
+| R4.7 | Total order amount calculated from all cart items | `orders/services/checkout.order_total` | `test_checkout_service.py::test_amount_and_total` | Tested |
+| R4.8 | Cart submission + stock reservation in one DB transaction | `orders/services/checkout.submit_cart` (`transaction.atomic`, `select_for_update`, conditional F() decrement) | `test_checkout_service.py::test_stock_reserved_on_submit_and_cart_kept`, `::test_submit_rolls_back_when_one_item_short` | Tested |
+| R4.9 | Payment confirmation must not create duplicate orders | `checkout_key` idempotency in `submit_cart`; `Payment` one_success_per_order constraint; `pay` returns the existing success | `test_checkout_service.py::test_resubmit_same_key_returns_same_order`, `::test_pay_twice_is_idempotent` | Tested |
+| R4.10 | Cart cleared after successful order confirmation | `orders/services/payment.pay` clears the cart only on success | `test_checkout_service.py::test_stock_reserved_on_submit_and_cart_kept`, `::test_payment_success_confirms_and_clears_cart_and_emails` | Tested |
+| R5.1 | Payment simulated, no real financial transactions | `orders/services/payment.pay` (records a Payment row only) | `test_checkout_service.py::test_payment_success_confirms_and_clears_cart_and_emails` | Tested |
+| R5.2 | No real payment gateway | `orders/forms.PaymentForm` (method + simulated outcome, no gateway) | `test_order_views.py::test_full_flow_pages` | Tested |
+| R5.3 | Payment success and failure can be simulated | `orders/forms.PaymentForm` outcome success/failure | `test_checkout_service.py::test_payment_success_confirms_and_clears_cart_and_emails`, `::test_payment_failure_keeps_pending` | Tested |
+| R5.4 | After successful payment, order status → Confirmed | `orders/services/payment.pay` sets all rows of the order_id to Confirmed | `test_checkout_service.py::test_payment_success_confirms_and_clears_cart_and_emails` | Tested |
+| R5.5 | Show order confirmation and send order info by email | `orders/views.confirmation` + `orders/emails.send_order_email` (on commit) | `test_checkout_service.py::test_payment_success_confirms_and_clears_cart_and_emails`, `test_order_views.py::test_full_flow_pages` | Tested |
+| R5.6 | Failed payments do not mark orders paid/confirmed | `orders/services/payment.pay` failure path (status stays Pending, Payment row Failed) | `test_checkout_service.py::test_payment_failure_keeps_pending` | Tested |
 | R6.1 | Single messages table stores queries and replies | `messaging/models.py` Message |  | Implemented |
 | R6.2 | sender_type / receiver_type identify roles | `messaging/models.py` Message.sender_type / receiver_type |  | Implemented |
 | R6.3 | conversation_id groups a conversation | `messaging/services.new_conversation_id` / `reply` | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |

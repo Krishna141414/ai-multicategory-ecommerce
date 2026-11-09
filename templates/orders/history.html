@@ -1,0 +1,40 @@
+{% extends "base.html" %}{% load shop_tags %}
+{% block title %}Your orders{% endblock %}
+{% block page_id %}order-history{% endblock %}
+{% block content %}
+<div class="container page">
+  <header class="page-head"><h1>Your orders</h1><p class="lead">Every checkout, newest first, with its current status.</p></header>
+  <div class="account-layout">
+    {% include "accounts/_account_nav.html" with active="orders" %}
+    <section>
+      {% if orders %}
+      <ul class="order-cards table-opens" data-testid="order-history">
+        {% for o in orders %}
+        <li class="order-card" data-testid="order-history-row">
+          <div class="order-card-head">
+            <div>
+              <a class="fw-semibold" href="{% url 'orders:detail' o.order_id %}" data-testid="order-link">{{ o.order_id }}</a>
+              <p class="small muted">Placed {{ o.order_date|date:"j M Y" }}, {{ o.quantity }} item{{ o.quantity|pluralize }}</p>
+            </div>
+            <span class="badge-status status-{{ o.status|lower }}" data-testid="order-status">{{ o.status }}</span>
+            <p class="num order-card-total">{{ o.total|inr }}</p>
+          </div>
+          <ul class="order-card-items">
+            {% for r in o.rows|slice:":3" %}<li><img src="{{ r.product.image_url }}" alt="" width="48" height="48" loading="lazy"><span>{{ r.product_name }} <span class="muted">× {{ r.quantity }}</span></span></li>{% endfor %}
+            {% if o.rows|length > 3 %}<li class="muted small">and {{ o.rows|length|add:"-3" }} more</li>{% endif %}
+          </ul>
+          {% if o.status == "Pending" and not o.paid %}<a class="btn btn-primary btn-sm" href="{% url 'orders:payment' o.order_id %}">Complete payment</a>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <div class="empty-state" data-testid="empty-orders">
+        <h2>No orders yet</h2>
+        <p>When you check out, your orders and their status will appear here.</p>
+        <a class="btn btn-primary" href="{% url 'catalog:category_list' %}">Start shopping</a>
+      </div>
+      {% endif %}
+    </section>
+  </div>
+</div>
+{% endblock %}

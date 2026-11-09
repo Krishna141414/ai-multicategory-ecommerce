@@ -1,0 +1,50 @@
+{% extends "base.html" %}{% load shop_tags %}
+{% block title %}Payment{% endblock %}
+{% block page_id %}payment{% endblock %}
+{% block content %}
+<div class="container page">
+  {% include "orders/_steps.html" with step=3 %}
+  <header class="page-head">
+    <h1>Payment</h1>
+    <p class="lead">Order <strong data-testid="payment-order-id">{{ order_id }}</strong> is placed and its stock is held for you.</p>
+  </header>
+
+  {% if failed %}
+  <div class="note note-danger payment-failed" role="alert" data-testid="payment-failed">
+    <p class="fw-semibold">Payment failed. Your order was not confirmed and you have not been charged.</p>
+    <p class="small">Reference {{ failed.reference }}. Choose a method and try again.{% if attempts > 1 %} Failed attempts so far: {{ attempts }}.{% endif %}</p>
+  </div>
+  {% endif %}
+
+  <div class="cart-layout">
+    <form method="post" novalidate class="payment-form" data-testid="payment-form">
+      {% csrf_token %}
+      <fieldset class="choice-group">
+        <legend>{{ form.payment_method.label }}</legend>
+        {% for choice in form.payment_method %}
+          <label class="choice"><input type="radio" name="{{ choice.data.name }}" value="{{ choice.data.value }}" {% if choice.data.selected %}checked{% endif %} data-testid="method-{{ choice.data.value|slugify }}">
+            <span><span class="fw-semibold">{{ choice.choice_label }}</span></span></label>
+        {% endfor %}
+        {% if form.payment_method.errors %}<p class="field-error" data-testid="error-payment_method"><span>{{ form.payment_method.errors|first }}</span></p>{% endif %}
+      </fieldset>
+      <fieldset class="choice-group choice-group--simulate">
+        <legend>{{ form.outcome.label }} <span class="tag tag-ink">Demo only</span></legend>
+        <p class="small muted">There is no real payment gateway here. Pick what should happen so you can try both paths.</p>
+        {% for choice in form.outcome %}
+          <label class="choice"><input type="radio" name="{{ choice.data.name }}" value="{{ choice.data.value }}" {% if choice.data.selected %}checked{% endif %} data-testid="outcome-{{ choice.data.value }}">
+            <span class="fw-semibold">{{ choice.choice_label }}</span></label>
+        {% endfor %}
+      </fieldset>
+      <button class="btn btn-primary btn-block btn-pay" type="submit" data-loading-label="Processing payment…" data-testid="pay-button"><i class="bi bi-shield-check" aria-hidden="true"></i>Pay {{ total|inr }}</button>
+    </form>
+
+    <aside class="order-summary well" aria-labelledby="summary-head" data-testid="payment-summary">
+      <h2 id="summary-head">Order {{ order_id }}</h2>
+      <ul class="summary-items">
+        {% for row in rows %}<li><span>{{ row.product_name }} <span class="muted">× {{ row.quantity }}</span></span><span class="num">{{ row.amount|inr }}</span></li>{% endfor %}
+      </ul>
+      <dl class="summary-rows"><div class="summary-total"><dt>Total</dt><dd class="num" data-testid="payment-total">{{ total|inr }}</dd></div></dl>
+    </aside>
+  </div>
+</div>
+{% endblock %}

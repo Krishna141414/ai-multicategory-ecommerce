@@ -1,0 +1,43 @@
+{% extends "base.html" %}{% load shop_tags %}
+{% block title %}Review your order{% endblock %}
+{% block page_id %}checkout{% endblock %}
+{% block content %}
+<div class="container page">
+  {% include "orders/_steps.html" with step=2 %}
+  <header class="page-head"><h1>Review your order</h1><p class="lead">Check the items and address, then place the order. You'll pay on the next step.</p></header>
+  <div class="cart-layout">
+    <section aria-labelledby="items-head">
+      <h2 id="items-head" class="visually-hidden">Items</h2>
+      <table class="table table-opens review-table" data-testid="checkout-items">
+        <thead><tr><th>Item</th><th class="text-end">Qty</th><th class="text-end d-none d-sm-table-cell">Price</th><th class="text-end">Amount</th></tr></thead>
+        <tbody>
+          {% for line in cart.lines %}
+          <tr><td>{{ line.product.product_name }}<br><span class="small muted">{{ line.product.brand }}</span></td>
+              <td class="text-end num">{{ line.quantity }}</td><td class="text-end num d-none d-sm-table-cell">{{ line.product.price|inr }}</td>
+              <td class="text-end num">{{ line.line_total|inr }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <section class="address-block" aria-labelledby="address-head">
+        <h2 id="address-head">Deliver to</h2>
+        <p data-testid="checkout-address">{{ customer.name }}<br>{{ customer.address|linebreaksbr }}<br>{{ customer.mobile_number }}</p>
+        <a class="btn btn-text btn-sm" href="{% url 'accounts:profile_edit' %}">Change address</a>
+      </section>
+    </section>
+    <aside class="order-summary well" aria-labelledby="summary-head">
+      <h2 id="summary-head">Order total</h2>
+      <dl class="summary-rows">
+        <div><dt>Items</dt><dd class="num">{{ cart.count }}</dd></div>
+        <div><dt>Delivery</dt><dd>Free</dd></div>
+        <div class="summary-total"><dt>Total</dt><dd class="num" data-testid="checkout-total">{{ cart.total|inr }}</dd></div>
+      </dl>
+      <form method="post" data-testid="place-order-form">
+        {% csrf_token %}
+        <input type="hidden" name="checkout_key" value="{{ checkout_key }}">
+        <button class="btn btn-primary btn-block" type="submit" data-loading-label="Placing order…" data-testid="place-order">Place order</button>
+      </form>
+      <a class="btn btn-text btn-sm" href="{% url 'orders:cart' %}">Back to cart</a>
+    </aside>
+  </div>
+</div>
+{% endblock %}

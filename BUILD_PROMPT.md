@@ -63,11 +63,11 @@
 - **Gate 5:** search combinations verified; commit.
 
 ## Phase 6 — Cart, checkout, dummy payment, orders, email
-- [ ] 6.1 Add to cart (login required; blocks zero stock and qty > stock; logs `cart` interaction), view cart, update quantity, remove item, live totals.
-- [ ] 6.2 Submit cart → service function in one `transaction.atomic()` with `select_for_update` stock check + reservation → one order row per item, shared `order_id`, `amount = price × qty`, status Pending, total computed. Duplicate-submit guard.
-- [ ] 6.3 Dummy payment page: choose method, simulate Success/Failure. Success → orders Confirmed, Payment row, cart cleared, `purchase` interactions logged, order email written to `sent_emails/`, confirmation page. Failure → nothing confirmed, retry possible. Idempotent on repeat.
-- [ ] 6.4 Order confirmation page, order history (grouped by `order_id`, with status badges), order details.
-- [ ] 6.5 Unit tests (plain pytest, no browser) for the checkout + payment service: totals, stock reservation, rollback on failure, no duplicate orders, cancel restores stock.
+- [x] 6.1 Add to cart (login required; blocks zero stock and qty > stock; logs `cart` interaction), view cart, update quantity, remove item, live totals.
+- [x] 6.2 Submit cart → service function in one `transaction.atomic()` with `select_for_update` stock check + reservation → one order row per item, shared `order_id`, `amount = price × qty`, status Pending, total computed. Duplicate-submit guard.
+- [x] 6.3 Dummy payment page: choose method, simulate Success/Failure. Success → orders Confirmed, Payment row, cart cleared, `purchase` interactions logged, order email written to `sent_emails/`, confirmation page. Failure → nothing confirmed, retry possible. Idempotent on repeat.
+- [x] 6.4 Order confirmation page, order history (grouped by `order_id`, with status badges), order details.
+- [x] 6.5 Unit tests (plain pytest, no browser) for the checkout + payment service: totals, stock reservation, rollback on failure, no duplicate orders, cancel restores stock.
 - **Gate 6:** full shopping flow verified in the browser + service tests pass; commit.
 
 ## Phase 7 — Ratings, reviews, queries (customer side)

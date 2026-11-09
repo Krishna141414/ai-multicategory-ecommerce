@@ -192,3 +192,92 @@
     });
   });
 })();
+
+/* Add to cart without leaving the page, and live cart quantity updates.
+   Without JavaScript the same forms post normally and the server redirects. */
+(function () {
+  "use strict";
+  const Chowk = window.Chowk || {};
+
+  function csrf(form) {
+    const input = form.querySelector('input[name="csrfmiddlewaretoken"]');
+    return input ? input.value : "";
+  }
+
+  async function postJSON(form) {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { Accept: "application/json", "X-CSRFToken": csrf(form) },
+      credentials: "same-origin",
+    });
+    const type = response.headers.get("Content-Type") || "";
+    if (!type.includes("application/json")) return { redirect: true };
+    return response.json();
+  }
+
+  function addToCart(form) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const button = form.querySelector('[type="submit"]');
+      const label = button.innerHTML;
+      button.disabled = true;
+      button.innerHTML = '<span class="spinner-border" aria-hidden="true"></span> Adding…';
+      try {
+        const data = await postJSON(form);
+        if (data.redirect) { form.submit(); return; } // not signed in: the server sends us to the sign-in page
+        if (data.ok) {
+          button.innerHTML = '<i class="bi bi-check2" aria-hidden="true"></i> Added';
+          button.classList.add("is-added");
+          Chowk.setCartCount && Chowk.setCartCount(data.count);
+          Chowk.toast && Chowk.toast(data.message, "success");
+        } else {
+          Chowk.toast && Chowk.toast(data.message, "danger");
+          button.innerHTML = label;
+        }
+      } catch (error) {
+        form.submit();
+        return;
+      } finally {
+        window.setTimeout(() => { button.disabled = false; button.innerHTML = label; button.classList.remove("is-added"); }, 1500);
+      }
+    }, true);
+  }
+
+  function cartUpdate(form) {
+    const input = form.querySelector('input[name="quantity"]');
+    const line = form.closest("[data-item-id]");
+    let timer = null;
+    const send = async () => {
+      const data = await postJSON(form).catch(() => ({ redirect: true }));
+      if (data.redirect) { form.submit(); return; }
+      if (!data.ok) { Chowk.toast && Chowk.toast(data.message, "danger"); input.value = input.dataset.last || input.value; return; }
+      input.dataset.last = input.value;
+      const total = line.querySelector("[data-line-total]");
+      if (total && data.line_total) { total.textContent = data.line_total; total.classList.remove("is-updating"); void total.offsetWidth; total.classList.add("is-updating"); }
+      const problem = line.querySelector("[data-line-problem]");
+      if (problem) { problem.hidden = !data.line_problem; problem.querySelector("span").textContent = data.line_problem; }
+      line.classList.toggle("has-problem", Boolean(data.line_problem));
+      document.querySelectorAll("[data-cart-total]").forEach((el) => { el.textContent = data.total; });
+      document.querySelectorAll("[data-cart-count-text]").forEach((el) => { el.textContent = data.count; });
+      Chowk.setCartCount && Chowk.setCartCount(data.count);
+      const checkout = document.querySelector("[data-checkout-link]");
+      if (checkout) {
+        checkout.classList.toggle("disabled", data.problems);
+        checkout.toggleAttribute("aria-disabled", data.problems);
+        if (data.problems) checkout.setAttribute("tabindex", "-1"); else checkout.removeAttribute("tabindex");
+      }
+      const note = document.querySelector("[data-cart-problems-note]");
+      if (note) note.hidden = !data.problems;
+    };
+    input.dataset.last = input.value;
+    input.addEventListener("change", () => { window.clearTimeout(timer); timer = window.setTimeout(send, 250); });
+    form.addEventListener("submit", (event) => { event.preventDefault(); send(); });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("form[data-add-to-cart]").forEach(addToCart);
+    document.querySelectorAll("form[data-cart-update]").forEach(cartUpdate);
+  });
+})();

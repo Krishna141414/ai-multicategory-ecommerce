@@ -3,14 +3,14 @@
 Claude Code updates this after every step. A new session reads it first and continues from "Next".
 
 ## Status
-- Current phase: Phase 6 — Cart, checkout, payment
-- Last completed step: Gate 5 passed
-- Next: 6.1 Add to cart / cart page
+- Current phase: Phase 7 — Ratings, reviews, queries
+- Last completed step: Gate 6 passed
+- Next: 7.1 Add rating / review (purchased products only)
 
-## Next — Phase 6 (cart, checkout, dummy payment, orders, email)
+## Next — Phase 7 (ratings, reviews, customer queries)
 Owner requests: **Velora rename DONE**, **3 new photos DONE** (only the Thread & Thali analog watch still uses the placeholder).
-Demo data was changed by Gate 4 checks; run `python manage.py reset_demo --yes` before recording.
-Phase 6 plan (docs/plans/implementation-plan.md Phase 6): `orders/services/cart.py` (add_to_cart / update_quantity / remove_item / get_cart, CartError), `orders/services/checkout.py` (submit_cart with checkout_key, IMMEDIATE txn + select_for_update + conditional F() decrement), `orders/services/payment.py` (pay; Success → Confirmed, clear cart, purchase interactions, email on_commit; Failure → Pending; idempotent), `orders/emails.py`. URL names the templates already use: `orders:cart_add` (POST, product id) on the product page, `orders:cart`, `orders:history`. Add-to-cart: button state + cart badge bump (Chowk.setCartCount) + toast.
+Demo data was changed by Gate 4 and Gate 6 checks; run `python manage.py reset_demo --yes` before recording.
+Phase 7 plan (docs/plans/implementation-plan.md Phase 7): `reviews/services.py` (`can_review` = has a Confirmed/Shipped/Delivered order for the product; `save_rating` update_or_create; `save_review`), forms + views on the product page (rating 1–5 + review text, only for buyers, editable). Customer queries: reuse `messaging/services.py` (`start_customer_query`, `reply`, `conversations_for`, `thread`, `ensure_can_view`, `mark_read`) and `messaging/forms.py` (QueryForm, ReplyForm); add customer views + templates under `templates/messaging/` (list, new, thread using `partials/thread.html`); `messaging:new` URL name is already referenced (with `?subject=`) on the order detail page. Tests: `test_cannot_review_without_purchase`, `test_rating_is_updated_not_duplicated`, customer thread visibility with a second customer. Gate 7: two customers + admin replying, checked in the browser.
 
 ## Log
 | Date | Step | Result / notes |
@@ -44,6 +44,12 @@ Phase 6 plan (docs/plans/implementation-plan.md Phase 6): `orders/services/cart.
 | 2026-11-07 | 5.1 Categories | D:/ANACONDA/Git/categories/ grid with cover photo, description, product count (active only). |
 | 2026-11-07 | 5.2 Search | /products/ and /category/<slug>/: ProductSearchForm (product_name, category, min_price, max_price, in stock, sort), combinable, validated (min>max and bad numbers show errors, page still 200), removable filter chips, 12 per page, empty state; filters in an offcanvas bottom sheet on phones. |
 | 2026-11-07 | 5.3 Detail + Gate 5 | /product/<slug>/: all brief fields + avg rating, breakdown, reviews, out-of-stock state, quantity stepper (add-to-cart form appears once orders:cart_add exists); logs a 'view' interaction (deduped 10 min). tests/unit/test_search.py 11 tests; 48 unit tests pass. Browser: grid, combined search (bluetooth + Electronics + ≤₹5000 → 2), product page, category at 390 (screenshots/gate5/). Fixed: select arrow padding, legend size, Electronics description. |
+| 2026-11-09 | 6.1 Cart | orders/services/cart.py (add/update/remove/get_cart, CartError, stock checks, MAX_PER_LINE 10, logs cart interaction); views cart_add/cart_update return JSON when asked (fetch) and redirect otherwise; app.js: add-to-cart button state + badge bump + toast, live line/total updates. Browser: added Trail Action Camera ×2 (badge 1→3), raised to 3 on the cart page, totals updated live. |
+| 2026-11-09 | 6.2 Submit cart | orders/services/checkout.submit_cart: one atomic IMMEDIATE txn, select_for_update + conditional F() decrement, one Order row per item sharing ORD-YYYYMMDD-XXXX, amount = price × qty, Pending; checkout_key stops double submits; older unpaid checkouts released (stock restored). Browser: review page → Place order → ORD-20261109-EVA6. |
+| 2026-11-09 | 6.3 Dummy payment | orders/services/payment.pay + PaymentForm (method + 'Result to simulate'). Browser: Card + failure → 'Payment failed… not been charged', order stays Pending, cart kept; UPI + success → Confirmed, cart badge 0, email file in sent_emails/ with order id, items, total ₹32,487.00. Repeat pay is idempotent (unit test). |
+| 2026-11-09 | 6.4 Order pages | Confirmation (animated check, facts, items table, total), history grouped by order_id with status badges, detail with status track + payment attempts. Mobile fix: confirmation grid track pinned to minmax(0,1fr) and the unit Price column hidden under 576 px (footer cell split so colspan stays aligned). Screenshots in screenshots/gate6/. |
+| 2026-11-09 | 6.5 Service tests | tests/unit/test_checkout_service.py (18): stock blocks, merge + cart interaction, totals, reservation, rollback when one item is short, inactive product, same-key resubmit, older checkout released, success/failure/idempotent payment, cross-customer guard, cancel restores stock. tests/unit/test_order_views.py (5). Whole unit suite 71 passed. |
+| 2026-11-09 | Gate 6 | Full flow verified in the browser at 1440 + 390 px (cart → review → pay fail → pay success → confirmation → email → history/detail). 71 unit tests pass. Matrix: CUS-10…19, R2.5, R4.1–R4.10, R5.1–R5.6 marked Tested. Decisions added (Phase 6 section). Demo data changed (Asha has a new confirmed order ORD-20261109-EVA6): run reset_demo --yes before recording. |
 
 ## Pending owner actions / follow-ups
 - **Last placeholder:** "Thread & Thali Women's Minimalist Analog Watch". The owner's "smartwatch" photo was a smartwatch, so it went to "Orvia Fit Smartwatch with Calling" (replacing a weaker Openverse photo) instead of the analog watch listing. If Krishna adds an analog women's watch photo, import it the same way (scripts/import_manual_photos.py + brand_labels.py if plain, credits, seed_demo).

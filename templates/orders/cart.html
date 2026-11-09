@@ -1,0 +1,63 @@
+{% extends "base.html" %}{% load shop_tags %}
+{% block title %}Your cart{% endblock %}
+{% block page_id %}cart{% endblock %}
+{% block content %}
+<div class="container page">
+  {% include "orders/_steps.html" with step=1 %}
+  <header class="page-head"><h1>Your cart</h1></header>
+
+  {% if cart.is_empty %}
+    <div class="empty-state" data-testid="empty-cart">
+      <h2>Your cart is empty</h2>
+      <p>Browse the aisles and add something you like. It will wait here until you check out.</p>
+      <a class="btn btn-primary" href="{% url 'catalog:category_list' %}">Browse categories</a>
+    </div>
+  {% else %}
+  <div class="cart-layout" data-cart>
+    <section aria-label="Items in your cart">
+      <ul class="cart-lines table-opens" data-testid="cart-items">
+        {% for line in cart.lines %}
+        <li class="cart-line{% if line.problem %} has-problem{% endif %}" data-testid="cart-item" data-item-id="{{ line.item.pk }}">
+          <a class="cart-line-media" href="{{ line.product.get_absolute_url }}"><img src="{{ line.product.image_url }}" alt="" width="96" height="96" loading="lazy"></a>
+          <div class="cart-line-info">
+            <p class="small muted">{{ line.product.brand }}</p>
+            <a class="cart-line-name" href="{{ line.product.get_absolute_url }}" data-testid="cart-item-name">{{ line.product.product_name }}</a>
+            <p class="small muted">{{ line.product.price|inr }} each</p>
+            <p class="field-error cart-line-problem" data-line-problem {% if not line.problem %}hidden{% endif %} data-testid="cart-item-problem"><i class="bi bi-exclamation-circle" aria-hidden="true"></i><span>{{ line.problem }}</span></p>
+          </div>
+          <form method="post" action="{% url 'orders:cart_update' line.item.pk %}" class="cart-line-qty" data-cart-update data-no-guard>
+            {% csrf_token %}
+            <div class="qty-stepper" data-qty-stepper>
+              <button type="button" data-step="-1" aria-label="Decrease quantity of {{ line.product.product_name }}">−</button>
+              <label class="visually-hidden" for="qty-{{ line.item.pk }}">Quantity of {{ line.product.product_name }}</label>
+              <input id="qty-{{ line.item.pk }}" name="quantity" type="number" inputmode="numeric" min="1" max="{{ line.max_quantity }}" value="{{ line.quantity }}" data-testid="cart-quantity">
+              <button type="button" data-step="1" aria-label="Increase quantity of {{ line.product.product_name }}">+</button>
+            </div>
+            <noscript><button class="btn btn-outline btn-sm" type="submit">Update</button></noscript>
+          </form>
+          <p class="cart-line-total num" data-line-total data-testid="cart-item-total">{{ line.line_total|inr }}</p>
+          <form method="post" action="{% url 'orders:cart_remove' line.item.pk %}" class="cart-line-remove"
+                data-confirm="Remove {{ line.product.product_name }} from your cart?" data-confirm-action="Remove item">
+            {% csrf_token %}<button class="btn btn-text btn-sm" type="submit" data-no-spinner data-testid="remove-item">Remove item</button>
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <aside class="order-summary well" aria-labelledby="summary-head" data-testid="cart-summary">
+      <h2 id="summary-head">Order summary</h2>
+      <dl class="summary-rows">
+        <div><dt>Items</dt><dd class="num" data-cart-count-text data-testid="summary-count">{{ cart.count }}</dd></div>
+        <div><dt>Delivery</dt><dd>Free</dd></div>
+        <div class="summary-total"><dt>Total</dt><dd class="num" data-cart-total data-testid="cart-total">{{ cart.total|inr }}</dd></div>
+      </dl>
+      <a class="btn btn-primary btn-block{% if cart.has_problems %} disabled{% endif %}" href="{% url 'orders:checkout' %}" data-checkout-link
+         {% if cart.has_problems %}aria-disabled="true" tabindex="-1"{% endif %} data-testid="checkout-button">Check out</a>
+      <p class="small muted" data-cart-problems-note {% if not cart.has_problems %}hidden{% endif %}>Fix the items marked above to check out.</p>
+      <p class="small muted">Stock is reserved when you place the order. Your cart stays here until payment goes through.</p>
+    </aside>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
