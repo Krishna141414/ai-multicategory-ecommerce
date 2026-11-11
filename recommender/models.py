@@ -12,7 +12,7 @@ from catalog.models import Product
 
 
 class ProductFeature(models.Model):
-    """A flat copy of the text the engine vectorises. Kept in sync by recommender.signals."""
+    """A flat copy of the text the engine vectorises. Kept in sync by recommender/features.py (post_save signals)."""
 
     product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name="feature")
     category = models.CharField(max_length=100)

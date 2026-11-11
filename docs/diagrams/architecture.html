@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Velora fits together · Velora</title>
+  <style>
+    /* System font mode (Diagram Design): no network, no external files; Velora's faces are used when installed. */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --paper: #f7f5f0; --ink: #0c0d12; --muted: #615d57; }
+    body { font-family: 'Bricolage Grotesque', system-ui, sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: 'Cascadia Mono', Consolas, ui-monospace, monospace; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+    h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 1.5rem; }
+    .caption { font-family: 'Source Serif 4', Georgia, serif; font-style: italic; color: var(--muted); max-width: 70ch; margin-top: 1rem; line-height: 1.5; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Architecture · Velora docs</p>
+    <h1>How Velora fits together</h1>
+    <div class="diagram-container">
+      <svg viewBox="0 0 960 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="architecture-title architecture-desc">
+        <title id="architecture-title">How Velora fits together</title>
+        <desc id="architecture-desc">The browser talks to Django apps, which call a service layer and the recommender; shop data and test results live in two separate SQLite files.</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#615d57"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#007439"/></marker>
+          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#385b7e"/></marker>
+          <marker id="arrow-open" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polyline points="0 0, 8 3, 0 6" fill="none" stroke="#615d57" stroke-width="1.2"/></marker>
+        </defs>
+        <rect width="100%" height="100%" fill="#f7f5f0"/>
+<rect x="224" y="104" width="464" height="280" rx="8" fill="rgba(12,13,18,0.02)" stroke="rgba(12,13,18,0.14)" stroke-width="0.8"/><rect x="236" y="108" width="100" height="12" rx="2" fill="#f7f5f0"/><text x="286.0" y="117" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">DJANGO PROJECT</text>
+<rect x="224" y="416" width="464" height="120" rx="8" fill="rgba(12,13,18,0.02)" stroke="rgba(12,13,18,0.14)" stroke-width="0.8"/><rect x="236" y="420" width="88" height="12" rx="2" fill="#f7f5f0"/><text x="280.0" y="429" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">TEST HARNESS</text>
+<rect x="720" y="104" width="224" height="432" rx="8" fill="rgba(12,13,18,0.02)" stroke="rgba(12,13,18,0.14)" stroke-width="0.8"/><rect x="732" y="108" width="88" height="12" rx="2" fill="#f7f5f0"/><text x="776.0" y="117" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">SQLITE FILES</text>
+<path d="M192,240 H208 Q216,240 216,232 V180 Q216,172 224,172 H240" fill="none" stroke="#385b7e" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+<path d="M192,264 H208 Q216,264 216,272 V324 Q216,332 224,332 H240" fill="none" stroke="#385b7e" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+<path d="M432,172 H480" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M400,296 V260 Q400,252 408,252 H504 Q512,252 512,244 V208" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M600,208 V296" fill="none" stroke="#007439" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+<rect x="610.2" y="245" width="83.6" height="12" rx="2" fill="#f7f5f0"/><text x="652" y="254" fill="#007439" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">SIMILAR, PICKS</text>
+<path d="M672,172 H736" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="691.9" y="153" width="24.2" height="12" rx="2" fill="#f7f5f0"/><text x="704" y="162" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">ORM</text>
+<path d="M672,332 H784 Q792,332 792,324 V208" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="726.5" y="313" width="35.0" height="12" rx="2" fill="#f7f5f0"/><text x="744" y="322" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">READS</text>
+<path d="M336,448 V368" fill="none" stroke="#615d57" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+<rect x="346.3" y="401" width="67.4" height="12" rx="2" fill="#f7f5f0"/><text x="380" y="410" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">LIVE SERVER</text>
+<path d="M432,484 H480" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M672,484 H736" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="683.8" y="465" width="40.4" height="12" rx="2" fill="#f7f5f0"/><text x="704" y="474" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">WRITES</text>
+<rect x="32" y="216" width="160" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="32" y="216" width="160" height="72" rx="6" fill="rgba(97,93,87,0.10)" stroke="#615d57" stroke-width="1"/>
+<rect x="44" y="226" width="42" height="13" rx="2" fill="none" stroke="#615d57" stroke-width="0.8"/>
+<text x="65.0" y="235.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">INPUT</text>
+<text x="44" y="256" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Browser</text>
+<text x="44" y="271" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">customer or admin</text>
+<rect x="240" y="136" width="192" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="240" y="136" width="192" height="72" rx="6" fill="#ffffff" stroke="#0c0d12" stroke-width="1"/>
+<rect x="252" y="146" width="36" height="13" rx="2" fill="none" stroke="#0c0d12" stroke-width="0.8"/>
+<text x="270.0" y="155.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">APPS</text>
+<text x="252" y="176" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Storefront apps</text>
+<text x="252" y="191" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">catalog, orders, reviews,</text>
+<text x="252" y="203" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">messaging, accounts, core</text>
+<rect x="240" y="296" width="192" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="240" y="296" width="192" height="72" rx="6" fill="#ffffff" stroke="#0c0d12" stroke-width="1"/>
+<rect x="252" y="306" width="30" height="13" rx="2" fill="none" stroke="#0c0d12" stroke-width="0.8"/>
+<text x="267.0" y="315.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">APP</text>
+<text x="252" y="336" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Admin panel</text>
+<text x="252" y="351" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">adminpanel/ (staff only)</text>
+<rect x="480" y="136" width="192" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="480" y="136" width="192" height="72" rx="6" fill="rgba(0,116,57,0.08)" stroke="#007439" stroke-width="1"/>
+<rect x="492" y="146" width="60" height="13" rx="2" fill="none" stroke="#007439" stroke-width="0.8"/>
+<text x="522.0" y="155.5" fill="#007439" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">SERVICES</text>
+<text x="492" y="176" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Service layer</text>
+<text x="492" y="191" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">cart, checkout, payment,</text>
+<text x="492" y="203" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">status, catalog, messaging</text>
+<rect x="480" y="296" width="192" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="480" y="296" width="192" height="72" rx="6" fill="rgba(0,116,57,0.08)" stroke="#007439" stroke-width="1"/>
+<rect x="492" y="306" width="24" height="13" rx="2" fill="none" stroke="#007439" stroke-width="0.8"/>
+<text x="504.0" y="315.5" fill="#007439" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">AI</text>
+<text x="492" y="336" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Recommender</text>
+<text x="492" y="351" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">recommender/engine.py</text>
+<text x="492" y="363" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">TF-IDF + cosine</text>
+<rect x="736" y="136" width="192" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="736" y="136" width="192" height="72" rx="6" fill="rgba(12,13,18,0.05)" stroke="#615d57" stroke-width="1"/>
+<rect x="748" y="146" width="42" height="13" rx="2" fill="none" stroke="#615d57" stroke-width="0.8"/>
+<text x="769.0" y="155.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">STORE</text>
+<text x="748" y="176" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">db.sqlite3</text>
+<text x="748" y="191" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">shop data: products,</text>
+<text x="748" y="203" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">orders, customers, ...</text>
+<rect x="240" y="448" width="192" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="240" y="448" width="192" height="72" rx="6" fill="#ffffff" stroke="#0c0d12" stroke-width="1"/>
+<rect x="252" y="458" width="42" height="13" rx="2" fill="none" stroke="#0c0d12" stroke-width="0.8"/>
+<text x="273.0" y="467.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">TESTS</text>
+<text x="252" y="488" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Pytest + Playwright</text>
+<text x="252" y="503" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">185 tests, live_server,</text>
+<text x="252" y="515" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">test_db.sqlite3</text>
+<rect x="480" y="448" width="192" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="480" y="448" width="192" height="72" rx="6" fill="#ffffff" stroke="#0c0d12" stroke-width="1"/>
+<rect x="492" y="458" width="54" height="13" rx="2" fill="none" stroke="#0c0d12" stroke-width="0.8"/>
+<text x="519.0" y="467.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">COMMAND</text>
+<text x="492" y="488" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">record_test_run</text>
+<text x="492" y="503" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">results.json per run</text>
+<rect x="736" y="448" width="192" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="736" y="448" width="192" height="72" rx="6" fill="rgba(12,13,18,0.05)" stroke="#615d57" stroke-width="1"/>
+<rect x="748" y="458" width="42" height="13" rx="2" fill="none" stroke="#615d57" stroke-width="0.8"/>
+<text x="769.0" y="467.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">STORE</text>
+<text x="748" y="488" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">reports.sqlite3</text>
+<text x="748" y="503" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">TestCase, TestSummary,</text>
+<text x="748" y="515" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">TestExecution</text>
+<line x1="30" y1="568" x2="930" y2="568" stroke="rgba(12,13,18,0.12)" stroke-width="0.8"/>
+<text x="30" y="588" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" letter-spacing="0.14em">LEGEND</text>
+<rect x="110" y="579" width="24" height="12" rx="3" fill="rgba(0,116,57,0.08)" stroke="#007439" stroke-width="1"/>
+<text x="142" y="588" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Focal: business logic + AI</text>
+<rect x="315.6" y="579" width="24" height="12" rx="3" fill="#ffffff" stroke="#0c0d12" stroke-width="1"/>
+<text x="347.6" y="588" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Component</text>
+<rect x="426.0" y="579" width="24" height="12" rx="3" fill="rgba(12,13,18,0.05)" stroke="#615d57" stroke-width="1"/>
+<text x="458.0" y="588" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Data store</text>
+<rect x="542.0" y="579" width="24" height="12" rx="3" fill="rgba(97,93,87,0.10)" stroke="#615d57" stroke-width="1"/>
+<text x="574.0" y="588" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Browser</text>
+<line x1="641.2" y1="585" x2="665.2" y2="585" stroke="#615d57" stroke-width="1.2" stroke-dasharray="4,3"/>
+<text x="673.2" y="588" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Test time only</text>
+      </svg>
+    </div>
+    <p class="caption">Views stay thin: business rules live in the service layer (orders/services, catalog/services, messaging/services, reviews/services) and the recommender. Shop data and test results are separate SQLite files, so a test run can never touch shop data. The admin&#x27;s Test Reports page reads reports.sqlite3.</p>
+  </div>
+</body>
+</html>

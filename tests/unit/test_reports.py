@@ -81,3 +81,18 @@ def test_report_file_view_stays_inside_reports(admin_client, settings, tmp_path)
     ok = admin_client.get(reverse("adminpanel:test_report_file", args=["runs/report.html"]))
     assert ok.status_code == 200 and b"ok" in b"".join(ok.streaming_content)
     assert admin_client.get(reverse("adminpanel:test_report_file", args=["../secret.txt"])).status_code == 404
+
+
+def test_clean_test_reports_only_removes_unlinked_folders(settings, tmp_path, results):
+    from django.core.management import call_command
+
+    settings.REPORTS_DIR = tmp_path
+    for sub, name in (("runs", "20261111-100000"), ("runs", "20261111-090000"), ("screenshots", "20261111-100000"),
+                      ("screenshots", "20261111-080000")):
+        (tmp_path / sub / name).mkdir(parents=True)
+    record_run(results, CASES)  # links runs/20261111-100000 and screenshots/20261111-100000
+    call_command("clean_test_reports")  # dry run: nothing removed
+    assert len(list((tmp_path / "runs").iterdir())) == 2
+    call_command("clean_test_reports", "--delete")
+    assert [p.name for p in (tmp_path / "runs").iterdir()] == ["20261111-100000"]
+    assert [p.name for p in (tmp_path / "screenshots").iterdir()] == ["20261111-100000"]

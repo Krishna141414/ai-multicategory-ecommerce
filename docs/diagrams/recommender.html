@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How a recommendation is made · Velora</title>
+  <style>
+    /* System font mode (Diagram Design): no network, no external files; Velora's faces are used when installed. */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --paper: #f7f5f0; --ink: #0c0d12; --muted: #615d57; }
+    body { font-family: 'Bricolage Grotesque', system-ui, sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: 'Cascadia Mono', Consolas, ui-monospace, monospace; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+    h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 1.5rem; }
+    .caption { font-family: 'Source Serif 4', Georgia, serif; font-style: italic; color: var(--muted); max-width: 70ch; margin-top: 1rem; line-height: 1.5; }
+    svg { width: 100%; min-width: 880px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Data flow · Velora docs</p>
+    <h1>How a recommendation is made</h1>
+    <div class="diagram-container">
+      <svg viewBox="0 0 880 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="recommender-title recommender-desc">
+        <title id="recommender-title">How a recommendation is made</title>
+        <desc id="recommender-desc">Product text is cleaned, weighted and turned into TF-IDF vectors; cosine similarity between them drives similar products, personal picks and a popular fallback.</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#615d57"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#007439"/></marker>
+          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#385b7e"/></marker>
+          <marker id="arrow-open" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polyline points="0 0, 8 3, 0 6" fill="none" stroke="#615d57" stroke-width="1.2"/></marker>
+        </defs>
+        <rect width="100%" height="100%" fill="#f7f5f0"/>
+<rect x="24" y="96" width="832" height="112" rx="8" fill="rgba(12,13,18,0.02)" stroke="rgba(12,13,18,0.14)" stroke-width="0.8"/><rect x="36" y="100" width="256" height="12" rx="2" fill="#f7f5f0"/><text x="164.0" y="109" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">BUILT ONCE, CACHED UNTIL PRODUCTS CHANGE</text>
+<path d="M216,152 H248" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M424,152 H456" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M632,152 H664" fill="none" stroke="#007439" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+<path d="M752,192 V280" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M704,192 V224 Q704,232 696,232 H552 Q544,232 544,240 V280" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M424,316 H456" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M544,352 V416" fill="none" stroke="#615d57" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+<rect x="561.0" y="377" width="62.0" height="12" rx="2" fill="#f7f5f0"/><text x="592" y="386" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">NO HISTORY</text>
+<path d="M424,452 H456" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="40" y="120" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="40" y="120" width="176" height="72" rx="6" fill="rgba(12,13,18,0.05)" stroke="#615d57" stroke-width="1"/>
+<rect x="52" y="130" width="42" height="13" rx="2" fill="none" stroke="#615d57" stroke-width="0.8"/>
+<text x="73.0" y="139.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">STORE</text>
+<text x="52" y="160" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">ProductFeature</text>
+<text x="52" y="175" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">category, name, brand,</text>
+<text x="52" y="187" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">description, keywords</text>
+<rect x="248" y="120" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="248" y="120" width="176" height="72" rx="6" fill="#ffffff" stroke="#0c0d12" stroke-width="1"/>
+<rect x="260" y="130" width="48" height="13" rx="2" fill="none" stroke="#0c0d12" stroke-width="0.8"/>
+<text x="284.0" y="139.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">PANDAS</text>
+<text x="260" y="160" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Clean + combine</text>
+<text x="260" y="175" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">name x3, keywords x3,</text>
+<text x="260" y="187" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">category x2, brand, desc</text>
+<rect x="456" y="120" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="456" y="120" width="176" height="72" rx="6" fill="#ffffff" stroke="#0c0d12" stroke-width="1"/>
+<rect x="468" y="130" width="84" height="13" rx="2" fill="none" stroke="#0c0d12" stroke-width="0.8"/>
+<text x="510.0" y="139.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">SCIKIT-LEARN</text>
+<text x="468" y="160" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">TF-IDF vectors</text>
+<text x="468" y="175" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">words + 2-word phrases,</text>
+<text x="468" y="187" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">min_df=2</text>
+<rect x="664" y="120" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="664" y="120" width="176" height="72" rx="6" fill="rgba(0,116,57,0.08)" stroke="#007439" stroke-width="1"/>
+<rect x="676" y="130" width="42" height="13" rx="2" fill="none" stroke="#007439" stroke-width="0.8"/>
+<text x="697.0" y="139.5" fill="#007439" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">CACHE</text>
+<text x="676" y="160" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Cosine similarity</text>
+<text x="676" y="175" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">product x product matrix</text>
+<text x="676" y="187" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">get_engine()</text>
+<rect x="248" y="280" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="248" y="280" width="176" height="72" rx="6" fill="rgba(12,13,18,0.05)" stroke="#615d57" stroke-width="1"/>
+<rect x="260" y="290" width="42" height="13" rx="2" fill="none" stroke="#615d57" stroke-width="0.8"/>
+<text x="281.0" y="299.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">STORE</text>
+<text x="260" y="320" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Interactions</text>
+<text x="260" y="335" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">view 1, cart 2, buy 3,</text>
+<text x="260" y="347" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">halves every 14 days</text>
+<rect x="456" y="280" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="456" y="280" width="176" height="72" rx="6" fill="rgba(0,116,57,0.08)" stroke="#007439" stroke-width="1"/>
+<rect x="468" y="290" width="48" height="13" rx="2" fill="none" stroke="#007439" stroke-width="0.8"/>
+<text x="492.0" y="299.5" fill="#007439" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">OUTPUT</text>
+<text x="468" y="320" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Recommended for you</text>
+<text x="468" y="335" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">weighted average of</text>
+<text x="468" y="347" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">similarity to interests</text>
+<rect x="664" y="280" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="664" y="280" width="176" height="72" rx="6" fill="#ffffff" stroke="#0c0d12" stroke-width="1"/>
+<rect x="676" y="290" width="48" height="13" rx="2" fill="none" stroke="#0c0d12" stroke-width="0.8"/>
+<text x="700.0" y="299.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">OUTPUT</text>
+<text x="676" y="320" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Similar products</text>
+<text x="676" y="335" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">top 6, never itself</text>
+<rect x="248" y="416" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="248" y="416" width="176" height="72" rx="6" fill="rgba(12,13,18,0.05)" stroke="#615d57" stroke-width="1"/>
+<rect x="260" y="426" width="42" height="13" rx="2" fill="none" stroke="#615d57" stroke-width="0.8"/>
+<text x="281.0" y="435.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">STORE</text>
+<text x="260" y="456" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Orders + ratings</text>
+<text x="260" y="471" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">most ordered, best rated</text>
+<rect x="456" y="416" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="456" y="416" width="176" height="72" rx="6" fill="#ffffff" stroke="#0c0d12" stroke-width="1"/>
+<rect x="468" y="426" width="48" height="13" rx="2" fill="none" stroke="#0c0d12" stroke-width="0.8"/>
+<text x="492.0" y="435.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">OUTPUT</text>
+<text x="468" y="456" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Popular picks</text>
+<text x="468" y="471" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">new customers</text>
+<line x1="30" y1="528" x2="850" y2="528" stroke="rgba(12,13,18,0.12)" stroke-width="0.8"/>
+<text x="30" y="548" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" letter-spacing="0.14em">LEGEND</text>
+<rect x="110" y="539" width="24" height="12" rx="3" fill="rgba(0,116,57,0.08)" stroke="#007439" stroke-width="1"/>
+<text x="142" y="548" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Focal</text>
+<rect x="198.0" y="539" width="24" height="12" rx="3" fill="#ffffff" stroke="#0c0d12" stroke-width="1"/>
+<text x="230.0" y="548" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Step / output</text>
+<rect x="330.8" y="539" width="24" height="12" rx="3" fill="rgba(12,13,18,0.05)" stroke="#615d57" stroke-width="1"/>
+<text x="362.8" y="548" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Data read</text>
+<line x1="441.20000000000005" y1="545" x2="465.20000000000005" y2="545" stroke="#615d57" stroke-width="1.2" stroke-dasharray="4,3"/>
+<text x="473.20000000000005" y="548" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Fallback</text>
+      </svg>
+    </div>
+    <p class="caption">Only active, in-stock products are ever suggested: stock and status are read live on every call, so a product that sells out drops out at once. The AI Explainer page (/ai/explainer/) shows each of these steps for any product.</p>
+  </div>
+</body>
+</html>

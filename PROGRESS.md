@@ -4,14 +4,14 @@ Claude Code updates this after every step. A new session reads it first and cont
 
 ## Status
 - Current phase: Phase 11 — Documentation
-- Last completed step: Gate 10 passed
-- Next: 11.1 Diagrams (architecture, recommender data flow, checkout sequence) into docs/diagrams/
+- Last completed step: 11.3
+- Next: 11.4 docs/TEST_CASES.md
 
-## Next — Phase 11 (documentation for GitHub + the video)
-Owner requests: **Velora rename DONE**, **3 new photos DONE** (only the Thread & Thali analog watch still uses the placeholder).
-Demo data was changed by Gate 4 to 9 checks (order ORD-20261109-EVA6, Asha's earbuds rating 4, conversation CNV-B458ED28, earbuds in Asha's cart); run `python manage.py reset_demo --yes` before recording. The reports database holds two genuine runs (2 headless, 3 headed); run 1 was a deliberate-failure check and was deleted.
-Leftover folders in reports/runs/ and reports/screenshots/ from --no-record development runs (git-ignored, harmless) can be deleted by hand; an automated glob delete was blocked by a safety check.
-Phase 11 plan (BUILD_PROMPT 11.1–11.5): diagrams with the Diagram Design skill into docs/diagrams/ (architecture, recommender data flow, checkout transaction sequence); README.md (Humanizer pass; Windows setup: venv, install, .env, migrate both DBs, create_default_admin, seed_demo, build_recommender, runserver; default credentials warning = matrix R9.6; tests via run_tests.ps1); docs/CODE_MAP.md (every file, main functions, flows in order = matrix EXT-04); docs/TEST_CASES.md (catalogue table from tests/catalog.py + latest run summary); finish REQUIREMENTS_MATRIX.
+## Next — Phase 11 (documentation), continue at 11.4
+Done in Phase 11: 11.1 diagrams (docs/diagrams/*.html + .png, scripts/build_diagrams.py), 11.2 README.md (Humanizer pass), 11.3 docs/CODE_MAP.md.
+**Exact next step: 11.4** write docs/TEST_CASES.md: the catalogue table from tests/catalog.py (id, test_name, module, test_description, expected_result; 69 cases) + the latest run summary (run 3: 185 passed headed, 47.2 s; run 2: 185 passed headless, 39.7 s). Then 11.5: set matrix rows R9.6 (README "Change the default admin password" note) and EXT-04 (docs/CODE_MAP.md) to Implemented/Tested; commit "Phase 11". Then Phase 12 (BUILD_PROMPT: final verification and ship), including a fresh-clone setup check of the README steps.
+Report folders: `python manage.py clean_test_reports` lists them; kept = reports/runs/20261111-135635 (run 2) and 20261111-135915 (run 3); everything else in reports/runs and reports/screenshots is a leftover from --no-record dev runs. The owner will run `--delete` themselves.
+Demo data was changed by earlier gate checks; run `python manage.py reset_demo --yes` before recording.
 
 ## Log
 | Date | Step | Result / notes |
@@ -78,6 +78,9 @@ Phase 11 plan (BUILD_PROMPT 11.1–11.5): diagrams with the Diagram Design skill
 | 2026-11-11 | 10.9 Rules check | No time.sleep / fixed waits and no CSS/XPath locators (grep); single tests pass alone with -k; full suite passes in random order (seed 980318763); db.sqlite3 SHA-256 and row counts (110 products, 22 order rows, 4 customers) identical before and after a run. |
 | 2026-11-11 | 10.10 run_tests.ps1 | run_tests.ps1 -Suite all|unit|admin|customer|ai|e2e|negative, -Headed, -SlowMo (default 400), -Random, -NoRecord; prints where the report and admin page are. |
 | 2026-11-11 | Gate 10 | Full suite: 185 passed headless (run 2, 39.7 s) and headed (run 3, 47.2 s); HTML report + per-run copies; Test Reports page shows both runs (screenshots/phase10/). Matrix: every test-case row, REP-*, R7.*, R8.*, stack and R10.1-10.7 rows Tested; 2 rows left (R9.6 README credentials note, EXT-04 CODE_MAP) for Phase 11. |
+| 2026-11-11 | 11.1 Diagrams | Diagram Design skill (style tokens from Velora's design system, system-font mode so the files are self-contained and offline): docs/diagrams/architecture.html (9 nodes: browser, storefront apps, admin, service layer, recommender, two SQLite files, test suite, recorder), recommender.html (data flow, 9 nodes), checkout.html (sequence, 5 lifelines, alt success/failure). All pass the skill's self_check --offline; PNG exports for the README; generator kept in scripts/build_diagrams.py. |
+| 2026-11-11 | 11.2 README | README.md (new): what it does for customers / admin / AI / tests, screenshots, stack table, architecture diagram, Windows setup step by step (venv, pip, playwright chromium, .env, migrate both DBs, create_default_admin, seed_demo, build_recommender, sync_test_catalog, runserver), demo logins, default-password warning (matrix R9.6), reset_demo, run_tests.ps1 options, where reports go, clean_test_reports, project structure, docs index, limitations. Humanizer pass: bold labels removed, one heading fixed, opener rewritten. |
+| 2026-11-11 | 11.3 CODE_MAP | docs/CODE_MAP.md: how a request travels; every folder and file with its job and main functions/classes; each flow step by step (register/login, browse/search, product page + similar + quick view, cart → checkout → payment → email, admin management, recommendations, ratings/reviews/questions, test run → reports); suggested order for the video. Also: removed dead stubs testreports/urls.py and views.py; fixed ProductFeature docstring; added manage.py clean_test_reports (lists linked vs leftover report folders, --delete removes only leftovers) + unit test. |
 
 ## Pending owner actions / follow-ups
 - **Last placeholder:** "Thread & Thali Women's Minimalist Analog Watch". The owner's "smartwatch" photo was a smartwatch, so it went to "Orvia Fit Smartwatch with Calling" (replacing a weaker Openverse photo) instead of the analog watch listing. If Krishna adds an analog women's watch photo, import it the same way (scripts/import_manual_photos.py + brand_labels.py if plain, credits, seed_demo).

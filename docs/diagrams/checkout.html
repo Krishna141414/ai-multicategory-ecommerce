@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout and dummy payment · Velora</title>
+  <style>
+    /* System font mode (Diagram Design): no network, no external files; Velora's faces are used when installed. */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --paper: #f7f5f0; --ink: #0c0d12; --muted: #615d57; }
+    body { font-family: 'Bricolage Grotesque', system-ui, sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: 'Cascadia Mono', Consolas, ui-monospace, monospace; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+    h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 1.5rem; }
+    .caption { font-family: 'Source Serif 4', Georgia, serif; font-style: italic; color: var(--muted); max-width: 70ch; margin-top: 1rem; line-height: 1.5; }
+    svg { width: 100%; min-width: 1000px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Sequence · Velora docs</p>
+    <h1>Checkout and dummy payment</h1>
+    <div class="diagram-container">
+      <svg viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="checkout-title checkout-desc">
+        <title id="checkout-title">Checkout and dummy payment</title>
+        <desc id="checkout-desc">Placing an order reserves stock and creates pending order rows in one transaction; a simulated payment then confirms the order or leaves it pending for a retry.</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#615d57"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#007439"/></marker>
+          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#385b7e"/></marker>
+          <marker id="arrow-open" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polyline points="0 0, 8 3, 0 6" fill="none" stroke="#615d57" stroke-width="1.2"/></marker>
+        </defs>
+        <rect width="100%" height="100%" fill="#f7f5f0"/>
+<line x1="96" y1="112" x2="96" y2="708" stroke="rgba(12,13,18,0.25)" stroke-width="1" stroke-dasharray="3,4"/>
+<line x1="296" y1="112" x2="296" y2="708" stroke="rgba(12,13,18,0.25)" stroke-width="1" stroke-dasharray="3,4"/>
+<line x1="496" y1="112" x2="496" y2="708" stroke="rgba(12,13,18,0.25)" stroke-width="1" stroke-dasharray="3,4"/>
+<line x1="696" y1="112" x2="696" y2="708" stroke="rgba(12,13,18,0.25)" stroke-width="1" stroke-dasharray="3,4"/>
+<line x1="896" y1="112" x2="896" y2="708" stroke="rgba(12,13,18,0.25)" stroke-width="1" stroke-dasharray="3,4"/>
+<rect x="64" y="392" width="860" height="300" rx="4" fill="rgba(12,13,18,0.02)" stroke="rgba(12,13,18,0.22)" stroke-width="1"/>
+<rect x="64" y="392" width="40" height="16" rx="2" fill="#f7f5f0" stroke="rgba(12,13,18,0.22)" stroke-width="1"/>
+<text x="84" y="404" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">ALT</text>
+<text x="112" y="404" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">[payment succeeds]</text>
+<line x1="72" y1="592" x2="916" y2="592" stroke="rgba(12,13,18,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="76" y="608" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">[payment fails]</text>
+<path d="M100,152 H292" fill="none" stroke="#385b7e" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+<rect x="146.1" y="133" width="99.8" height="12" rx="2" fill="#f7f5f0"/><text x="196.0" y="142" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">PLACE ORDER + KEY</text>
+<path d="M300,192 H492" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="356.9" y="173" width="78.2" height="12" rx="2" fill="#f7f5f0"/><text x="396.0" y="182" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">SUBMIT_CART()</text>
+<path d="M500,232 H892" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="589.4" y="213" width="213.2" height="12" rx="2" fill="#f7f5f0"/><text x="696.0" y="222" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">LOCK, CHECK STOCK, DECREMENT, ADD ROWS</text>
+<path d="M892,272 H500" fill="none" stroke="#615d57" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+<rect x="643.4" y="253" width="105.2" height="12" rx="2" fill="#f7f5f0"/><text x="696.0" y="262" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">ORDER_ID (PENDING)</text>
+<path d="M292,312 H100" fill="none" stroke="#615d57" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+<rect x="140.7" y="293" width="110.6" height="12" rx="2" fill="#f7f5f0"/><text x="196.0" y="302" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">REDIRECT TO PAYMENT</text>
+<path d="M100,352 H292" fill="none" stroke="#385b7e" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+<rect x="135.3" y="333" width="121.4" height="12" rx="2" fill="#f7f5f0"/><text x="196.0" y="342" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">PAY: METHOD + OUTCOME</text>
+<path d="M300,436 H692" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="478.5" y="417" width="35.0" height="12" rx="2" fill="#f7f5f0"/><text x="496.0" y="426" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">PAY()</text>
+<path d="M700,476 H892" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="702.9" y="457" width="186.2" height="12" rx="2" fill="#f7f5f0"/><text x="796.0" y="466" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">PAYMENT OK, CONFIRMED, CLEAR CART</text>
+<path d="M292,516 H100" fill="none" stroke="#007439" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-accent)"/>
+<rect x="146.1" y="497" width="99.8" height="12" rx="2" fill="#f7f5f0"/><text x="196.0" y="506" fill="#007439" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">CONFIRMATION PAGE</text>
+<path d="M692,564 H100" fill="none" stroke="#615d57" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-open)"/>
+<rect x="329.9" y="545" width="132.2" height="12" rx="2" fill="#f7f5f0"/><text x="396.0" y="554" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">ORDER EMAIL (ON COMMIT)</text>
+<path d="M700,636 H892" fill="none" stroke="#615d57" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="713.7" y="617" width="164.6" height="12" rx="2" fill="#f7f5f0"/><text x="796.0" y="626" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">PAYMENT FAILED, ORDER PENDING</text>
+<path d="M292,676 H100" fill="none" stroke="#615d57" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+<rect x="167.7" y="657" width="56.6" height="12" rx="2" fill="#f7f5f0"/><text x="196.0" y="666" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">TRY AGAIN</text>
+<rect x="8" y="40" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="8" y="40" width="176" height="72" rx="6" fill="rgba(97,93,87,0.10)" stroke="#615d57" stroke-width="1"/>
+<rect x="20" y="50" width="42" height="13" rx="2" fill="none" stroke="#615d57" stroke-width="0.8"/>
+<text x="41.0" y="59.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">INPUT</text>
+<text x="20" y="80" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">Customer</text>
+<text x="20" y="95" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">browser</text>
+<rect x="208" y="40" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="208" y="40" width="176" height="72" rx="6" fill="#ffffff" stroke="#0c0d12" stroke-width="1"/>
+<rect x="220" y="50" width="42" height="13" rx="2" fill="none" stroke="#0c0d12" stroke-width="0.8"/>
+<text x="241.0" y="59.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">VIEWS</text>
+<text x="220" y="80" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">orders/views.py</text>
+<text x="220" y="95" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">checkout, payment</text>
+<rect x="408" y="40" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="408" y="40" width="176" height="72" rx="6" fill="rgba(0,116,57,0.08)" stroke="#007439" stroke-width="1"/>
+<rect x="420" y="50" width="54" height="13" rx="2" fill="none" stroke="#007439" stroke-width="0.8"/>
+<text x="447.0" y="59.5" fill="#007439" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">SERVICE</text>
+<text x="420" y="80" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">submit_cart()</text>
+<text x="420" y="95" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">services/checkout.py</text>
+<rect x="608" y="40" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="608" y="40" width="176" height="72" rx="6" fill="#ffffff" stroke="#0c0d12" stroke-width="1"/>
+<rect x="620" y="50" width="54" height="13" rx="2" fill="none" stroke="#0c0d12" stroke-width="0.8"/>
+<text x="647.0" y="59.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">SERVICE</text>
+<text x="620" y="80" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">pay()</text>
+<text x="620" y="95" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">services/payment.py</text>
+<rect x="808" y="40" width="176" height="72" rx="6" fill="#f7f5f0"/>
+<rect x="808" y="40" width="176" height="72" rx="6" fill="rgba(12,13,18,0.05)" stroke="#615d57" stroke-width="1"/>
+<rect x="820" y="50" width="42" height="13" rx="2" fill="none" stroke="#615d57" stroke-width="0.8"/>
+<text x="841.0" y="59.5" fill="#615d57" font-size="7" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">STORE</text>
+<text x="820" y="80" fill="#0c0d12" font-size="12.5" font-weight="600" font-family="'Bricolage Grotesque', system-ui, sans-serif">db.sqlite3</text>
+<text x="820" y="95" fill="#615d57" font-size="9" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace">one transaction</text>
+<line x1="30" y1="736" x2="970" y2="736" stroke="rgba(12,13,18,0.12)" stroke-width="0.8"/>
+<text x="30" y="756" fill="#615d57" font-size="8" font-family="'Cascadia Mono', Consolas, ui-monospace, monospace" letter-spacing="0.14em">LEGEND</text>
+<line x1="110" y1="753" x2="134" y2="753" stroke="#007439" stroke-width="1.2"/>
+<text x="142" y="756" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Headline success</text>
+<line x1="259.6" y1="753" x2="283.6" y2="753" stroke="#615d57" stroke-width="1.2"/>
+<text x="291.6" y="756" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Call</text>
+<line x1="342.0" y1="753" x2="366.0" y2="753" stroke="#615d57" stroke-width="1.2" stroke-dasharray="4,3"/>
+<text x="374.0" y="756" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Return / async</text>
+<rect x="480.4" y="747" width="24" height="12" rx="3" fill="rgba(0,116,57,0.08)" stroke="#007439" stroke-width="1"/>
+<text x="512.4" y="756" fill="#0c0d12" font-size="9.5" font-family="'Bricolage Grotesque', system-ui, sans-serif">Focal step</text>
+      </svg>
+    </div>
+    <p class="caption">The checkout key stops a double click from creating a second order. Cart lines are cleared only after a successful payment, and the order email is sent only once that transaction has committed. An admin cancelling an order puts the stock back.</p>
+  </div>
+</body>
+</html>
