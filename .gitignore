@@ -28,3 +28,6 @@ test_reports.sqlite3
 media/manual_photos/*
 !media/manual_photos/README.md
 .playwright-mcp/
+
+# Hallmark linter output (raw audit runs; the summary is in docs/audits/)
+.hallmark/after.txt
