@@ -1,7 +1,7 @@
 {% url 'catalog:product_list' as products_url %}{% url 'orders:cart' as cart_url %}{% url 'orders:history' as orders_url %}{% url 'messaging:list' as queries_url %}{% url 'recommender:recommended' as recs_url %}
 <header class="site-header" data-testid="site-header">
   <div class="container header-row">
-    <a class="wordmark" href="{% url 'core:home' %}" aria-label="{{ STORE_NAME }} home" data-testid="home-link">{{ STORE_NAME }}</a>
+    <a class="wordmark" translate="no" href="{% url 'core:home' %}" aria-label="{{ STORE_NAME }} home" data-testid="home-link">{{ STORE_NAME }}</a>
 
     <form class="header-search" role="search" action="{{ products_url|default:'/products/' }}" method="get" data-testid="header-search">
       <label for="header-q" class="visually-hidden">Search products</label>

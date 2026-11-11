@@ -10,7 +10,7 @@
 
 <form class="toolbar" method="get" role="search">
   <label class="visually-hidden" for="q-q">Search queries</label>
-  <input id="q-q" class="form-control" type="search" name="q" value="{{ q }}" placeholder="Subject, customer or conversation ID">
+  <input id="q-q" class="form-control" type="search" name="q" value="{{ q }}" placeholder="Subject, customer or conversation ID…" autocomplete="off">
   <button class="btn btn-outline" type="submit" data-no-spinner>Search</button>
   {% if q %}<a class="btn btn-text" href="{% url 'adminpanel:queries' %}">Clear</a>{% endif %}
 </form>

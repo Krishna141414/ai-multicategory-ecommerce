@@ -89,7 +89,7 @@
 - [x] 9.3 Micro-interactions: add-to-cart feedback (button state + cart badge bump), toasts, skeletons where content loads, hover states, subtle scroll reveals (GSAP/ScrollTrigger, `gsap-performance` rules, `prefers-reduced-motion` respected). Smooth scroll with Lenis only if it doesn't fight the UI.
 - [x] 9.4 Admin UI: clean dashboard look consistent with the brand, readable tables, status badges, confirmation dialogs.
 - [x] 9.5 **Playwright MCP sweep**: screenshot EVERY page at 1440 px and 390 px, logged-out / customer / admin. Fix overlaps, overflow, broken images, misalignment.
-- [ ] 9.6 **Hallmark audit** on all pages → fix findings. Then **Vercel Web Design Guidelines** audit → fix findings (focus states, labels, contrast, forms, motion, performance). Save both audit summaries to `docs/audits/`.
+- [x] 9.6 **Hallmark audit** on all pages → fix findings. Then **Vercel Web Design Guidelines** audit → fix findings (focus states, labels, contrast, forms, motion, performance). Save both audit summaries to `docs/audits/`.
 - **Gate 9:** no page looks like a stock Bootstrap template; screenshots saved to `screenshots/`; commit.
 
 ## Phase 10 — Playwright + Pytest automation suite

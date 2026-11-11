@@ -273,7 +273,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 ## J. Must-have extras (CLAUDE.md §2)
 | ID | Item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| EXT-01 | Sponsored / featured deals carousel with hover quick-view card; admin sponsored toggle | Admin sponsored toggle: `views/products.product_toggle_sponsored` (store carousel in Phase 9.2) |  | Planned |
+| EXT-01 | Sponsored / featured deals carousel with hover quick-view card; admin sponsored toggle | `templates/core/home.html` (Sponsored deals), `static/js/sponsored.js` (drift, pause on hover/focus/quick view, prev/next, pause button, reduced-motion rail), `static/js/quickview.js` + `catalog/views.quick_view` (hover quick-view card: image, price, rating, stock, Add to cart), admin toggle `adminpanel/views/products.product_toggle_sponsored` | `test_recommender_views.py::test_home_sections`; browser check Phase 9 (screenshots/phase9/home-quickview-1440.jpg); Playwright test in Phase 10 | Implemented |
 | EXT-02 | AI Explainer page (step-by-step, animated, Next/Back) | `recommender/views.explainer`, `templates/recommender/explainer.html`, `static/js/explainer.js` (GSAP, Back/Next, step buttons, arrow keys, Play/Pause, reduced motion) | `test_recommender_views.py`::test_explainer_page_is_public_and_follows_the_choice, ::test_explainer_json | Tested |
 | EXT-03 | Admin Test Reports page | | | Planned |
 | EXT-04 | docs/CODE_MAP.md | | | Planned |

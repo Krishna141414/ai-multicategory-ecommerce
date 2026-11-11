@@ -23,7 +23,8 @@
   /* Layout */
   --container: 1440px; --gutter: 64px; --gap-columns: 32px;
   --section-gap-s: 96px; --section-gap: 120px; --section-gap-l: 160px;
-  --header-h: 72px;
+  --header-h: 72px; --tabbar-h: 64px;
+  --mask-solid: #000; /* only the alpha matters: the opaque stop of edge-fade masks */
 
   /* Layers */
   --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;

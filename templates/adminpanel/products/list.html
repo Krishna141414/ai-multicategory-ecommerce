@@ -10,7 +10,7 @@
 
 <form class="toolbar toolbar--filters" method="get" role="search" data-testid="product-filters">
   <label class="visually-hidden" for="p-q">Search products</label>
-  <input id="p-q" class="form-control" type="search" name="q" value="{{ filters.q|default:'' }}" placeholder="Name, brand or keyword">
+  <input id="p-q" class="form-control" type="search" name="q" value="{{ filters.q|default:'' }}" placeholder="Name, brand or keyword…" autocomplete="off">
   <label class="visually-hidden" for="p-cat">Category</label>
   <select id="p-cat" class="form-select" name="category">
     <option value="">All categories</option>

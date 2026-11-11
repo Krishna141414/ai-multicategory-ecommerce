@@ -9,7 +9,7 @@
 {% url 'adminpanel:categories' as categories_url %}{% url 'adminpanel:products' as products_url %}{% url 'adminpanel:customers' as customers_url %}{% url 'adminpanel:orders' as orders_url %}{% url 'adminpanel:reviews' as reviews_url %}{% url 'adminpanel:queries' as queries_url %}{% url 'adminpanel:test_reports' as reports_url %}
 <div class="admin-shell">
   <aside class="admin-sidebar collapse d-lg-flex" id="admin-sidebar" aria-label="Admin sections">
-    <a class="admin-brand" href="{% url 'adminpanel:dashboard' %}">{{ STORE_NAME }} <span>admin</span></a>
+    <a class="admin-brand" href="{% url 'adminpanel:dashboard' %}"><b class="admin-brand-name" translate="no">{{ STORE_NAME }}</b> <span>admin</span></a>
     <nav class="admin-nav" data-testid="admin-nav">
       <a href="{% url 'adminpanel:dashboard' %}" {% if section == 'dashboard' %}aria-current="page"{% endif %} data-testid="admin-nav-dashboard"><i class="bi bi-grid-1x2" aria-hidden="true"></i>Dashboard</a>
       {% if categories_url %}<a href="{{ categories_url }}" {% if section == 'categories' %}aria-current="page"{% endif %} data-testid="admin-nav-categories"><i class="bi bi-tags" aria-hidden="true"></i>Categories</a>{% endif %}

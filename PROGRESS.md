@@ -3,14 +3,15 @@
 Claude Code updates this after every step. A new session reads it first and continues from "Next".
 
 ## Status
-- Current phase: Phase 9 — UI design pass & polish
-- Last completed step: 9.5
-- Next: 9.6
+- Current phase: Phase 10 — Playwright + Pytest automation suite
+- Last completed step: Gate 9 passed
+- Next: 10.1 tests/ structure, conftest (live_server, page fixtures, factories, screenshot on failure, results recorder), pytest.ini markers + pytest-html
 
-## Next — Phase 9 (UI design pass & polish)
+## Next — Phase 10 (Playwright + Pytest automation suite)
 Owner requests: **Velora rename DONE**, **3 new photos DONE** (only the Thread & Thali analog watch still uses the placeholder).
-Demo data was changed by Gate 4, 6, 7 and 8 checks (order ORD-20261109-EVA6, Asha's earbuds rating 4, conversation CNV-B458ED28); run `python manage.py reset_demo --yes` before recording.
-Phase 9 plan (docs/plans/implementation-plan.md Phase 9 + docs/plans/pages.md): 9.1 mega menu / category bar (currently overflows at 1440 px: "Mobile Phon…"); 9.2 real homepage in `templates/core/home.html` (hero, sponsored strip `static/js/sponsored.js` with hover/focus/tap quick view and pause on hover, categories, the existing "Recommended for you" shelf from `core/views.home`, best sellers, new arrivals); 9.3 micro-interactions + subtle scroll reveals (GSAP ScrollTrigger, reduced motion); 9.4 admin polish; 9.5 Playwright MCP sweep of every page at 1440/390; 9.6 Hallmark + Vercel audits into docs/audits/. Known: Bootstrap reboot enables smooth scrolling, which makes MCP screenshots right after a jump come out blank; wait or scroll with behavior 'instant'.
+Demo data was changed by Gate 4, 6, 7, 8 and 9 checks (order ORD-20261109-EVA6, Asha's earbuds rating 4, conversation CNV-B458ED28, earbuds in Asha's cart from the quick-view test); run `python manage.py reset_demo --yes` before recording.
+Phase 10 plan (docs/plans/implementation-plan.md Phase 10): pytest.ini already has the markers (admin, customer, ai, e2e, unit, negative, tc(id)); add `tests/conftest.py` browser fixtures on pytest-django `live_server` (separate test DB, `DJANGO_ALLOW_ASYNC_UNSAFE=true`), factories, screenshot-on-failure into `reports/screenshots/` + pytest-html extra, results recorder → `reports/last_run.json` → `manage.py record_test_run` (reports DB); `tests/catalog.py` (TEST_CASES id → name, module, description, expected) synced to TestCase; page objects in `tests/pages/`; tests per BUILD_PROMPT 10.3–10.7 (22 admin, 27 customer, 8+ negative, 8 AI, 4 E2E); Admin "Test Reports" page; `run_tests.ps1`.
+Notes for the browser tests: the sponsored strip drifts, so hover the strip (`.sponsored-viewport`) before a card, or run with `reduced_motion="reduce"` (manual rail). Quick view: `[data-testid=quick-view-button]` / `sponsored-quick-view`, panel `quick-view-panel`, add `quick-view-add`. Playwright MCP may be unavailable; the scratch screenshot helper uses the project's Playwright.
 
 ## Log
 | Date | Step | Result / notes |
@@ -64,6 +65,8 @@ Phase 9 plan (docs/plans/implementation-plan.md Phase 9 + docs/plans/pages.md): 
 | 2026-11-11 | 9.3 Micro-interactions | static/js/motion.js: ScrollTrigger.batch reveals on [data-reveal] (opacity + 12 px, 600 ms, 40 ms stagger, once; storefront only; nothing hidden from AT; skipped under reduced motion). Existing: add-to-cart button state + badge bump, toasts, skeletons (quick view loading), hover states. Lenis not used (fights scroll-padding and focus scrolling). |
 | 2026-11-11 | 9.4 Admin UI | Admin checked at 1440/390. Fixed phone overflow on list pages: grid columns now minmax(0, 1fr) (shell, content, two-column grids, detail layout) and .table-responsive is the containing block for absolutely positioned bits in cells (they escaped the scroll box and widened the page by up to 616 px). |
 | 2026-11-11 | 9.5 Screenshot sweep | Playwright MCP was unavailable this session (connection timeout), so the sweep ran with the project's Playwright (Python) via a scratch script: 40 pages x 2 widths (logged out 11, customer 14, admin 15), full-page shots in screenshots/sweep/. All 200 (404/403 pages as intended), no console errors, no horizontal overflow after the admin fix. |
+| 2026-11-11 | 9.6 Audits | docs/audits/hallmark-audit.md (sloplint on CSS, templates and 5 live routes: 132 FAIL first run, mostly per-template false positives; real ones fixed: 100vw widths, mask colour literals, eyebrows, tracked labels, quick-view button hidden at rest, raw spacing, head wrapping; hero lead cut to one sentence; stylesheets now 1 FAIL = documented false positive) and docs/audits/web-interface-guidelines.md (fixed: outline none on Explainer heads, theme-color, touch-action + tap highlight, overscroll containment, translate=no on the brand, spellcheck off on email/username, admin search placeholders). Full sweep re-run: 80 shots clean. |
+| 2026-11-11 | Gate 9 | No page looks like stock Bootstrap: editorial system everywhere, mega menu, homepage with the sponsored strip + quick view, scroll reveals, admin fixed on phones. Screens in screenshots/phase9/ and screenshots/sweep/ (40 pages x 2 widths). 109 unit tests pass. |
 
 ## Pending owner actions / follow-ups
 - **Last placeholder:** "Thread & Thali Women's Minimalist Analog Watch". The owner's "smartwatch" photo was a smartwatch, so it went to "Orvia Fit Smartwatch with Calling" (replacing a weaker Openverse photo) instead of the analog watch listing. If Krishna adds an analog women's watch photo, import it the same way (scripts/import_manual_photos.py + brand_labels.py if plain, credits, seed_demo).

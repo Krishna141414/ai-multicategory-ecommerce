@@ -9,7 +9,7 @@
 {% block content %}
 <div class="admin-login">
   <div class="admin-login-card opens">
-    <p class="admin-brand">{{ STORE_NAME }} <span>admin</span></p>
+    <p class="admin-brand"><b class="admin-brand-name" translate="no">{{ STORE_NAME }}</b> <span>admin</span></p>
     <h1>Store admin sign in</h1>
     <p class="muted">For store staff. Shoppers sign in on the <a href="{% url 'accounts:login' %}">customer sign-in page</a>.</p>
     <form method="post" novalidate data-testid="admin-login-form">

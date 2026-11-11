@@ -1,6 +1,7 @@
 /* Hallmark · shape: app screen · genre: editorial · theme: Editorial (deal 2/3, seed multi-category-indian-online-store-e661·2b0b2b23·2026-11-07·r0) · scope: app
  * nav: side rail (8 destinations) · signature: the orders ledger grouped by order id · v2.0.0 */
 /* Hallmark · pre-emit critique: P2 H- E2 S2 R2 V2 · weakest: none blocking; density from tables, not cards */
+/* waive 56: .admin-sidebar and .admin-topbar are both sticky, but side by side (rail in column 1, top bar in column 2), never stacked */
 
 /* App type scale (1.2 ratio, no fluid heads) */
 body.admin { --text-display-s: 1.75rem; --text-section: 1.4375rem; --text-title: 1.1875rem; --control-h: var(--control-h-admin); --input-h: 44px;
@@ -13,6 +14,7 @@ body.admin { --text-display-s: 1.75rem; --text-section: 1.4375rem; --text-title:
   position: sticky; top: 0; height: 100vh; }
 .admin-brand { font-family: var(--font-display); font-weight: 800; font-variation-settings: var(--wordmark-axes); font-size: 1.625rem; letter-spacing: var(--wordmark-tracking); line-height: 1;
   color: var(--color-paper); text-decoration: none; margin-bottom: var(--space-xl); display: inline-block; }
+.admin-brand-name { font-weight: inherit; }
 .admin-brand span { font-family: var(--font-ui); font-variation-settings: normal; font-weight: 500; font-size: var(--text-sm); color: var(--color-rule-2); margin-left: var(--space-2xs); }
 .admin-nav { display: grid; gap: var(--space-3xs); }
 .admin-nav a { display: flex; align-items: center; gap: var(--space-sm); min-height: 40px; padding: 0 var(--space-sm); color: var(--color-paper-3); text-decoration: none;
@@ -148,7 +150,7 @@ body.admin { --text-display-s: 1.75rem; --text-section: 1.4375rem; --text-title:
 .inbox-row a { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto; grid-template-areas: "subject meta date" "last last date";
   gap: var(--space-2xs) var(--space-lg); padding: var(--space-md) var(--space-2xs); border-bottom: var(--rule-hair) solid var(--color-rule); text-decoration: none; }
 .inbox-row a:hover { background: var(--color-paper-2); }
-.inbox-row.is-unread a { border-left: 3px solid var(--color-warn); padding-left: var(--space-sm); }
+.inbox-row.is-unread .inbox-subject::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: var(--space-xs); background: var(--color-accent); vertical-align: middle; }
 .inbox-subject { grid-area: subject; color: var(--color-ink); }
 .inbox-meta { grid-area: meta; font-size: var(--text-sm); }
 .inbox-last { grid-area: last; font-size: var(--text-sm); }

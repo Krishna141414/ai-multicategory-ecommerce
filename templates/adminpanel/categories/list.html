@@ -10,7 +10,7 @@
 
 <form class="toolbar" method="get" role="search" data-testid="category-search">
   <label class="visually-hidden" for="cat-q">Search categories</label>
-  <input id="cat-q" class="form-control" type="search" name="q" value="{{ q }}" placeholder="Search by name or description">
+  <input id="cat-q" class="form-control" type="search" name="q" value="{{ q }}" placeholder="Search by name or description…" autocomplete="off">
   <button class="btn btn-outline" type="submit" data-no-spinner>Search</button>
   {% if q %}<a class="btn btn-text" href="{% url 'adminpanel:categories' %}">Clear</a>{% endif %}
 </form>

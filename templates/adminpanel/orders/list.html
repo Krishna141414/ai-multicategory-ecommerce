@@ -15,7 +15,7 @@
 <form class="toolbar" method="get" role="search">
   {% if status %}<input type="hidden" name="status" value="{{ status }}">{% endif %}
   <label class="visually-hidden" for="o-q">Search orders</label>
-  <input id="o-q" class="form-control" type="search" name="q" value="{{ q }}" placeholder="Order ID, customer or product">
+  <input id="o-q" class="form-control" type="search" name="q" value="{{ q }}" placeholder="Order ID, customer or product…" autocomplete="off">
   <button class="btn btn-outline" type="submit" data-no-spinner>Search</button>
   {% if q %}<a class="btn btn-text" href="{% url 'adminpanel:orders' %}{% if status %}?status={{ status }}{% endif %}">Clear</a>{% endif %}
 </form>

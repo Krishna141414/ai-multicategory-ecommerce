@@ -96,7 +96,7 @@ Where motion is used:
 9. **Forms & cart:** quantity changes update line and order totals with a short number tween; removed cart rows collapse (opacity + translate, then height via a class swap); inline errors fade in.
 10. **AI Explainer:** step transitions (slide + fade 420ms); TF-IDF weight bars grow from 0 with `scaleX` and a 40ms stagger; similarity rows re-order with GSAP Flip; Next/Back/Play/Pause controls.
 11. **Checkout progress:** the step indicator fills to the current step; payment result pages draw their check/cross icon once.
-12. **Lenis smooth scrolling:** storefront pages only, fine pointers only, synced with ScrollTrigger via `gsap.ticker`; off on admin pages and under reduced motion.
+12. ~~**Lenis smooth scrolling**~~ **not used (Phase 9):** it fought the sticky-header and tab-bar scroll padding, keyboard focus scrolling and hash links; native scrolling is kept (DECISIONS, Design pass). The vendored file stays in `static/vendor/` unused.
 
 Admin screens: state motion only (hover, focus, toasts, dropdowns, skeletons). No reveals on admin tables.
 

@@ -39,7 +39,7 @@ class RegistrationForm(forms.Form):
 
     name = forms.CharField(label="Full name", max_length=120,
                            widget=forms.TextInput(attrs={"autocomplete": "name"}))
-    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"autocomplete": "email"}))
+    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"autocomplete": "email", "spellcheck": "false"}))
     mobile_number = forms.CharField(label="Mobile number", max_length=16,
                                     widget=forms.TextInput(attrs={"autocomplete": "tel", "inputmode": "tel"}),
                                     help_text="10 digits, for delivery updates.")
@@ -89,7 +89,7 @@ class RegistrationForm(forms.Form):
 class CustomerLoginForm(forms.Form):
     """Brief: Login (email, password)."""
 
-    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"autocomplete": "email", "autofocus": True}))
+    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"autocomplete": "email", "spellcheck": "false", "autofocus": True}))
     password = forms.CharField(label="Password", strip=False,
                                widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}))
 
@@ -112,7 +112,7 @@ class AdminLoginForm(forms.Form):
     """Brief: Admin Login (username, password). Only staff accounts may sign in here."""
 
     username = forms.CharField(label="Username", max_length=150,
-                               widget=forms.TextInput(attrs={"autocomplete": "username", "autofocus": True}))
+                               widget=forms.TextInput(attrs={"autocomplete": "username", "spellcheck": "false", "autocapitalize": "none", "autofocus": True}))
     password = forms.CharField(label="Password", strip=False,
                                widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}))
 
@@ -141,7 +141,7 @@ class ProfileForm(forms.ModelForm):
         labels = {"name": "Full name", "mobile_number": "Mobile number", "address": "Delivery address"}
         widgets = {
             "name": forms.TextInput(attrs={"autocomplete": "name"}),
-            "email": forms.EmailInput(attrs={"autocomplete": "email"}),
+            "email": forms.EmailInput(attrs={"autocomplete": "email", "spellcheck": "false"}),
             "mobile_number": forms.TextInput(attrs={"autocomplete": "tel", "inputmode": "tel"}),
             "address": forms.Textarea(attrs={"rows": 3, "autocomplete": "street-address"}),
         }

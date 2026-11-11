@@ -64,3 +64,13 @@ Short log of design and architecture choices (decision → reason). Newest at th
 - **Similar-product reasons name the shared terms ("Similar to X: wireless, bluetooth"); personal reasons name the strongest source ("Because you bought X").** → Each pick explains itself in a few words, which is also what the video needs.
 - **Personalised shelves are topped up with popular products when too few similar ones are available.** → The shelf never looks half empty; the topped-up cards are labelled "Popularity", not "Similarity".
 - **AI Explainer is public; the personal panel only appears for signed-in customers.** → Anyone can see how the engine works; personal data stays personal.
+
+## Design pass (Phase 9)
+- **"All categories" mega menu + a scrollable category rail with an edge fade.** → Ten full category names don't fit one row at 1440 px; the brief's names can't be shortened. The mega menu shows every aisle with a few products; on phones the Categories tab does the job, so the toggle is hidden there.
+- **One quick-view component for the whole store, fed by a small HTML endpoint (`/product/<id>/quick-view/`).** → Sponsored strip cards open it on hover (150 ms intent), every product card has a "Quick view" button (click, tap, Enter). One panel, one template, cached per product, instead of a hidden copy of the card in every grid cell.
+- **The sponsored strip drifts with the GSAP ticker and loops with inert, aria-hidden clones.** → Smooth, pausable and cheap; the copies are invisible to keyboards and screen readers. Under reduced motion it is a normal scrollable rail with the same buttons.
+- **Lenis smooth scrolling is not used.** → CLAUDE.md allows it "only if it doesn't fight the UI"; it would fight `scroll-padding` (sticky header and phone tab bar), keyboard focus scrolling and the hash links on product pages. Native scrolling keeps all of those working.
+- **Scroll reveals animate opacity, never visibility.** → Content that hasn't revealed yet is still read by screen readers, found by find-in-page and clickable in tests.
+- **Home shows "Recommended for you" only to signed-in customers; everyone sees Best sellers.** → For a guest the personal shelf would just repeat the best sellers.
+- **Screenshot sweeps run with the project's Playwright (Python) when the Playwright MCP server is unavailable.** → Same browser engine, scripted, repeatable; the output is in `screenshots/sweep/`.
+- **Audit outcome:** Hallmark audit and Web Interface Guidelines audit in `docs/audits/`; every finding fixed or kept with its reason.

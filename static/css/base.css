@@ -173,7 +173,7 @@ textarea.form-control { min-height: 112px; padding-block: var(--space-sm); }
 
 /* Toasts (bottom-right, slide + fade) */
 .toast-stack { position: fixed; right: var(--space-lg); bottom: var(--space-lg); z-index: var(--z-toast); display: grid; gap: var(--space-xs);
-  width: min(380px, calc(100vw - 2 * var(--space-md))); }
+  width: min(380px, calc(100% - 2 * var(--space-md))); }
 .toast-item { display: grid; grid-template-columns: auto 1fr auto; gap: var(--space-sm); align-items: start; padding: var(--space-sm) var(--space-md);
   background: var(--color-paper); color: var(--color-ink); border: var(--rule-hair) solid var(--color-ink); border-left-width: var(--rule-heavy);
   box-shadow: var(--shadow-pop); animation: toast-in var(--dur-short) var(--ease-out); }
@@ -233,7 +233,7 @@ textarea.form-control { min-height: 112px; padding-block: var(--space-sm); }
 .reply-form { border-top: var(--rule-heavy) solid var(--color-ink); padding-top: var(--space-md); }
 
 /* Confirm dialog (destructive actions) */
-.confirm-dialog { border: var(--rule-hair) solid var(--color-ink); border-top-width: var(--rule-heavy); padding: var(--space-lg); width: min(440px, calc(100vw - 32px));
+.confirm-dialog { border: var(--rule-hair) solid var(--color-ink); border-top-width: var(--rule-heavy); padding: var(--space-lg); width: min(440px, calc(100% - 2 * var(--space-md)));
   background: var(--color-paper); color: var(--color-ink); box-shadow: var(--shadow-pop); }
 .confirm-dialog::backdrop { background: var(--color-scrim); }
 .confirm-dialog[open] { animation: fade-up var(--dur-short) var(--ease-out); }
@@ -252,8 +252,20 @@ textarea.form-control { min-height: 112px; padding-block: var(--space-sm); }
 .btn-block { margin-top: var(--space-md); }
 .form-field + .btn, .form-field + .btn-block { margin-top: var(--space-md); }
 @media (max-width: 47.99rem) { .facts { grid-template-columns: 1fr; } .facts dt { padding-bottom: 0; border-bottom: 0; } }
-.form-select { padding-right: 2.5rem; background-position: right var(--space-sm) center; }
+.form-select { padding-right: var(--space-xl); background-position: right var(--space-sm) center; }
 
 /* Tables that scroll sideways on small screens: be the containing block for any absolutely
    positioned bits inside cells (e.g. .visually-hidden labels), or they escape the scroll box and widen the page. */
 .table-responsive { position: relative; }
+
+/* Long product and category names never push a heading out of its column */
+h1, h2, h3, .qv-name { overflow-wrap: break-word; min-width: 0; }
+
+/* Pressed state for the small controls that are not .btn */
+.icon-btn:active, .qv-trigger:active, .mega-toggle:active, .header-link:active, .category-rail a:active, .xp-nav button:active { transform: translateY(1px); }
+
+/* Touch: no double-tap zoom delay on controls; a quiet ink tint instead of the default blue flash */
+a, button, input, select, textarea, label, summary { touch-action: manipulation; }
+html { -webkit-tap-highlight-color: color-mix(in oklab, var(--color-ink) 12%, transparent); }
+/* Scrolling inside a floating layer never scrolls the page behind it */
+.qv-panel, .mega-menu, .dropdown-menu, .modal-body, .confirm-dialog { overscroll-behavior: contain; }

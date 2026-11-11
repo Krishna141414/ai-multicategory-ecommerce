@@ -1,0 +1,343 @@
+templates\403.html
+  FAIL 26a :1 no :focus-visible styling anywhere | fix: A focus ring at 3:1 or better, instant
+  FAIL 34 :1 no overflow-x: clip on html and body | fix: overflow-x: clip on both html and body
+  REFLEX 26b :1 no :active styling anywhere | fix: All eight states; guard: not a form control, no aria-disabled anywhere
+  WARN F1 :1 straight quote in prose x2 (first: {% extends "base.html" %} {) | fix: Use typographic quotes: “ ” ’
+templates\404.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  WARN F1 :1 straight quote in prose x2 (first: {% extends "base.html" %} {)
+templates\accounts\_account_nav.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+templates\accounts\login.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x8 (first: {% extends "base.html" %})
+templates\accounts\profile.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  WARN F1 :1 straight quote in prose x8 (first: {% extends "base.html" %} {)
+templates\accounts\profile_edit.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x14 (first: {% extends "base.html" %} {)
+templates\accounts\register.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 58 :9 hero paragraph runs 16 words | fix: One sentence, twelve words or fewer
+  WARN F1 :1 straight quote in prose x16 (first: {% extends "base.html" %} {)
+templates\adminpanel\_pagination.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+templates\adminpanel\base.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x2 (first: {% extends "base.html" %}{%)
+templates\adminpanel\categories\form.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 49 :18 long clickable label "{% if category %}Save changes{% els…" without nowrap | fix: Shorten the label or set nowrap
+  WARN 58 :8 h1 runs 8 words ("if category %}Edit category{% else %}Ad…") | fix: Seven words or fewer, 50 characters or fewer
+  WARN F1 :1 straight quote in prose x10 (first: {% extends "adminpanel/base)
+templates\adminpanel\categories\list.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x8 (first: {% extends "adminpanel/base)
+templates\adminpanel\customers\detail.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x6 (first: {% extends "adminpanel/base)
+templates\adminpanel\customers\list.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x7 (first: {% extends "adminpanel/base)
+templates\adminpanel\dashboard.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  WARN F1 :1 straight quote in prose x8 (first: {% extends "adminpanel/base)
+templates\adminpanel\login.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x6 (first: {% extends "base.html" %}{%)
+templates\adminpanel\orders\detail.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x10 (first: {% extends "adminpanel/base)
+templates\adminpanel\orders\list.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 49 :47 long clickable label "Open order and update status" without nowrap
+  WARN 58 :6 hero paragraph runs 16 words
+  WARN F1 :1 straight quote in prose x8 (first: {% extends "adminpanel/base)
+templates\adminpanel\products\detail.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  FAIL 50 :9 display header word "product.product_name" with no overflow-wrap | fix: Add overflow-wrap: break-word and min-width: 0
+  REFLEX 26b :1 no :active styling anywhere
+  WARN F1 :1 straight quote in prose x6 (first: {% extends "adminpanel/base)
+templates\adminpanel\products\form.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 49 :50 long clickable label "{% if product %}Save changes{% else…" without nowrap
+  WARN 58 :8 h1 runs 8 words ("if product %}Edit product{% else %}Add …")
+  WARN F1 :1 straight quote in prose x20 (first: {% extends "adminpanel/base)
+templates\adminpanel\products\list.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x4 (first: {% extends "adminpanel/base)
+templates\adminpanel\queries\inbox.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x9 (first: {% extends "adminpanel/base)
+templates\adminpanel\queries\new.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 58 :9 hero paragraph runs 14 words
+  WARN F1 :1 straight quote in prose x8 (first: {% extends "adminpanel/base)
+templates\adminpanel\queries\thread.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x6 (first: {% extends "adminpanel/base)
+templates\adminpanel\reviews\list.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 58 :8 hero paragraph runs 24 words
+  WARN F1 :1 straight quote in prose x8 (first: {% extends "adminpanel/base)
+templates\base.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  WARN F1 :21 straight quote in prose x8 (first: er %}{% include "partials/header)
+templates\catalog\_product_card.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 28a :4 lazy-loaded first image (likely LCP) | fix: fetchpriority=high on the LCP element
+  WARN 49 :17 long clickable label "Quick view : {{ product.product_nam…" without nowrap
+  WARN F1 :11 straight quote in prose x2 (first: {% include "partials/stars.)
+templates\catalog\_quick_view.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  FAIL 50 :9 display header word "product.product_name" with no overflow-wrap
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :11 straight quote in prose x2 (first: nt %}{% include "partials/stars.)
+templates\catalog\categories.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  WARN F1 :1 straight quote in prose x2 (first: {% extends "base.html" %} {)
+templates\catalog\product_detail.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  FAIL 50 :18 display header word "product.product_name" with no overflow-wrap
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 58 :19 hero paragraph runs 18 words
+  WARN F1 :1 straight quote in prose x14 (first: {% extends "base.html" %}{%)
+templates\catalog\product_list.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  FAIL 50 :8 display header word "category.category_name" with no overflow-wrap
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 49 :46 long clickable label "Filters{% if chips %} ({{ chips|len…" without nowrap
+  WARN 58 :8 h1 runs 12 words ("if category category.category_name elif…")
+  WARN F1 :1 straight quote in prose x16 (first: {% extends "base.html" %} {)
+templates\core\home.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 49 :53 long clickable label "Quick view : {{ p.product_name }}" without nowrap
+  WARN 58 :10 hero paragraph runs 30 words
+  WARN F1 :1 straight quote in prose x8 (first: {% extends "base.html" %}{%)
+templates\messaging\list.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  WARN F1 :1 straight quote in prose x12 (first: {% extends "base.html" %} {)
+templates\messaging\new.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x10 (first: {% extends "base.html" %} {)
+templates\messaging\thread.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x12 (first: {% extends "base.html" %} {)
+templates\orders\cart.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x4 (first: {% extends "base.html" %}{%)
+templates\orders\checkout.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 58 :7 hero paragraph runs 15 words
+  WARN F1 :1 straight quote in prose x5 (first: {% extends "base.html" %}{%)
+templates\orders\confirmation.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  FAIL 50 :9 display header word "customer.first_name" with no overflow-wrap
+  REFLEX 26b :1 no :active styling anywhere
+  WARN F1 :1 straight quote in prose x5 (first: {% extends "base.html" %}{%)
+templates\orders\detail.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  WARN F1 :1 straight quote in prose x8 (first: {% extends "base.html" %}{%)
+templates\orders\history.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  WARN F1 :1 straight quote in prose x10 (first: {% extends "base.html" %}{%)
+templates\orders\payment.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :1 straight quote in prose x4 (first: {% extends "base.html" %}{%)
+templates\partials\field.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN F1 :3 straight quote in prose x10 (first: t.input_type == "password" %})
+templates\partials\footer.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  WARN 42 :2 default footer shape: 4 link columns | fix: Decide the footer and name it in the stamp, or build another shape
+templates\partials\header.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 49 :18 long clickable label "{{ current_customer.first_name }}" without nowrap
+templates\partials\tab_bar.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+templates\partials\toasts.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+templates\recommender\_rec_card.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  WARN 28a :4 lazy-loaded first image (likely LCP)
+templates\recommender\_similar.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  WARN F1 :8 straight quote in prose x2 (first: } {% include "recommender/_re)
+templates\recommender\explainer.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 58 :1 548 visible words on the page (450 at most) | fix: Cut copy: one idea per screen, sections become objects
+  WARN 58 :9 hero paragraph runs 34 words
+  WARN F1 :1 straight quote in prose x22 (first: {% extends "base.html" %}{%)
+templates\recommender\recommended.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  WARN 58 :8 hero paragraph runs 48 words
+  WARN F1 :1 straight quote in prose x9 (first: {% extends "base.html" %} {)
+templates\reviews\_feedback.html
+  FAIL 26a :1 no :focus-visible styling anywhere
+  FAIL 34 :1 no overflow-x: clip on html and body
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  WARN 49 :17 long clickable label "{% if feedback.rating %}Update rati…" without nowrap
+  WARN 49 :23 long clickable label "{% if feedback.review %}Update revi…" without nowrap
+  WARN F1 :16 straight quote in prose x6 (first: osted_date|date:"j M Y" }}. {)
+templates\accounts\_auth_aside.html
+  FAIL 34 :1 no overflow-x: clip on html and body
+templates\emails\order_confirmation.html
+  FAIL 34 :1 no overflow-x: clip on html and body
+  FAIL 48 :4 inline-style colour literal #f7f4ec | fix: Lift the value into the token block
+  FAIL 48 :5 inline-style colour literal #fbf9f4
+  FAIL 48 :7 inline-style colour literal #16151d
+  FAIL 48 :10 inline-style colour literal #16151d
+  FAIL 48 :18 inline-style colour literal #a29f98
+  FAIL 48 :20 inline-style colour literal #dcd8cf
+  FAIL 48 :28 inline-style colour literal #6f6a62
+  WARN F1 :13 straight quote in prose x2 (first: order_date|date:"j F Y, H:i" }})
+  WARN F23 :1 the document lacks a meta description | fix: Name the language, title the page in its own words, and describe it in one sentence for link previews
+templates\orders\_steps.html
+  FAIL 34 :1 no overflow-x: clip on html and body
+  WARN F1 :2 straight quote in prose x6 (first: 1 %}class="is-done"{% endi)
+templates\partials\stars.html
+  FAIL 34 :1 no overflow-x: clip on html and body
+templates\partials\thread.html
+  FAIL 34 :1 no overflow-x: clip on html and body
+  WARN F1 :5 straight quote in prose x4 (first: .sender_type == "admin" %}{{ STO)
+static\css\admin.css
+  FAIL 56 :30 two sticky top:0 elements: .admin-sidebar + .admin-topbar + .site-header | fix: Offset the second sticky by banner height
+  WARN 3 :152 side stripe border-left: 3px solid var(--color-warn) on .inbox-row.is-unread a | fix: Hairline all round, none, or an accent square
+static\css\store.css
+  FAIL 62 :581 .qv-trigger is hidden at rest (opacity: 0) and depends on a script to appear | fix: Visible by default: scope the hidden state under a .js class the script adds, or animate from visible with @starting-style
+  WARN 11 :164 hover scale(1.04) on 4 selectors | fix: One hover signal per element
+  WARN 11 :164 image transforms on hover (.product-card-link:hover .product-card-media img, .product-card-link:focus-visible .product-… | fix: Imagery sits still; give the container the feedback
+  WARN 11 :186 image transforms on hover (.category-tile:hover .category-tile-media img)
+  WARN 11 :534 image transforms on hover (.hero-offer:hover .hero-offer-media img)
+  WARN 11 :556 image transforms on hover (.sp-item:hover .sp-media img, .sp-link:focus-visible .sp-media img)
+  WARN 11 :571 image transforms on hover (.aisle:hover .aisle-media img, .aisle:focus-visible .aisle-media img)
+  WARN F6 :226 numeric selector .buy-box-price .price at display size without tabular figures | fix: Add font-variant-numeric: tabular-nums
+  WARN F6 :541 numeric selector .hero-offer-price .price at display size without tabular figures
+static\css\base.css
+  WARN F24 :170 a hairline border under a wide soft shadow on .modal-content | fix: Commit to one: a defined edge, or elevation by shadow
+sloplint: 119 FAIL, 82 REFLEX, 82 WARN across 59 file(s) and 5 URL(s).
+render tier not run: no puppeteer-core found locally, globally or via HALLMARK_PUPPETEER

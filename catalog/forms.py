@@ -17,7 +17,7 @@ SORT_CHOICES = [
 
 class ProductSearchForm(forms.Form):
     product_name = forms.CharField(label="Search", max_length=100, required=False,
-                                   widget=forms.TextInput(attrs={"type": "search", "placeholder": "Product, brand or keyword", "autocomplete": "off"}))
+                                   widget=forms.TextInput(attrs={"type": "search", "placeholder": "Product, brand or keyword…", "autocomplete": "off"}))
     category = forms.ModelChoiceField(label="Category", required=False, to_field_name="slug", empty_label="All categories",
                                       queryset=Category.objects.filter(status=Status.ACTIVE).order_by("category_name"))
     min_price = forms.DecimalField(label="Min price (₹)", required=False, min_value=Decimal("0"), max_digits=10, decimal_places=2,
