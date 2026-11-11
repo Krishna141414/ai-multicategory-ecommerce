@@ -276,6 +276,8 @@
     form.addEventListener("submit", (event) => { event.preventDefault(); send(); });
   }
 
+  Chowk.bindAddToCart = addToCart; // used by the quick view, whose forms arrive after page load
+
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("form[data-add-to-cart]").forEach(addToCart);
     document.querySelectorAll("form[data-cart-update]").forEach(cartUpdate);

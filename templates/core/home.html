@@ -1,23 +1,123 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load static shop_tags %}
 {% block title %}Ten aisles, one store{% endblock %}
 {% block page_id %}home{% endblock %}
 {% block content %}
-<div class="container page">
-  <header class="page-head">
-    <h1>Ten aisles, one store.</h1>
-    <p class="lead">Electronics to kitchenware, books to beauty. The full homepage arrives in a later build step.</p>
-  </header>
+<div class="home">
+
+  <section class="hero container" aria-labelledby="hero-head" data-testid="hero">
+    <div class="hero-text" data-reveal>
+      <p class="eyebrow">Ten aisles, one checkout</p>
+      <h1 id="hero-head">Everyday things, <span class="hero-break">well chosen.</span></h1>
+      <p class="lead">Earbuds to pressure cookers, kurtas to cricket bats. {{ STORE_NAME }} stocks a short, careful list in each of ten aisles, priced in rupees with the MRP shown next to every price.</p>
+      <div class="actions-row">
+        <a class="btn btn-primary btn-lg" href="{% url 'catalog:category_list' %}" data-testid="hero-shop">Shop the aisles</a>
+        <a class="btn btn-outline btn-lg" href="#deals">See the deals</a>
+      </div>
+    </div>
+    {% if hero %}
+    <a class="hero-offer" href="{{ hero.get_absolute_url }}" data-testid="hero-offer" data-reveal>
+      <span class="hero-offer-media"><img src="{{ hero.image_url }}" alt="{{ hero.product_name }} by {{ hero.brand }}" width="900" height="900" fetchpriority="high"></span>
+      <span class="hero-offer-tag">{{ hero.discount_percent }}% off</span>
+      <span class="hero-offer-text">
+        <span class="hero-offer-label">Featured deal</span>
+        <span class="hero-offer-name">{{ hero.product_name }}</span>
+        <span class="hero-offer-price"><span class="price">{{ hero.price|inr:0 }}</span> <s class="mrp">MRP {{ hero.mrp|inr:0 }}</s></span>
+      </span>
+    </a>
+    {% endif %}
+  </section>
+
+  {% if sponsored %}
+  <section class="sponsored container" id="deals" aria-labelledby="sponsored-head" data-sponsored data-testid="sponsored-strip">
+    <div class="section-head">
+      <div>
+        <h2 id="sponsored-head">Sponsored deals</h2>
+        <p class="section-sub">Paid placements from brands we stock. Hover or focus a product for a quick look.</p>
+      </div>
+      <div class="sponsored-controls">
+        <button type="button" class="icon-btn" data-sp-prev aria-label="Previous deals" data-testid="sponsored-prev"><i class="bi bi-arrow-left" aria-hidden="true"></i></button>
+        <button type="button" class="icon-btn" data-sp-toggle aria-pressed="false" aria-label="Pause the moving deals" data-testid="sponsored-toggle"><i class="bi bi-pause-fill" aria-hidden="true"></i></button>
+        <button type="button" class="icon-btn" data-sp-next aria-label="Next deals" data-testid="sponsored-next"><i class="bi bi-arrow-right" aria-hidden="true"></i></button>
+      </div>
+    </div>
+    <div class="sponsored-viewport" data-sp-viewport>
+      <ul class="sponsored-track" data-sp-track>
+        {% for p in sponsored %}
+        <li class="sp-item{% if not p.in_stock %} is-out{% endif %}" data-qv-hover data-qv-anchor data-testid="sponsored-item" data-product-id="{{ p.id }}">
+          <a class="sp-link" href="{{ p.get_absolute_url }}">
+            <span class="sp-media"><img src="{{ p.image_url }}" alt="{{ p.product_name }} by {{ p.brand }}" width="900" height="900" loading="lazy" decoding="async"></span>
+            <span class="sp-tag">Sponsored</span>
+            <span class="sp-brand">{{ p.brand }}</span>
+            <span class="sp-name">{{ p.product_name }}</span>
+            <span class="sp-price"><span class="price">{{ p.price|inr:0 }}</span>{% if p.discount_percent %} <span class="sp-off">{{ p.discount_percent }}% off</span>{% endif %}{% if not p.in_stock %} <span class="sp-out">Out of stock</span>{% endif %}</span>
+          </a>
+          <button type="button" class="qv-trigger" data-quick-view="{% url 'catalog:quick_view' p.id %}" data-href="{{ p.get_absolute_url }}" aria-haspopup="dialog" aria-expanded="false" data-testid="sponsored-quick-view"><i class="bi bi-eye" aria-hidden="true"></i>Quick view<span class="visually-hidden">: {{ p.product_name }}</span></button>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="container home-section" aria-labelledby="aisles-head" data-testid="home-categories">
+    <div class="section-head">
+      <h2 id="aisles-head">Shop by aisle</h2>
+      <a class="section-link" href="{% url 'catalog:category_list' %}">All categories</a>
+    </div>
+    <ul class="aisle-grid" data-reveal-group>
+      {% for c in categories %}
+      <li data-reveal>
+        <a class="aisle" href="{% url 'catalog:category' c.slug %}" data-testid="home-category">
+          <span class="aisle-media">{% if c.cover %}<img src="{{ c.cover.image_url }}" alt="" width="900" height="900" loading="lazy">{% endif %}</span>
+          <span class="aisle-name">{{ c.category_name }}</span>
+          <span class="aisle-count num">{{ c.product_count }} product{{ c.product_count|pluralize }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
 
   {% if recs %}
-  <section class="rec-section" aria-labelledby="recs-head" data-testid="home-recommendations">
+  <section class="container home-section rec-section" aria-labelledby="recs-head" data-testid="home-recommendations">
     <div class="section-head">
-      <h2 id="recs-head">{% if personal %}Recommended for you{% else %}Popular right now{% endif %}</h2>
-      {% if personal %}<a class="section-link" href="{% url 'recommender:recommended' %}">See all picks</a>{% else %}<a class="section-link" href="{% url 'recommender:explainer' %}">How picks work</a>{% endif %}
+      <div>
+        <h2 id="recs-head">Recommended for you</h2>
+        <p class="section-sub">Based on what you viewed, added to your cart and bought.</p>
+      </div>
+      <a class="section-link" href="{% url 'recommender:recommended' %}">See all picks</a>
     </div>
-    <ul class="rec-grid">
-      {% for rec in recs %}<li>{% include "recommender/_rec_card.html" %}</li>{% endfor %}
+    <ul class="rec-grid" data-reveal-group>
+      {% for rec in recs %}<li data-reveal>{% include "recommender/_rec_card.html" %}</li>{% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if best_sellers %}
+  <section class="container home-section" aria-labelledby="best-head" data-testid="home-best-sellers">
+    <div class="section-head">
+      <div>
+        <h2 id="best-head">Best sellers</h2>
+        <p class="section-sub">The most ordered products in the store right now.</p>
+      </div>
+      <a class="section-link" href="{% url 'recommender:explainer' %}">How picks work</a>
+    </div>
+    <ul class="product-grid" data-reveal-group>
+      {% for product in best_sellers %}<li data-reveal>{% include "catalog/_product_card.html" %}</li>{% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if new_arrivals %}
+  <section class="container home-section" aria-labelledby="new-head" data-testid="home-new-arrivals">
+    <div class="section-head">
+      <h2 id="new-head">New arrivals</h2>
+      <a class="section-link" href="{% url 'catalog:product_list' %}?sort=newest">Everything new</a>
+    </div>
+    <ul class="product-grid" data-reveal-group>
+      {% for product in new_arrivals %}<li data-reveal>{% include "catalog/_product_card.html" %}</li>{% endfor %}
     </ul>
   </section>
   {% endif %}
 </div>
 {% endblock %}
+{% block extra_js %}<script src="{% static 'js/sponsored.js' %}?v={{ ASSET_VERSION }}"></script>{% endblock %}

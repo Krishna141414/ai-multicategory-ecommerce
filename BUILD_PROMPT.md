@@ -84,11 +84,11 @@
 - **Gate 8:** recommendations look sensible for at least 5 sample products across categories (write examples into `docs/research/recommender-check.md`); commit.
 
 ## Phase 9 — UI design pass & polish
-- [ ] 9.1 Apply the design system everywhere (base template, header with category/mega menu, search, cart badge, footer, mobile bottom nav if chosen).
-- [ ] 9.2 **Homepage**: hero + **Sponsored / Featured deals** (animated carousel/strip, pauses on hover, **hover quick-view card** with image, price, rating, stock, add-to-cart; keyboard accessible; works on touch with tap) + categories + recommended-for-you + best sellers / new arrivals, laid out per the design direction.
-- [ ] 9.3 Micro-interactions: add-to-cart feedback (button state + cart badge bump), toasts, skeletons where content loads, hover states, subtle scroll reveals (GSAP/ScrollTrigger, `gsap-performance` rules, `prefers-reduced-motion` respected). Smooth scroll with Lenis only if it doesn't fight the UI.
-- [ ] 9.4 Admin UI: clean dashboard look consistent with the brand, readable tables, status badges, confirmation dialogs.
-- [ ] 9.5 **Playwright MCP sweep**: screenshot EVERY page at 1440 px and 390 px, logged-out / customer / admin. Fix overlaps, overflow, broken images, misalignment.
+- [x] 9.1 Apply the design system everywhere (base template, header with category/mega menu, search, cart badge, footer, mobile bottom nav if chosen).
+- [x] 9.2 **Homepage**: hero + **Sponsored / Featured deals** (animated carousel/strip, pauses on hover, **hover quick-view card** with image, price, rating, stock, add-to-cart; keyboard accessible; works on touch with tap) + categories + recommended-for-you + best sellers / new arrivals, laid out per the design direction.
+- [x] 9.3 Micro-interactions: add-to-cart feedback (button state + cart badge bump), toasts, skeletons where content loads, hover states, subtle scroll reveals (GSAP/ScrollTrigger, `gsap-performance` rules, `prefers-reduced-motion` respected). Smooth scroll with Lenis only if it doesn't fight the UI.
+- [x] 9.4 Admin UI: clean dashboard look consistent with the brand, readable tables, status badges, confirmation dialogs.
+- [x] 9.5 **Playwright MCP sweep**: screenshot EVERY page at 1440 px and 390 px, logged-out / customer / admin. Fix overlaps, overflow, broken images, misalignment.
 - [ ] 9.6 **Hallmark audit** on all pages → fix findings. Then **Vercel Web Design Guidelines** audit → fix findings (focus states, labels, contrast, forms, motion, performance). Save both audit summaries to `docs/audits/`.
 - **Gate 9:** no page looks like a stock Bootstrap template; screenshots saved to `screenshots/`; commit.
 

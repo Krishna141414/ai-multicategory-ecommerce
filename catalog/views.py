@@ -70,3 +70,10 @@ def product_detail(request, slug: str):
         "rating_form": RatingForm(initial={"rating": feedback.rating.rating if feedback.rating else None}),
         "review_form": ReviewForm(initial={"review": feedback.review.review if feedback.review else ""}),
     })
+
+
+def quick_view(request, product_id: int):
+    """The small quick-view card (image, price, rating, stock, add to cart) shown on hover, focus or tap.
+    Returns an HTML fragment that static/js/quickview.js puts into its floating panel."""
+    product = get_object_or_404(services.with_ratings(Product.objects.active().select_related("category")), pk=product_id)
+    return render(request, "catalog/_quick_view.html", {"product": product, "max_qty": min(product.quantity, 10)})

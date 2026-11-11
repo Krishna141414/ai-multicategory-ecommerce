@@ -79,8 +79,9 @@ def test_empty_result_state(client, catalog):
 
 
 def test_category_page_and_grid(client, catalog):
-    page = client.get(reverse("catalog:category", args=[catalog["electronics"].slug])).content.decode()
-    assert "Arc 3 Wireless Earbuds" in page and "Electric Kettle" not in page
+    response = client.get(reverse("catalog:category", args=[catalog["electronics"].slug]))
+    listed = [p.product_name for p in response.context["page"]]  # the grid only (the mega menu lists every aisle)
+    assert "Arc 3 Wireless Earbuds" in listed and "Electric Kettle" not in listed
     grid = client.get(reverse("catalog:category_list")).content.decode()
     assert "Electronics" in grid and "Kitchen and Home Appliances" in grid
 

@@ -31,6 +31,8 @@
   <script src="{% static 'vendor/gsap/gsap.min.js' %}"></script>
   <script src="{% static 'vendor/gsap/ScrollTrigger.min.js' %}"></script>
   <script src="{% static 'js/app.js' %}?v={{ ASSET_VERSION }}"></script>
+  <script src="{% static 'js/quickview.js' %}?v={{ ASSET_VERSION }}"></script>
+  <script src="{% static 'js/motion.js' %}?v={{ ASSET_VERSION }}" defer></script>
   {% block extra_js %}{% endblock %}
 </body>
 </html>

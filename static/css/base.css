@@ -253,3 +253,7 @@ textarea.form-control { min-height: 112px; padding-block: var(--space-sm); }
 .form-field + .btn, .form-field + .btn-block { margin-top: var(--space-md); }
 @media (max-width: 47.99rem) { .facts { grid-template-columns: 1fr; } .facts dt { padding-bottom: 0; border-bottom: 0; } }
 .form-select { padding-right: 2.5rem; background-position: right var(--space-sm) center; }
+
+/* Tables that scroll sideways on small screens: be the containing block for any absolutely
+   positioned bits inside cells (e.g. .visually-hidden labels), or they escape the scroll box and widen the page. */
+.table-responsive { position: relative; }

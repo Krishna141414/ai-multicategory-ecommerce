@@ -44,8 +44,30 @@
   </div>
 
   <nav class="category-bar" aria-label="Categories">
-    <div class="container">
-      <ul data-testid="category-bar">
+    <div class="container category-bar-row">
+      <div class="dropdown mega">
+        <button class="mega-toggle" type="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" data-testid="mega-toggle">
+          <i class="bi bi-grid-3x3-gap" aria-hidden="true"></i>All categories<i class="bi bi-chevron-down mega-chevron" aria-hidden="true"></i>
+        </button>
+        <div class="dropdown-menu mega-menu" data-testid="mega-menu">
+          <ul class="mega-grid">
+            {% for entry in mega_menu %}
+            <li class="mega-col">
+              <a class="mega-cat" href="{% url 'catalog:category' entry.category.slug %}" data-testid="mega-category">{{ entry.category.category_name }}</a>
+              <span class="mega-count">{{ entry.count }} product{{ entry.count|pluralize }}</span>
+              <ul class="mega-products">
+                {% for p in entry.products %}<li><a href="{% url 'catalog:product_detail' p.slug %}">{{ p.product_name }}</a></li>{% endfor %}
+              </ul>
+            </li>
+            {% endfor %}
+          </ul>
+          <div class="mega-foot">
+            <a href="{% url 'catalog:category_list' %}">See every category</a>
+            <a href="{% url 'catalog:product_list' %}">Browse all products</a>
+          </div>
+        </div>
+      </div>
+      <ul class="category-rail" data-testid="category-bar">
         {% for category in nav_categories %}
           {% url 'catalog:category' category.slug as category_url %}
           <li><a href="{{ category_url|default:'#' }}" {% if request.path == category_url %}aria-current="page"{% endif %}>{{ category.category_name }}</a></li>

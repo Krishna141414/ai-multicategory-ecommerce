@@ -61,10 +61,15 @@ def test_recommendations_follow_views_and_cart(signed_in, products):
     assert recs[0].reason == "Because you added Arc Wireless Earbuds"
 
 
-def test_home_shows_popular_when_signed_out(client, products):
-    response = client.get(reverse("core:home"))
-    assert response.context["recs"] and not response.context["personal"]
-    assert "Popular right now" in response.content.decode()
+def test_home_sections(client, products, signed_in):
+    response = client.get(reverse("core:home"))  # signed in (fixture): personal shelf + best sellers
+    body = response.content.decode()
+    for testid in ("hero", "home-categories", "home-recommendations", "home-best-sellers", "home-new-arrivals"):
+        assert f'data-testid="{testid}"' in body
+    client.logout()
+    response = client.get(reverse("core:home"))  # signed out: no personal shelf, best sellers instead
+    assert response.context["recs"] == [] and response.context["best_sellers"]
+    assert 'data-testid="home-recommendations"' not in response.content.decode()
 
 
 def test_explainer_page_is_public_and_follows_the_choice(client, products):

@@ -1,0 +1,28 @@
+{% load shop_tags %}{% url 'orders:cart_add' product.id as add_url %}
+<div class="qv" data-testid="quick-view" data-product-id="{{ product.id }}">
+  <a class="qv-media" href="{{ product.get_absolute_url }}" tabindex="-1" aria-hidden="true">
+    <img src="{{ product.image_url }}" alt="" width="900" height="900">
+    {% if product.discount_percent and product.in_stock %}<span class="card-flag">{{ product.discount_percent }}% off</span>{% endif %}
+  </a>
+  <div class="qv-body">
+    <p class="qv-brand">{{ product.brand }} <span class="muted">in {{ product.category.category_name }}</span></p>
+    <h2 class="qv-name" id="qv-title-{{ product.id }}" data-testid="quick-view-name">{{ product.product_name }}</h2>
+    <p class="qv-rating" data-testid="quick-view-rating">
+      {% if product.rating_count %}{% include "partials/stars.html" with value=product.avg_rating %}<span class="num">{{ product.avg_rating|floatformat:1 }}</span> <span class="muted">({{ product.rating_count }} rating{{ product.rating_count|pluralize }})</span>
+      {% else %}<span class="muted">No ratings yet</span>{% endif %}
+    </p>
+    <p class="qv-price"><span class="price" data-testid="quick-view-price">{{ product.price|inr }}</span>{% if product.discount_percent %} <s class="mrp">{{ product.mrp|inr }}</s>{% endif %}</p>
+    {% if product.in_stock %}
+      <p class="qv-stock" data-testid="quick-view-stock"><span class="badge-status status-in-stock"><i class="bi bi-check2" aria-hidden="true"></i>In stock</span>
+        {% if product.low_stock %}<span class="badge-status status-low-stock">Only {{ product.quantity }} left</span>{% else %}<span class="muted small">{{ product.quantity }} available</span>{% endif %}</p>
+      <form method="post" action="{{ add_url }}" class="qv-actions" data-add-to-cart data-testid="quick-view-add-form">
+        {% csrf_token %}<input type="hidden" name="quantity" value="1">
+        <button class="btn btn-primary" type="submit" data-loading-label="Adding…" data-testid="quick-view-add"><i class="bi bi-bag-plus" aria-hidden="true"></i>Add to cart</button>
+        <a class="btn btn-outline" href="{{ product.get_absolute_url }}" data-testid="quick-view-details">View details</a>
+      </form>
+    {% else %}
+      <p class="qv-stock" data-testid="quick-view-stock"><span class="badge-status status-out-of-stock">Out of stock</span></p>
+      <div class="qv-actions"><a class="btn btn-outline" href="{{ product.get_absolute_url }}" data-testid="quick-view-details">View details</a></div>
+    {% endif %}
+  </div>
+</div>

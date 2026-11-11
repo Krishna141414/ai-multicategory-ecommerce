@@ -4,8 +4,8 @@ Claude Code updates this after every step. A new session reads it first and cont
 
 ## Status
 - Current phase: Phase 9 — UI design pass & polish
-- Last completed step: Gate 8 passed
-- Next: 9.1 Design system everywhere + mega menu (fixes the category bar overflow at 1440 px)
+- Last completed step: 9.5
+- Next: 9.6
 
 ## Next — Phase 9 (UI design pass & polish)
 Owner requests: **Velora rename DONE**, **3 new photos DONE** (only the Thread & Thali analog watch still uses the placeholder).
@@ -59,6 +59,11 @@ Phase 9 plan (docs/plans/implementation-plan.md Phase 9 + docs/plans/pages.md): 
 | 2026-11-09 | 8.4 AI Explainer | /ai/explainer/?product=<id> (public): 5 steps (product text, clean + combine with field weights, TF-IDF terms with bars, cosine scores with same-category/skipped tags, top-N cards) + personal panel for customers; JSON at /ai/explainer/data/<id>/. static/js/explainer.js: stepper with Back/Next, step buttons, arrow keys, Play/Pause autoplay, live status, GSAP fade/slide + bar growth via scaleX, nothing animated under prefers-reduced-motion; without JS all steps are stacked. |
 | 2026-11-09 | 8.5 Engine tests | tests/unit/test_engine.py (13) + tests/unit/test_recommender_views.py (6): feature rows, matrix shape, top terms, self-exclusion, inactive/out-of-stock exclusion, same-category relevance, sorted scores, interest weights, personalised exclusions + reason, new-customer popular, rebuild on change, explain payload, pages + JSON. Suite 109 passed. |
 | 2026-11-09 | Gate 8 | docs/research/recommender-check.md: 6 products in 6 categories, top 5 each, all sensible (first picks same category, shared words obvious); Asha's personal picks + Imran's popular fallback. Screens in screenshots/gate8/. Matrix AI-D1…AI-O6, CUS-09, R3.1–R3.10, EXT-02 updated. |
+| 2026-11-11 | 9.1 Header + mega menu | Category bar overflow fixed: 'All categories' mega menu (every aisle with product count + 4 products, Bootstrap dropdown with static display, full container width, drop-in motion; hidden on phones where the Categories tab does the job) + scrollable category rail with a right-edge fade. catalog/services.mega_menu (2 queries) as a lazy context value. Mobile header gets top padding. |
+| 2026-11-11 | 9.2 Homepage | core/views.home + templates/core/home.html: hero (pitch + featured deal = biggest-discount sponsored product), Sponsored deals strip (static/js/sponsored.js: GSAP ticker drift ~40 px/s, seamless loop with inert aria-hidden clones, pauses on hover/focus/quick view/off-screen/pause button, prev/next glide 420 ms, focused card brought into view, manual scroll rail under reduced motion), Shop by aisle, Recommended for you (signed in), Best sellers, New arrivals. Quick view (static/js/quickview.js + /product/<id>/quick-view/): image, price, rating, stock, Add to cart; hover intent 150 ms or click/tap/Enter, Esc closes and returns focus, bottom sheet on phones, placed below/above/beside the card and never over the sticky header; also on every product card. |
+| 2026-11-11 | 9.3 Micro-interactions | static/js/motion.js: ScrollTrigger.batch reveals on [data-reveal] (opacity + 12 px, 600 ms, 40 ms stagger, once; storefront only; nothing hidden from AT; skipped under reduced motion). Existing: add-to-cart button state + badge bump, toasts, skeletons (quick view loading), hover states. Lenis not used (fights scroll-padding and focus scrolling). |
+| 2026-11-11 | 9.4 Admin UI | Admin checked at 1440/390. Fixed phone overflow on list pages: grid columns now minmax(0, 1fr) (shell, content, two-column grids, detail layout) and .table-responsive is the containing block for absolutely positioned bits in cells (they escaped the scroll box and widened the page by up to 616 px). |
+| 2026-11-11 | 9.5 Screenshot sweep | Playwright MCP was unavailable this session (connection timeout), so the sweep ran with the project's Playwright (Python) via a scratch script: 40 pages x 2 widths (logged out 11, customer 14, admin 15), full-page shots in screenshots/sweep/. All 200 (404/403 pages as intended), no console errors, no horizontal overflow after the admin fix. |
 
 ## Pending owner actions / follow-ups
 - **Last placeholder:** "Thread & Thali Women's Minimalist Analog Watch". The owner's "smartwatch" photo was a smartwatch, so it went to "Orvia Fit Smartwatch with Calling" (replacing a weaker Openverse photo) instead of the analog watch listing. If Krishna adds an analog women's watch photo, import it the same way (scripts/import_manual_photos.py + brand_labels.py if plain, credits, seed_demo).

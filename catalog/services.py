@@ -137,3 +137,19 @@ def rating_breakdown(product: Product) -> dict[int, int]:
     for row in Rating.objects.filter(product=product).values("rating").annotate(n=Count("id")):
         counts[row["rating"]] = row["n"]
     return counts
+
+
+MEGA_MENU_PRODUCTS = 4
+
+
+def mega_menu() -> list[dict]:
+    """Every active category with its product count and a few products for the header's mega menu.
+    Sponsored products first, then the best stocked; two queries in total."""
+    categories = list(storefront_categories())
+    picks: dict[int, list[Product]] = {c.id: [] for c in categories}
+    for product in (Product.objects.active().only("id", "product_name", "slug", "category_id")
+                    .order_by("category_id", "-is_sponsored", "-quantity", "product_name")):
+        bucket = picks.get(product.category_id)
+        if bucket is not None and len(bucket) < MEGA_MENU_PRODUCTS:
+            bucket.append(product)
+    return [{"category": c, "count": c.product_count, "products": picks[c.id]} for c in categories]
