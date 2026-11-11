@@ -11,6 +11,7 @@ from django.utils import timezone
 
 
 class TestCase(models.Model):
+    __test__ = False  # a model, not a pytest test class
     id = models.CharField(primary_key=True, max_length=20)  # e.g. "TC-ADM-01"
     test_name = models.CharField(max_length=120)
     module = models.CharField(max_length=40)
@@ -25,6 +26,7 @@ class TestCase(models.Model):
 
 
 class TestSummary(models.Model):
+    __test__ = False  # a model, not a pytest test class
     execution_date = models.DateTimeField(default=timezone.now)
     total_tests = models.PositiveIntegerField(default=0)
     passed_tests = models.PositiveIntegerField(default=0)
@@ -49,6 +51,7 @@ class TestSummary(models.Model):
 
 
 class TestExecution(models.Model):
+    __test__ = False  # a model, not a pytest test class
     class Status(models.TextChoices):
         PASSED = "Passed", "Passed"
         FAILED = "Failed", "Failed"

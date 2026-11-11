@@ -174,3 +174,8 @@ body.admin { --text-display-s: 1.75rem; --text-section: 1.4375rem; --text-title:
   .inbox-date { text-align: left; }
   .toolbar .form-control, .toolbar .form-select { max-width: none; flex: 1 1 100%; }
 }
+
+/* Test reports */
+.report-result { max-width: 46ch; overflow-wrap: anywhere; }
+.report-shot { width: 160px; height: 100px; object-fit: cover; object-position: top; border: var(--rule-hair) solid var(--color-rule-2); display: block; }
+.mt-0 { margin-top: 0; }

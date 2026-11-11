@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import auth, categories, customers, dashboard, orders, products, queries, reviews
+from .views import auth, categories, customers, dashboard, orders, products, queries, reports, reviews
 
 app_name = "adminpanel"
 
@@ -34,4 +34,8 @@ urlpatterns = [
     path("queries/", queries.query_inbox, name="queries"),
     path("queries/new/", queries.query_new, name="query_new"),
     path("queries/<str:conversation_id>/", queries.query_thread, name="query_thread"),
+
+    path("test-reports/", reports.report_list, name="test_reports"),
+    path("test-reports/<int:pk>/", reports.report_detail, name="test_report_detail"),
+    path("test-reports/files/<path:path>", reports.report_file, name="test_report_file"),
 ]

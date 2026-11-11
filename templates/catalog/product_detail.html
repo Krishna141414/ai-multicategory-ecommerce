@@ -61,15 +61,17 @@
 
   <section class="product-section" id="reviews" aria-labelledby="reviews-head">
     <h2 id="reviews-head">Ratings and reviews</h2>
-    {% if rating_count %}
+    {% if rating_count or reviews %}
     <div class="reviews-layout">
       <div class="rating-summary">
+        {% if rating_count %}
         <p class="rating-big num">{{ avg_rating|floatformat:1 }}</p>
         {% include "partials/stars.html" with value=avg_rating %}
         <p class="muted small">{{ rating_count }} rating{{ rating_count|pluralize }}</p>
         <ul class="rating-bars" aria-label="Rating breakdown">
           {% for stars, n in breakdown.items %}<li><span class="num">{{ stars }}★</span><span class="rating-bar"><span style="--w: {% widthratio n rating_count 100 %}%"></span></span><span class="num muted">{{ n }}</span></li>{% endfor %}
         </ul>
+        {% else %}<p class="muted">No star ratings yet.</p>{% endif %}
       </div>
       <ol class="review-list" data-testid="review-list">
         {% for item in reviews %}

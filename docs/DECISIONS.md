@@ -74,3 +74,11 @@ Short log of design and architecture choices (decision → reason). Newest at th
 - **Home shows "Recommended for you" only to signed-in customers; everyone sees Best sellers.** → For a guest the personal shelf would just repeat the best sellers.
 - **Screenshot sweeps run with the project's Playwright (Python) when the Playwright MCP server is unavailable.** → Same browser engine, scripted, repeatable; the output is in `screenshots/sweep/`.
 - **Audit outcome:** Hallmark audit and Web Interface Guidelines audit in `docs/audits/`; every finding fixed or kept with its reason.
+
+## Automation suite (Phase 10)
+- **Browser tests sign in by session cookie, except the login tests.** → A real session is created with Django's test client and handed to the browser; each test starts on the page it is about, which keeps the suite at about 40 s. Login itself is still tested through the form (TC-CUS-02/03, TC-ADM-01/02, E2E-01/03).
+- **One test case catalogue in code (`tests/catalog.py`), linked by `@pytest.mark.tc("…")`.** → A unit test fails if any catalogue entry has no test, or a test names an unknown case; `sync_test_catalog` copies it into the TestCase table.
+- **Runs are recorded by a separate `manage.py record_test_run` process after pytest finishes.** → It uses the normal settings, so it writes to `reports.sqlite3` and never to a test database; shop data is never touched (`db.sqlite3` checksum identical before and after a run).
+- **Each run keeps its own copy of the HTML report and its screenshots** (`reports/runs/<run>/`, `reports/screenshots/<run>/`); `reports/report.html` is always the latest. The admin page serves these files to staff only and refuses paths outside `reports/`.
+- **pytest-randomly stays installed; `run_tests.ps1` runs in file order by default and `-Random` shuffles.** → A stable order is easier to follow on video; the shuffled run proves independence.
+- **Reviews show on the product page even without a star rating.** → Found by TC-CUS-22: a buyer who only wrote a review saw it saved but not displayed.

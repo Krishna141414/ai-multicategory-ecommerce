@@ -7,21 +7,21 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 ## A. Stack (brief: Website / Database / AI / Testing)
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| STK-01 | Front end: HTML5, CSS3, JavaScript, Bootstrap 5 | | | Planned |
+| STK-01 | Front end: HTML5, CSS3, JavaScript, Bootstrap 5 | `templates/` (HTML5), `static/css/` (custom system over Bootstrap 5.3.8), `static/js/` | full browser suite (runs 2 and 3) | Tested |
 | STK-02 | Server side: Python (Django) | Django 6.1.3 project `config/` + 9 apps |  | Implemented |
-| STK-03 | IDE: Visual Studio Code | | | Planned |
-| STK-04 | Web server: Django development server | | | Planned |
+| STK-03 | IDE: Visual Studio Code | Project set up and edited in VS Code (Windows + PowerShell) |  | Implemented |
+| STK-04 | Web server: Django development server | `python manage.py runserver`; pytest-django `live_server` for the tests | every browser test runs against the Django server | Tested |
 | STK-05 | Database: SQLite | `db.sqlite3` (shop) + `reports.sqlite3` (tests), `config/settings.py` |  | Implemented |
-| STK-06 | AI technique: content-based product recommendation | | | Planned |
-| STK-07 | ML library: scikit-learn | requirements.txt (scikit-learn 1.9.1) |  | Implemented |
-| STK-08 | Data processing: Pandas | requirements.txt (pandas 3.1.1) |  | Implemented |
-| STK-09 | Feature extraction: TF-IDF vectorization | | | Planned |
-| STK-10 | Similarity: cosine similarity | | | Planned |
-| STK-11 | Testing tool: Playwright (Python) | requirements.txt (playwright 1.64.1, pytest-playwright 0.10) |  | Implemented |
-| STK-12 | Testing framework: Pytest | requirements.txt (pytest 9.2), `pytest.ini` |  | Implemented |
-| STK-13 | Browser: Chrome / Chromium | | | Planned |
-| STK-14 | Test reporting: pytest-html | requirements.txt (pytest-html 4.2.0) |  | Implemented |
-| STK-15 | Screenshot capture: Playwright | | | Planned |
+| STK-06 | AI technique: content-based product recommendation | `recommender/engine.py` (content-based: product text similarity) | `tests/unit/test_engine.py`, `tests/ai/test_ai.py` | Tested |
+| STK-07 | ML library: scikit-learn | requirements.txt (scikit-learn 1.9.1) | `tests/unit/test_engine.py` | Tested |
+| STK-08 | Data processing: Pandas | requirements.txt (pandas 3.1.1) | `tests/unit/test_engine.py::test_explain_payload` | Tested |
+| STK-09 | Feature extraction: TF-IDF vectorization | `recommender/engine.py` Engine._fit (TfidfVectorizer) | `tests/unit/test_engine.py::test_feature_matrix_shape` | Tested |
+| STK-10 | Similarity: cosine similarity | `recommender/engine.py` (cosine_similarity) | `tests/unit/test_engine.py::test_scores_sorted_desc_and_reason` | Tested |
+| STK-11 | Testing tool: Playwright (Python) | requirements.txt (playwright 1.64.1, pytest-playwright 0.10) | 69 browser tests in `tests/admin`, `tests/customer`, `tests/ai`, `tests/e2e` | Tested |
+| STK-12 | Testing framework: Pytest | requirements.txt (pytest 9.2), `pytest.ini` | 185 tests (runs 2 and 3) | Tested |
+| STK-13 | Browser: Chrome / Chromium | Playwright's Chromium (`python -m playwright install chromium`) | runs 2 (headless) and 3 (headed) | Tested |
+| STK-14 | Test reporting: pytest-html | `pytest.ini` addopts `--html=reports/report.html --self-contained-html` | report written on every run | Tested |
+| STK-15 | Screenshot capture: Playwright | `tests/conftest.py` pytest_runtest_makereport (screenshot on failure) | verified with a deliberate failure (screenshots/phase10/reports-detail-failed-1440.jpg); run removed afterwards | Tested |
 
 ## B. Admin features
 | ID | Brief item | Implemented in | Covered by test | Status |
@@ -115,82 +115,91 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
 | TST-00 | Test Case catalogue table (id, test_name, module, test_description, expected_result) | `testreports/models.py` TestCase (reports DB) |  | Implemented |
-| TC-ADM-01 | Admin Login | | | Planned |
-| TC-ADM-02 | Invalid Admin Login | | | Planned |
-| TC-ADM-03 | View Dashboard | | | Planned |
-| TC-ADM-04 | Add Category | | | Planned |
-| TC-ADM-05 | View Categories | | | Planned |
-| TC-ADM-06 | Update Category | | | Planned |
-| TC-ADM-07 | Delete Category | | | Planned |
-| TC-ADM-08 | Add Product | | | Planned |
-| TC-ADM-09 | View Products | | | Planned |
-| TC-ADM-10 | Update Product | | | Planned |
-| TC-ADM-11 | Delete Product | | | Planned |
-| TC-ADM-12 | View Customers | | | Planned |
-| TC-ADM-13 | Activate Customer | | | Planned |
-| TC-ADM-14 | Deactivate Customer | | | Planned |
-| TC-ADM-15 | View Orders | | | Planned |
-| TC-ADM-16 | Update Order Status | | | Planned |
-| TC-ADM-17 | View Product Ratings / Reviews | | | Planned |
-| TC-ADM-18 | View Queries | | | Planned |
-| TC-ADM-19 | Post Query | | | Planned |
-| TC-ADM-20 | Reply Query | | | Planned |
-| TC-ADM-21 | View Conversation History | | | Planned |
-| TC-ADM-22 | Logout | | | Planned |
-| TC-CUS-01 | Customer Registration | | | Planned |
-| TC-CUS-02 | Customer Login | | | Planned |
-| TC-CUS-03 | Invalid Customer Login | | | Planned |
-| TC-CUS-04 | View Profile | | | Planned |
-| TC-CUS-05 | Update Profile | | | Planned |
-| TC-CUS-06 | View Product Categories | | | Planned |
-| TC-CUS-07 | Search Product by Name | | | Planned |
-| TC-CUS-08 | Search Product by Category | | | Planned |
-| TC-CUS-09 | Search Product by Price | | | Planned |
-| TC-CUS-10 | View Products | | | Planned |
-| TC-CUS-11 | View Product Details | | | Planned |
-| TC-CUS-12 | Add to Cart | | | Planned |
-| TC-CUS-13 | View Cart | | | Planned |
-| TC-CUS-14 | Update Cart Quantity | | | Planned |
-| TC-CUS-15 | Remove from Cart | | | Planned |
-| TC-CUS-16 | Submit Cart | | | Planned |
-| TC-CUS-17 | Dummy Payment | | | Planned |
-| TC-CUS-18 | View Order Confirmation | | | Planned |
-| TC-CUS-19 | View Order History | | | Planned |
-| TC-CUS-20 | View Order Details | | | Planned |
-| TC-CUS-21 | Add Rating | | | Planned |
-| TC-CUS-22 | Add Review | | | Planned |
-| TC-CUS-23 | Post Query | | | Planned |
-| TC-CUS-24 | View Queries | | | Planned |
-| TC-CUS-25 | Reply Query | | | Planned |
-| TC-CUS-26 | View Conversation History | | | Planned |
-| TC-CUS-27 | Logout | | | Planned |
-| TC-AI-01 | Verify Product Feature Extraction | | | Planned |
-| TC-AI-02 | Verify Similar Product Recommendations | | | Planned |
-| TC-AI-03 | Verify Customer-Based Recommendations | | | Planned |
-| TC-AI-04 | Verify Recommended Product Display | | | Planned |
-| TC-AI-05 | Verify Recommended Product Details | | | Planned |
-| TC-AI-06 | Verify Recommendation After Product View | | | Planned |
-| TC-AI-07 | Verify Recommendation After Adding Product to Cart | | | Planned |
-| TC-AI-08 | Verify Recommendation for New Customer | | | Planned |
+| TC-ADM-01 | Admin Login | `tests/admin/test_admin.py::test_admin_login` | `tests/admin/test_admin.py::test_admin_login` (passed, runs 2 and 3) | Tested |
+| TC-ADM-02 | Invalid Admin Login | `tests/admin/test_admin.py::test_invalid_admin_login` | `tests/admin/test_admin.py::test_invalid_admin_login` (passed, runs 2 and 3) | Tested |
+| TC-ADM-03 | View Dashboard | `tests/admin/test_admin.py::test_view_dashboard` | `tests/admin/test_admin.py::test_view_dashboard` (passed, runs 2 and 3) | Tested |
+| TC-ADM-04 | Add Category | `tests/admin/test_admin.py::test_add_category` | `tests/admin/test_admin.py::test_add_category` (passed, runs 2 and 3) | Tested |
+| TC-ADM-05 | View Categories | `tests/admin/test_admin.py::test_view_categories` | `tests/admin/test_admin.py::test_view_categories` (passed, runs 2 and 3) | Tested |
+| TC-ADM-06 | Update Category | `tests/admin/test_admin.py::test_update_category` | `tests/admin/test_admin.py::test_update_category` (passed, runs 2 and 3) | Tested |
+| TC-ADM-07 | Delete Category | `tests/admin/test_admin.py::test_delete_category` | `tests/admin/test_admin.py::test_delete_category` (passed, runs 2 and 3) | Tested |
+| TC-ADM-08 | Add Product | `tests/admin/test_admin.py::test_add_product` | `tests/admin/test_admin.py::test_add_product` (passed, runs 2 and 3) | Tested |
+| TC-ADM-09 | View Products | `tests/admin/test_admin.py::test_view_products` | `tests/admin/test_admin.py::test_view_products` (passed, runs 2 and 3) | Tested |
+| TC-ADM-10 | Update Product | `tests/admin/test_admin.py::test_update_product` | `tests/admin/test_admin.py::test_update_product` (passed, runs 2 and 3) | Tested |
+| TC-ADM-11 | Delete Product | `tests/admin/test_admin.py::test_delete_product` | `tests/admin/test_admin.py::test_delete_product` (passed, runs 2 and 3) | Tested |
+| TC-ADM-12 | View Customers | `tests/admin/test_admin.py::test_view_customers` | `tests/admin/test_admin.py::test_view_customers` (passed, runs 2 and 3) | Tested |
+| TC-ADM-13 | Activate Customer | `tests/admin/test_admin.py::test_activate_customer` | `tests/admin/test_admin.py::test_activate_customer` (passed, runs 2 and 3) | Tested |
+| TC-ADM-14 | Deactivate Customer | `tests/admin/test_admin.py::test_deactivate_customer` | `tests/admin/test_admin.py::test_deactivate_customer` (passed, runs 2 and 3) | Tested |
+| TC-ADM-15 | View Orders | `tests/admin/test_admin.py::test_view_orders` | `tests/admin/test_admin.py::test_view_orders` (passed, runs 2 and 3) | Tested |
+| TC-ADM-16 | Update Order Status | `tests/admin/test_admin.py::test_update_order_status` | `tests/admin/test_admin.py::test_update_order_status` (passed, runs 2 and 3) | Tested |
+| TC-ADM-17 | View Product Ratings / Reviews | `tests/admin/test_admin.py::test_view_ratings_and_reviews` | `tests/admin/test_admin.py::test_view_ratings_and_reviews` (passed, runs 2 and 3) | Tested |
+| TC-ADM-18 | View Queries | `tests/admin/test_admin.py::test_view_queries` | `tests/admin/test_admin.py::test_view_queries` (passed, runs 2 and 3) | Tested |
+| TC-ADM-19 | Post Query | `tests/admin/test_admin.py::test_post_query` | `tests/admin/test_admin.py::test_post_query` (passed, runs 2 and 3) | Tested |
+| TC-ADM-20 | Reply Query | `tests/admin/test_admin.py::test_reply_query` | `tests/admin/test_admin.py::test_reply_query` (passed, runs 2 and 3) | Tested |
+| TC-ADM-21 | View Conversation History | `tests/admin/test_admin.py::test_view_conversation_history` | `tests/admin/test_admin.py::test_view_conversation_history` (passed, runs 2 and 3) | Tested |
+| TC-ADM-22 | Logout | `tests/admin/test_admin.py::test_admin_logout` | `tests/admin/test_admin.py::test_admin_logout` (passed, runs 2 and 3) | Tested |
+| TC-CUS-01 | Customer Registration | `tests/customer/test_account.py::test_customer_registration` | `tests/customer/test_account.py::test_customer_registration` (passed, runs 2 and 3) | Tested |
+| TC-CUS-02 | Customer Login | `tests/customer/test_account.py::test_customer_login` | `tests/customer/test_account.py::test_customer_login` (passed, runs 2 and 3) | Tested |
+| TC-CUS-03 | Invalid Customer Login | `tests/customer/test_account.py::test_invalid_customer_login` | `tests/customer/test_account.py::test_invalid_customer_login` (passed, runs 2 and 3) | Tested |
+| TC-CUS-04 | View Profile | `tests/customer/test_account.py::test_view_profile` | `tests/customer/test_account.py::test_view_profile` (passed, runs 2 and 3) | Tested |
+| TC-CUS-05 | Update Profile | `tests/customer/test_account.py::test_update_profile` | `tests/customer/test_account.py::test_update_profile` (passed, runs 2 and 3) | Tested |
+| TC-CUS-06 | View Product Categories | `tests/customer/test_shopping.py::test_view_product_categories` | `tests/customer/test_shopping.py::test_view_product_categories` (passed, runs 2 and 3) | Tested |
+| TC-CUS-07 | Search Product by Name | `tests/customer/test_shopping.py::test_search_product_by_name` | `tests/customer/test_shopping.py::test_search_product_by_name` (passed, runs 2 and 3) | Tested |
+| TC-CUS-08 | Search Product by Category | `tests/customer/test_shopping.py::test_search_product_by_category` | `tests/customer/test_shopping.py::test_search_product_by_category` (passed, runs 2 and 3) | Tested |
+| TC-CUS-09 | Search Product by Price | `tests/customer/test_shopping.py::test_search_product_by_price` | `tests/customer/test_shopping.py::test_search_product_by_price` (passed, runs 2 and 3) | Tested |
+| TC-CUS-10 | View Products | `tests/customer/test_shopping.py::test_view_products` | `tests/customer/test_shopping.py::test_view_products` (passed, runs 2 and 3) | Tested |
+| TC-CUS-11 | View Product Details | `tests/customer/test_shopping.py::test_view_product_details` | `tests/customer/test_shopping.py::test_view_product_details` (passed, runs 2 and 3) | Tested |
+| TC-CUS-12 | Add to Cart | `tests/customer/test_shopping.py::test_add_to_cart` | `tests/customer/test_shopping.py::test_add_to_cart` (passed, runs 2 and 3) | Tested |
+| TC-CUS-13 | View Cart | `tests/customer/test_shopping.py::test_view_cart` | `tests/customer/test_shopping.py::test_view_cart` (passed, runs 2 and 3) | Tested |
+| TC-CUS-14 | Update Cart Quantity | `tests/customer/test_shopping.py::test_update_cart_quantity` | `tests/customer/test_shopping.py::test_update_cart_quantity` (passed, runs 2 and 3) | Tested |
+| TC-CUS-15 | Remove from Cart | `tests/customer/test_shopping.py::test_remove_from_cart` | `tests/customer/test_shopping.py::test_remove_from_cart` (passed, runs 2 and 3) | Tested |
+| TC-CUS-16 | Submit Cart | `tests/customer/test_shopping.py::test_submit_cart` | `tests/customer/test_shopping.py::test_submit_cart` (passed, runs 2 and 3) | Tested |
+| TC-CUS-17 | Dummy Payment | `tests/customer/test_shopping.py::test_dummy_payment` | `tests/customer/test_shopping.py::test_dummy_payment` (passed, runs 2 and 3) | Tested |
+| TC-CUS-18 | View Order Confirmation | `tests/customer/test_shopping.py::test_view_order_confirmation` | `tests/customer/test_shopping.py::test_view_order_confirmation` (passed, runs 2 and 3) | Tested |
+| TC-CUS-19 | View Order History | `tests/customer/test_shopping.py::test_view_order_history` | `tests/customer/test_shopping.py::test_view_order_history` (passed, runs 2 and 3) | Tested |
+| TC-CUS-20 | View Order Details | `tests/customer/test_shopping.py::test_view_order_details` | `tests/customer/test_shopping.py::test_view_order_details` (passed, runs 2 and 3) | Tested |
+| TC-CUS-21 | Add Rating | `tests/customer/test_feedback_queries.py::test_add_rating` | `tests/customer/test_feedback_queries.py::test_add_rating` (passed, runs 2 and 3) | Tested |
+| TC-CUS-22 | Add Review | `tests/customer/test_feedback_queries.py::test_add_review` | `tests/customer/test_feedback_queries.py::test_add_review` (passed, runs 2 and 3) | Tested |
+| TC-CUS-23 | Post Query | `tests/customer/test_feedback_queries.py::test_post_query` | `tests/customer/test_feedback_queries.py::test_post_query` (passed, runs 2 and 3) | Tested |
+| TC-CUS-24 | View Queries | `tests/customer/test_feedback_queries.py::test_view_queries` | `tests/customer/test_feedback_queries.py::test_view_queries` (passed, runs 2 and 3) | Tested |
+| TC-CUS-25 | Reply Query | `tests/customer/test_feedback_queries.py::test_reply_query` | `tests/customer/test_feedback_queries.py::test_reply_query` (passed, runs 2 and 3) | Tested |
+| TC-CUS-26 | View Conversation History | `tests/customer/test_feedback_queries.py::test_view_conversation_history` | `tests/customer/test_feedback_queries.py::test_view_conversation_history` (passed, runs 2 and 3) | Tested |
+| TC-CUS-27 | Logout | `tests/customer/test_account.py::test_customer_logout` | `tests/customer/test_account.py::test_customer_logout` (passed, runs 2 and 3) | Tested |
+| TC-AI-01 | Verify Product Feature Extraction | `tests/ai/test_ai.py::test_product_feature_extraction` | `tests/ai/test_ai.py::test_product_feature_extraction` (passed, runs 2 and 3) | Tested |
+| TC-AI-02 | Verify Similar Product Recommendations | `tests/ai/test_ai.py::test_similar_product_recommendations` | `tests/ai/test_ai.py::test_similar_product_recommendations` (passed, runs 2 and 3) | Tested |
+| TC-AI-03 | Verify Customer-Based Recommendations | `tests/ai/test_ai.py::test_customer_based_recommendations` | `tests/ai/test_ai.py::test_customer_based_recommendations` (passed, runs 2 and 3) | Tested |
+| TC-AI-04 | Verify Recommended Product Display | `tests/ai/test_ai.py::test_recommended_product_display` | `tests/ai/test_ai.py::test_recommended_product_display` (passed, runs 2 and 3) | Tested |
+| TC-AI-05 | Verify Recommended Product Details | `tests/ai/test_ai.py::test_recommended_product_details` | `tests/ai/test_ai.py::test_recommended_product_details` (passed, runs 2 and 3) | Tested |
+| TC-AI-06 | Verify Recommendation After Product View | `tests/ai/test_ai.py::test_recommendation_after_product_view` | `tests/ai/test_ai.py::test_recommendation_after_product_view` (passed, runs 2 and 3) | Tested |
+| TC-AI-07 | Verify Recommendation After Adding Product to Cart | `tests/ai/test_ai.py::test_recommendation_after_adding_to_cart` | `tests/ai/test_ai.py::test_recommendation_after_adding_to_cart` (passed, runs 2 and 3) | Tested |
+| TC-AI-08 | Verify Recommendation for New Customer | `tests/ai/test_ai.py::test_recommendation_for_new_customer` | `tests/ai/test_ai.py::test_recommendation_for_new_customer` (passed, runs 2 and 3) | Tested |
+
+| TC-NEG-01 | Duplicate email registration (extra negative) | `tests/customer/test_negative.py::test_duplicate_email_registration` | `tests/customer/test_negative.py::test_duplicate_email_registration` (passed, runs 2 and 3) | Tested |
+| TC-NEG-02 | Deactivated customer login blocked (extra negative) | `tests/customer/test_negative.py::test_deactivated_customer_cannot_log_in` | `tests/customer/test_negative.py::test_deactivated_customer_cannot_log_in` (passed, runs 2 and 3) | Tested |
+| TC-NEG-03 | Add out-of-stock product (extra negative) | `tests/customer/test_negative.py::test_out_of_stock_product_cannot_be_added` | `tests/customer/test_negative.py::test_out_of_stock_product_cannot_be_added` (passed, runs 2 and 3) | Tested |
+| TC-NEG-04 | Cart quantity above stock (extra negative) | `tests/customer/test_negative.py::test_cart_quantity_cannot_exceed_stock` | `tests/customer/test_negative.py::test_cart_quantity_cannot_exceed_stock` (passed, runs 2 and 3) | Tested |
+| TC-NEG-05 | Payment failure does not confirm (extra negative) | `tests/customer/test_negative.py::test_payment_failure_does_not_confirm` | `tests/customer/test_negative.py::test_payment_failure_does_not_confirm` (passed, runs 2 and 3) | Tested |
+| TC-NEG-06 | Customer cannot open admin pages (extra negative) | `tests/customer/test_negative.py::test_customer_cannot_open_admin_pages` | `tests/customer/test_negative.py::test_customer_cannot_open_admin_pages` (passed, runs 2 and 3) | Tested |
+| TC-NEG-07 | Customer cannot see another customer's conversation (extra negative) | `tests/customer/test_negative.py::test_customer_cannot_see_another_customers_conversation` | `tests/customer/test_negative.py::test_customer_cannot_see_another_customers_conversation` (passed, runs 2 and 3) | Tested |
+| TC-NEG-08 | Invalid price and negative quantity rejected (extra negative) | `tests/customer/test_negative.py::test_invalid_price_and_negative_quantity_rejected` | `tests/customer/test_negative.py::test_invalid_price_and_negative_quantity_rejected` (passed, runs 2 and 3) | Tested |
 
 ## G. End-to-end scenarios
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| E2E-01 | Customer Shopping: Registration → Login → Search → View Product → Add to Cart → Submit Cart → Dummy Payment → Order Confirmation → Logout | | | Planned |
-| E2E-02 | AI Recommendation: Login → View Product → Generate AI Recommendations → View Recommended Products → Select Recommended Product → Add to Cart | | | Planned |
-| E2E-03 | Admin Product Management: Login → Add Category → Add Product → View Product → Update Product → Delete Product → Logout | | | Planned |
-| E2E-04 | Order Management: Customer Places Order → Admin Views Order → Admin Updates Order Status → Customer Views Updated Order Status | | | Planned |
+| E2E-01 | Customer Shopping: Registration → Login → Search → View Product → Add to Cart → Submit Cart → Dummy Payment → Order Confirmation → Logout | `tests/e2e/test_workflows.py::test_customer_shopping_workflow` | `tests/e2e/test_workflows.py::test_customer_shopping_workflow` (passed, runs 2 and 3) | Tested |
+| E2E-02 | AI Recommendation: Login → View Product → Generate AI Recommendations → View Recommended Products → Select Recommended Product → Add to Cart | `tests/e2e/test_workflows.py::test_ai_recommendation_workflow` | `tests/e2e/test_workflows.py::test_ai_recommendation_workflow` (passed, runs 2 and 3) | Tested |
+| E2E-03 | Admin Product Management: Login → Add Category → Add Product → View Product → Update Product → Delete Product → Logout | `tests/e2e/test_workflows.py::test_admin_product_management_workflow` | `tests/e2e/test_workflows.py::test_admin_product_management_workflow` (passed, runs 2 and 3) | Tested |
+| E2E-04 | Order Management: Customer Places Order → Admin Views Order → Admin Updates Order Status → Customer Views Updated Order Status | `tests/e2e/test_workflows.py::test_order_management_workflow` | `tests/e2e/test_workflows.py::test_order_management_workflow` (passed, runs 2 and 3) | Tested |
 
 ## H. Test execution reporting
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| REP-01 | Test Execution Report (id, test_case_id, execution_date, actual_result, status, execution_time, screenshot_path) | `testreports/models.py` TestExecution (reports DB) |  | Implemented |
-| REP-02 | Test Summary Report (id, execution_date, total_tests, passed_tests, failed_tests, skipped_tests, total_execution_time, report_path) | `testreports/models.py` TestSummary (reports DB) |  | Implemented |
-| REP-03 | Generate HTML Test Report | | | Planned |
-| REP-04 | View Passed Test Cases | | | Planned |
-| REP-05 | View Failed Test Cases | | | Planned |
-| REP-06 | Capture Screenshots for Failed Test Cases | | | Planned |
-| REP-07 | View Test Execution Summary | | | Planned |
+| REP-01 | Test Execution Report (id, test_case_id, execution_date, actual_result, status, execution_time, screenshot_path) | `testreports/models.py` TestExecution (reports DB) | `tests/unit/test_reports.py::test_record_run_creates_summary_and_executions` | Tested |
+| REP-02 | Test Summary Report (id, execution_date, total_tests, passed_tests, failed_tests, skipped_tests, total_execution_time, report_path) | `testreports/models.py` TestSummary (reports DB) | `tests/unit/test_reports.py::test_record_run_creates_summary_and_executions` | Tested |
+| REP-03 | Generate HTML Test Report | pytest-html via `pytest.ini`; a copy per run in `reports/runs/<run>/report.html`, linked from the admin page | runs 2 and 3 | Tested |
+| REP-04 | View Passed Test Cases | `adminpanel/views/reports.report_detail` (?status=Passed) | `tests/unit/test_reports.py::test_report_pages` | Tested |
+| REP-05 | View Failed Test Cases | `adminpanel/views/reports.report_detail` (?status=Failed) | `tests/unit/test_reports.py::test_report_pages` | Tested |
+| REP-06 | Capture Screenshots for Failed Test Cases | `tests/conftest.py` (reports/screenshots/<run>/, embedded in the HTML report, path stored in TestExecution) | deliberate-failure check (Phase 10); `test_reports.py::test_report_pages` | Tested |
+| REP-07 | View Test Execution Summary | `adminpanel/views/reports.report_list` (latest run summary + all runs) | `tests/unit/test_reports.py::test_report_pages` | Tested |
 
 ## I. Implementation rules
 | ID | Brief item | Implemented in | Covered by test | Status |
@@ -239,41 +248,41 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R6.5 | New conversation starts with parent_message_id = NULL | `messaging/services.start_conversation` (parent_message=None) | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
 | R6.6 | Customers view only their own conversations | `messaging/services.ensure_can_view` / `conversations_for` | `test_admin_services.py::test_customer_cannot_see_other_thread`, `test_reviews_queries.py::test_customer_sees_only_own_conversations` (403 on view and reply) | Tested |
 | R6.7 | Admin can view and respond to customer conversations | `adminpanel/views/queries.py` | `test_reviews_queries.py::test_admin_reply_shows_in_customer_thread_and_marks_read`; verified in the browser (Gate 7) | Tested |
-| R7.1 | Playwright with Python automates browser functional tests | | | Planned |
-| R7.2 | Pytest manages execution, fixtures, assertions | | | Planned |
-| R7.3 | Tests verify expected vs actual behaviour | | | Planned |
-| R7.4 | Positive and negative scenarios included | | | Planned |
-| R7.5 | Reliable Playwright locators | | | Planned |
-| R7.6 | Built-in waiting, no fixed delays | | | Planned |
-| R7.7 | Tests run independently with controlled test data | | | Planned |
-| R7.8 | Tests must not modify production data | | | Planned |
-| R7.9 | Failed tests capture screenshots | | | Planned |
-| R7.10 | Reports keep Pass/Fail status and execution details | | | Planned |
-| R7.11 | HTML reports via pytest-html | | | Planned |
-| R8.1 | E2E tests verify complete workflows | | | Planned |
-| R8.2 | Verify visible behaviour and persisted results | | | Planned |
-| R8.3 | Checkout tests verify order totals and confirmation | | | Planned |
-| R8.4 | AI tests verify relevance to product / customer interests | | | Planned |
-| R8.5 | Headed and headless modes supported | | | Planned |
-| R8.6 | Repeatable on a local laptop | | | Planned |
+| R7.1 | Playwright with Python automates browser functional tests | `tests/admin`, `tests/customer`, `tests/ai`, `tests/e2e` (Playwright sync API) | 69 browser tests passing | Tested |
+| R7.2 | Pytest manages execution, fixtures, assertions | `tests/conftest.py` fixtures, `pytest.ini` markers, `tests/factories.py` | 185 tests passing | Tested |
+| R7.3 | Tests verify expected vs actual behaviour | Each test asserts the catalogue's expected result; `actual_result` stored per execution | runs 2 and 3 | Tested |
+| R7.4 | Positive and negative scenarios included | Positive tests plus `tests/customer/test_negative.py` (TC-NEG-01 to 08), TC-CUS-03, TC-ADM-02 | all passing | Tested |
+| R7.5 | Reliable Playwright locators | get_by_role / get_by_label / get_by_text / get_by_test_id only; checked by grep (no CSS/XPath) | rules check, Phase 10.9 | Tested |
+| R7.6 | Built-in waiting, no fixed delays | `expect(...)` auto-waiting; no `time.sleep` or fixed waits (checked by grep) | rules check, Phase 10.9 | Tested |
+| R7.7 | Tests run independently with controlled test data | `tests/factories.py`; live_server flushes the test DB between tests | single tests pass alone (`-k`), full suite passes in random order | Tested |
+| R7.8 | Tests must not modify production data | Separate test databases (test_db.sqlite3, test_reports.sqlite3) | db.sqlite3 checksum and row counts identical before and after a full run | Tested |
+| R7.9 | Failed tests capture screenshots | `tests/conftest.py` screenshot hook | deliberate-failure check (Phase 10) | Tested |
+| R7.10 | Reports keep Pass/Fail status and execution details | `testreports` models + `record_test_run` | `tests/unit/test_reports.py` | Tested |
+| R7.11 | HTML reports via pytest-html | pytest-html 4.2.0 | runs 2 and 3 | Tested |
+| R8.1 | E2E tests verify complete workflows | `tests/e2e/test_workflows.py` (E2E-01 to 04) | all passing | Tested |
+| R8.2 | Verify visible behaviour and persisted results | E2E and customer tests assert the page AND the database rows | all passing | Tested |
+| R8.3 | Checkout tests verify order totals and confirmation | TC-CUS-13, 16, 17, 18 and E2E-01 assert line amounts and totals | all passing | Tested |
+| R8.4 | AI tests verify relevance to product / customer interests | `tests/ai/test_ai.py` asserts same category / shared keywords first, sorted scores, self and unavailable excluded | all passing | Tested |
+| R8.5 | Headed and headless modes supported | `run_tests.ps1 -Headed -SlowMo`; pytest-playwright `--headed` | run 3 headed, run 2 headless | Tested |
+| R8.6 | Repeatable on a local laptop | Everything local: SQLite, live_server, Chromium | runs on the owner's Windows laptop in about 40 s | Tested |
 | R9.1 | Django Authentication for login/password management | `django.contrib.auth` + `accounts/backends.EmailBackend` |  | Implemented |
 | R9.2 | Role-based authorization (Admin vs Customer) | `core/permissions.py` customer_required / admin_required | `test_auth.py::test_customer_cannot_open_admin`, `::test_admin_cannot_use_customer_pages`, `::test_guest_is_sent_to_admin_login` | Tested |
 | R9.3 | CSRF protection on form submissions | CsrfViewMiddleware + `{% csrf_token %}` on every form | `tests/unit/test_auth.py::test_forms_carry_csrf_tokens` | Tested |
 | R9.4 | Server-side input validation | Django forms in `accounts/forms.py` (server-side clean_* methods) | `tests/unit/test_auth.py::test_registration_rejects_bad_mobile_and_mismatched_passwords` | Tested |
 | R9.5 | No hardcoded credentials in public source | `.env` (git-ignored) + `.env.example`; `config/settings.py` |  | Implemented |
 | R9.6 | Default admin credentials changed before deployment (documented) | | | Planned |
-| R10.1 | Whole app runs locally with Django | | | Planned |
+| R10.1 | Whole app runs locally with Django | Django dev server (`manage.py runserver`), SQLite, local static and media | every browser test runs against the local server (runs 2 and 3) | Tested |
 | R10.2 | SQLite stores data locally | `config/settings.py` DATABASES |  | Implemented |
-| R10.3 | AI runs with locally installed Python libraries | | | Planned |
-| R10.4 | Playwright + Pytest run on the same laptop | | | Planned |
-| R10.5 | Browser visible during automation (headed mode) | | | Planned |
-| R10.6 | HTML reports and failure screenshots stored locally | | | Planned |
-| R10.7 | No internet needed during demo (email simulated locally) | | | Planned |
+| R10.3 | AI runs with locally installed Python libraries | scikit-learn + Pandas installed in `.venv`; no network calls in `recommender/` | `tests/unit/test_engine.py`, `tests/ai/test_ai.py` | Tested |
+| R10.4 | Playwright + Pytest run on the same laptop | `run_tests.ps1` | runs 2 and 3 | Tested |
+| R10.5 | Browser visible during automation (headed mode) | `run_tests.ps1 -Headed` | run 3 | Tested |
+| R10.6 | HTML reports and failure screenshots stored locally | `reports/` (git-ignored): report.html, runs/, screenshots/ | runs 2 and 3 | Tested |
+| R10.7 | No internet needed during demo (email simulated locally) | File email backend writes to `sent_emails/`; Bootstrap, GSAP, fonts and icons served from `static/` (no CDN URLs, checked by grep) | Gate 6 (order email file); E2E-01 checks the email | Tested |
 
 ## J. Must-have extras (CLAUDE.md §2)
 | ID | Item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
 | EXT-01 | Sponsored / featured deals carousel with hover quick-view card; admin sponsored toggle | `templates/core/home.html` (Sponsored deals), `static/js/sponsored.js` (drift, pause on hover/focus/quick view, prev/next, pause button, reduced-motion rail), `static/js/quickview.js` + `catalog/views.quick_view` (hover quick-view card: image, price, rating, stock, Add to cart), admin toggle `adminpanel/views/products.product_toggle_sponsored` | `test_recommender_views.py::test_home_sections`; browser check Phase 9 (screenshots/phase9/home-quickview-1440.jpg); Playwright test in Phase 10 | Implemented |
 | EXT-02 | AI Explainer page (step-by-step, animated, Next/Back) | `recommender/views.explainer`, `templates/recommender/explainer.html`, `static/js/explainer.js` (GSAP, Back/Next, step buttons, arrow keys, Play/Pause, reduced motion) | `test_recommender_views.py`::test_explainer_page_is_public_and_follows_the_choice, ::test_explainer_json | Tested |
-| EXT-03 | Admin Test Reports page | | | Planned |
+| EXT-03 | Admin Test Reports page | `adminpanel/views/reports.py`, `templates/adminpanel/reports/` (runs, filters, timings, screenshots, HTML report links) | `tests/unit/test_reports.py` (4 tests); screenshots/phase10/ | Tested |
 | EXT-04 | docs/CODE_MAP.md | | | Planned |

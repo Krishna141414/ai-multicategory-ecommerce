@@ -47,7 +47,7 @@ and admin list pages that widened the page on phones.
 - Performance: fonts are self-hosted with `font-display: swap` and the main face preloaded; no CDN, so no preconnect
   needed; the quick-view fragment is fetched once per product and cached.
 - Navigation and state: search filters, sort and pagination live in the query string; every navigation is an `<a>`;
-  destructive admin actions (delete, deactivate, cancel order) go through a confirmation dialog.
+  destructive actions (admin delete, deactivate, cancel order, and removing a cart line) go through a confirmation dialog.
 - Zoom: no `user-scalable=no` or `maximum-scale`.
 - Theming: `color-scheme: light` declared; native selects have explicit background and text colours.
 
@@ -61,7 +61,5 @@ and admin list pages that widened the page on phones.
   `Intl.*` in the browser: the pages are server-rendered for one locale (en-IN, ₹), so there is nothing to hydrate
   or mismatch.
 - **`autofocus` on the sign-in email and admin username:** the sign-in page has one job and one primary input.
-- **Removing a cart line is immediate** (no dialog): it is undone by adding the product again, and stock is not
-  reserved until checkout. Destructive actions that lose data (admin deletes, cancelling an order) do confirm.
 - **The Explainer's current step is not in the URL:** the chosen product is (`?product=<id>`); the step is a few seconds
   of reading, and every step is also visible stacked without JavaScript.
