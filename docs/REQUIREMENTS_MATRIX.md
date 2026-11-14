@@ -8,10 +8,10 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
 | STK-01 | Front end: HTML5, CSS3, JavaScript, Bootstrap 5 | `templates/` (HTML5), `static/css/` (custom system over Bootstrap 5.3.8), `static/js/` | full browser suite (runs 2 and 3) | Tested |
-| STK-02 | Server side: Python (Django) | Django 6.1.3 project `config/` + 9 apps |  | Implemented |
-| STK-03 | IDE: Visual Studio Code | Project set up and edited in VS Code (Windows + PowerShell) |  | Implemented |
+| STK-02 | Server side: Python (Django) | Django 6.1.3 project `config/` + 9 apps | every test: 186 tests run against the Django app (run 4) | Tested |
+| STK-03 | IDE: Visual Studio Code | Project set up and edited in VS Code (Windows + PowerShell) | Not testable: the editor used to build the project (explained, no test needed) | Implemented |
 | STK-04 | Web server: Django development server | `python manage.py runserver`; pytest-django `live_server` for the tests | every browser test runs against the Django server | Tested |
-| STK-05 | Database: SQLite | `db.sqlite3` (shop) + `reports.sqlite3` (tests), `config/settings.py` |  | Implemented |
+| STK-05 | Database: SQLite | `db.sqlite3` (shop) + `reports.sqlite3` (tests), `config/settings.py` | every test reads and writes SQLite (test copies of both files); run 4 | Tested |
 | STK-06 | AI technique: content-based product recommendation | `recommender/engine.py` (content-based: product text similarity) | `tests/unit/test_engine.py`, `tests/ai/test_ai.py` | Tested |
 | STK-07 | ML library: scikit-learn | requirements.txt (scikit-learn 1.9.1) | `tests/unit/test_engine.py` | Tested |
 | STK-08 | Data processing: Pandas | requirements.txt (pandas 3.1.1) | `tests/unit/test_engine.py::test_explain_payload` | Tested |
@@ -30,11 +30,11 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | ADM-02 | Dashboard: total_customers, total_categories, total_products, total_orders, total_sales | `adminpanel/services.dashboard_stats`, `adminpanel/views/dashboard.py` | `tests/unit/test_admin_services.py::test_dashboard_totals_count_only_paid_uncancelled_sales` | Tested |
 | ADM-03 | Add Category (id, category_name, description, status, created_date) | `adminpanel/forms.CategoryForm`, `views/categories.category_create` | `test_admin_services.py::test_admin_creates_category_and_rejects_bad_product` | Tested |
 | ADM-04 | View Categories | `views/categories.category_list` (search, pagination) | `test_admin_services.py::test_admin_pages_render_and_are_staff_only` | Tested |
-| ADM-05 | Update Category | `views/categories.category_edit` | TC-ADM-06 | Implemented |
+| ADM-05 | Update Category | `views/categories.category_edit` | `tests/admin/test_admin.py::test_update_category` (TC-ADM-06) | Tested |
 | ADM-06 | Delete Category | `catalog/services.delete_category` (blocked while products exist), `views/categories.category_delete` | `test_admin_services.py::test_category_with_products_cannot_be_deleted`, `::test_empty_category_is_deleted` | Tested |
 | ADM-07 | Add Product (id, category_id, product_name, brand, price, description, image, quantity, keywords, added_date, status) | `adminpanel/forms.ProductForm` (image upload, price>0, qty>=0, MRP, sponsored), `views/products.product_create` | `test_admin_services.py::test_admin_creates_category_and_rejects_bad_product` | Tested |
 | ADM-08 | View Products | `views/products.product_list` (filters) + `product_detail` | `test_admin_services.py::test_admin_pages_render_and_are_staff_only` | Tested |
-| ADM-09 | Update Product | `views/products.product_edit` | TC-ADM-10 | Implemented |
+| ADM-09 | Update Product | `views/products.product_edit` | `tests/admin/test_admin.py::test_update_product` (TC-ADM-10) | Tested |
 | ADM-10 | Delete Product | `catalog/services.delete_product` (soft delete when ordered), `views/products.product_delete` | `test_admin_services.py::test_delete_product_with_orders_soft_deletes`, `::test_delete_product_without_orders_hard_deletes` | Tested |
 | ADM-11 | View Customers (id, name, email, mobile_number, address, registered_date, status) | `views/customers.customer_list` / `customer_detail` | `test_admin_services.py::test_admin_pages_render_and_are_staff_only` | Tested |
 | ADM-12 | Activate / Deactivate Customer | `accounts/services.set_customer_status`, `views/customers.customer_set_status` | `test_admin_services.py::test_admin_deactivates_customer` | Tested |
@@ -44,14 +44,14 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | ADM-16 | View Queries | `messaging/services.conversations_for`, `views/queries.query_inbox` | `test_admin_services.py::test_customer_cannot_see_other_thread` | Tested |
 | ADM-17 | Post Query / Reply Query (id, conversation_id, sender_id, sender_type, receiver_id, receiver_type, parent_message_id, subject, message, posted_date, status) | `messaging/services.start_conversation` / `reply`, `views/queries.query_new` / `query_thread` | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
 | ADM-18 | View Conversation History | `messaging/services.thread`, `templates/partials/thread.html` | `test_reviews_queries.py::test_admin_reply_shows_in_customer_thread_and_marks_read`; TC-ADM-21 (Phase 10) | Tested |
-| ADM-19 | Logout | `adminpanel/views/auth.admin_logout` (POST) | TC-ADM-22 | Implemented |
+| ADM-19 | Logout | `adminpanel/views/auth.admin_logout` (POST) | `tests/admin/test_admin.py::test_admin_logout` (TC-ADM-22) | Tested |
 
 ## C. Customer features
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
 | CUS-01 | Registration (id, name, email, mobile_number, password, address, registered_date, status) | `accounts/forms.RegistrationForm`, `accounts/views.register`, `accounts/services.register_customer` | `tests/unit/test_auth.py::test_register_creates_active_customer` | Tested |
 | CUS-02 | Login (email, password) | `accounts/backends.EmailBackend`, `accounts/views.login_view` | `tests/unit/test_auth.py::test_customer_login_with_email`, `::test_invalid_login_shows_generic_error` | Tested |
-| CUS-03 | View Profile | `accounts/views.profile`, `templates/accounts/profile.html` | TC-CUS-04 | Implemented |
+| CUS-03 | View Profile | `accounts/views.profile`, `templates/accounts/profile.html` | `tests/customer/test_account.py::test_view_profile` (TC-CUS-04) | Tested |
 | CUS-04 | Update Profile | `accounts/forms.ProfileForm`, `accounts/views.profile_edit` | `tests/unit/test_auth.py::test_profile_update_keeps_email_unique` | Tested |
 | CUS-05 | View Product Categories | `catalog/views.category_list`, `templates/catalog/categories.html` | `tests/unit/test_search.py::test_category_page_and_grid` | Tested |
 | CUS-06 | Search Product (product_name, category, min_price, max_price) | `catalog/forms.ProductSearchForm`, `catalog/services.search_products` | `test_search.py::test_search_by_name_icontains`, `::test_search_by_category`, `::test_search_by_price_range`, `::test_combined_filters`, `::test_invalid_price_range_shows_error` | Tested |
@@ -79,16 +79,16 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 ## D. Product categories (exact names)
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| CAT-01 | Electronics | `catalog/seed_data.py` CATEGORIES, `core/demo.seed_catalog` |  | Implemented |
-| CAT-02 | Fashion and Clothing | `catalog/seed_data.py` CATEGORIES |  | Implemented |
-| CAT-03 | Home and Furniture | `catalog/seed_data.py` CATEGORIES |  | Implemented |
-| CAT-04 | Books and Stationery | `catalog/seed_data.py` CATEGORIES |  | Implemented |
-| CAT-05 | Beauty and Personal Care | `catalog/seed_data.py` CATEGORIES |  | Implemented |
-| CAT-06 | Sports and Fitness | `catalog/seed_data.py` CATEGORIES |  | Implemented |
-| CAT-07 | Mobile Phones and Accessories | `catalog/seed_data.py` CATEGORIES |  | Implemented |
-| CAT-08 | Computers and Laptops | `catalog/seed_data.py` CATEGORIES |  | Implemented |
-| CAT-09 | Toys and Games | `catalog/seed_data.py` CATEGORIES |  | Implemented |
-| CAT-10 | Kitchen and Home Appliances | `catalog/seed_data.py` CATEGORIES |  | Implemented |
+| CAT-01 | Electronics | `catalog/seed_data.py` CATEGORIES, `core/demo.seed_catalog` | `tests/unit/test_seed.py::test_seed_categories_match_the_brief_exactly` | Tested |
+| CAT-02 | Fashion and Clothing | `catalog/seed_data.py` CATEGORIES | `tests/unit/test_seed.py::test_seed_categories_match_the_brief_exactly` | Tested |
+| CAT-03 | Home and Furniture | `catalog/seed_data.py` CATEGORIES | `tests/unit/test_seed.py::test_seed_categories_match_the_brief_exactly` | Tested |
+| CAT-04 | Books and Stationery | `catalog/seed_data.py` CATEGORIES | `tests/unit/test_seed.py::test_seed_categories_match_the_brief_exactly` | Tested |
+| CAT-05 | Beauty and Personal Care | `catalog/seed_data.py` CATEGORIES | `tests/unit/test_seed.py::test_seed_categories_match_the_brief_exactly` | Tested |
+| CAT-06 | Sports and Fitness | `catalog/seed_data.py` CATEGORIES | `tests/unit/test_seed.py::test_seed_categories_match_the_brief_exactly` | Tested |
+| CAT-07 | Mobile Phones and Accessories | `catalog/seed_data.py` CATEGORIES | `tests/unit/test_seed.py::test_seed_categories_match_the_brief_exactly` | Tested |
+| CAT-08 | Computers and Laptops | `catalog/seed_data.py` CATEGORIES | `tests/unit/test_seed.py::test_seed_categories_match_the_brief_exactly` | Tested |
+| CAT-09 | Toys and Games | `catalog/seed_data.py` CATEGORIES | `tests/unit/test_seed.py::test_seed_categories_match_the_brief_exactly` | Tested |
+| CAT-10 | Kitchen and Home Appliances | `catalog/seed_data.py` CATEGORIES | `tests/unit/test_seed.py::test_seed_categories_match_the_brief_exactly` | Tested |
 
 ## E. AI data, functionalities and output
 | ID | Brief item | Implemented in | Covered by test | Status |
@@ -106,15 +106,15 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | AI-F9 | View Similar Products | `templates/recommender/_similar.html` on the product page (`catalog/views.product_detail`) | `test_recommender_views.py`::test_product_page_shows_similar_products; TC-AI-02, E2E-02 | Tested |
 | AI-O1 | Output: recommended product name | `_rec_card.html` (rec-name) | `test_recommender_views.py`::test_product_page_shows_similar_products; TC-AI-05 | Tested |
 | AI-O2 | Output: product category | `_rec_card.html` (rec-category) | `test_recommender_views.py`::test_explainer_json; TC-AI-05 | Tested |
-| AI-O3 | Output: product image | `_rec_card.html` (product image) | TC-AI-05 (Phase 10) | Implemented |
-| AI-O4 | Output: product price | `_rec_card.html` (rec-price) | TC-AI-05 (Phase 10) | Implemented |
+| AI-O3 | Output: product image | `_rec_card.html` (product image) | `tests/ai/test_ai.py::test_recommended_product_details` (TC-AI-05: image visible) | Tested |
+| AI-O4 | Output: product price | `_rec_card.html` (rec-price) | `tests/ai/test_ai.py::test_recommended_product_details` (TC-AI-05: price shown) | Tested |
 | AI-O5 | Output: product similarity score | `_rec_card.html` (rec-score bar + value, data-score) | `test_engine.py`::test_scores_sorted_desc_and_reason; TC-AI-05 | Tested |
 | AI-O6 | Output: top recommended products | Top-N in `Engine.similar` / `personalized` (settings.RECOMMENDER) | `test_engine.py`::test_similar_same_category_first; TC-AI-04 | Tested |
 
 ## F. Test cases — Test Case table (id, test_name, module, test_description, expected_result)
 | ID | Brief item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| TST-00 | Test Case catalogue table (id, test_name, module, test_description, expected_result) | `testreports/models.py` TestCase (reports DB) |  | Implemented |
+| TST-00 | Test Case catalogue table (id, test_name, module, test_description, expected_result) | `testreports/models.py` TestCase (reports DB), filled from `tests/catalog.py` by `sync_test_catalog` | `tests/unit/test_catalog.py`, `tests/unit/test_reports.py::test_sync_catalog_is_idempotent`; listed in `docs/TEST_CASES.md` | Tested |
 | TC-ADM-01 | Admin Login | `tests/admin/test_admin.py::test_admin_login` | `tests/admin/test_admin.py::test_admin_login` (passed, runs 2 and 3) | Tested |
 | TC-ADM-02 | Invalid Admin Login | `tests/admin/test_admin.py::test_invalid_admin_login` | `tests/admin/test_admin.py::test_invalid_admin_login` (passed, runs 2 and 3) | Tested |
 | TC-ADM-03 | View Dashboard | `tests/admin/test_admin.py::test_view_dashboard` | `tests/admin/test_admin.py::test_view_dashboard` (passed, runs 2 and 3) | Tested |
@@ -210,7 +210,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R1.4 | Only authenticated customers access cart, checkout, order history, profile | `core/permissions.customer_required` | `tests/unit/test_auth.py::test_profile_requires_login` | Tested |
 | R1.5 | Deactivated customers cannot log in | `EmailBackend`, `login_error_for`, `set_customer_status`, `ActiveCustomerMiddleware` | `test_auth.py::test_inactive_customer_cannot_login`, `::test_deactivated_session_is_logged_out` | Tested |
 | R2.1 | Only Admin can add/update/delete categories and products | `core/permissions.admin_required` on every catalogue view | `test_admin_services.py::test_admin_pages_render_and_are_staff_only` | Tested |
-| R2.2 | Each product belongs to one category | `catalog/models.py` Product.category FK (PROTECT) |  | Implemented |
+| R2.2 | Each product belongs to one category | `catalog/models.py` Product.category FK (PROTECT) | `tests/unit/test_models.py::test_product_needs_exactly_one_category` | Tested |
 | R2.3 | Product price must be greater than zero | `catalog/models.py` CheckConstraint price>0 | `tests/unit/test_models.py::test_price_must_be_positive` | Tested |
 | R2.4 | Product quantity cannot be negative | `catalog/models.py` CheckConstraint quantity>=0 | `tests/unit/test_models.py::test_quantity_cannot_be_negative` | Tested |
 | R2.5 | Zero-quantity products cannot be added to the cart | `orders/services/cart.add_to_cart` (CartError on zero stock), Add-to-cart button disabled on the product page | `test_checkout_service.py::test_add_to_cart_blocks_zero_stock` | Tested |
@@ -241,8 +241,8 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R5.4 | After successful payment, order status → Confirmed | `orders/services/payment.pay` sets all rows of the order_id to Confirmed | `test_checkout_service.py::test_payment_success_confirms_and_clears_cart_and_emails` | Tested |
 | R5.5 | Show order confirmation and send order info by email | `orders/views.confirmation` + `orders/emails.send_order_email` (on commit) | `test_checkout_service.py::test_payment_success_confirms_and_clears_cart_and_emails`, `test_order_views.py::test_full_flow_pages` | Tested |
 | R5.6 | Failed payments do not mark orders paid/confirmed | `orders/services/payment.pay` failure path (status stays Pending, Payment row Failed) | `test_checkout_service.py::test_payment_failure_keeps_pending` | Tested |
-| R6.1 | Single messages table stores queries and replies | `messaging/models.py` Message |  | Implemented |
-| R6.2 | sender_type / receiver_type identify roles | `messaging/models.py` Message.sender_type / receiver_type |  | Implemented |
+| R6.1 | Single messages table stores queries and replies | `messaging/models.py` Message | `tests/unit/test_reviews_queries.py::test_reply_reuses_conversation_id_and_points_to_parent` (query and reply in the same table) | Tested |
+| R6.2 | sender_type / receiver_type identify roles | `messaging/models.py` Message.sender_type / receiver_type | `tests/unit/test_reviews_queries.py::test_post_query_starts_a_conversation`, `tests/admin/test_admin.py::test_post_query` (sender/receiver types asserted) | Tested |
 | R6.3 | conversation_id groups a conversation | `messaging/services.new_conversation_id` / `reply` | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
 | R6.4 | parent_message_id identifies the message replied to | `messaging/services.reply` (parent = latest message) | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
 | R6.5 | New conversation starts with parent_message_id = NULL | `messaging/services.start_conversation` (parent_message=None) | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
@@ -265,14 +265,14 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R8.4 | AI tests verify relevance to product / customer interests | `tests/ai/test_ai.py` asserts same category / shared keywords first, sorted scores, self and unavailable excluded | all passing | Tested |
 | R8.5 | Headed and headless modes supported | `run_tests.ps1 -Headed -SlowMo`; pytest-playwright `--headed` | run 3 headed, run 2 headless | Tested |
 | R8.6 | Repeatable on a local laptop | Everything local: SQLite, live_server, Chromium | runs on the owner's Windows laptop in about 40 s | Tested |
-| R9.1 | Django Authentication for login/password management | `django.contrib.auth` + `accounts/backends.EmailBackend` |  | Implemented |
+| R9.1 | Django Authentication for login/password management | `django.contrib.auth` + `accounts/backends.EmailBackend` | `tests/unit/test_auth.py::test_password_is_hashed`, `tests/customer/test_account.py::test_customer_registration` | Tested |
 | R9.2 | Role-based authorization (Admin vs Customer) | `core/permissions.py` customer_required / admin_required | `test_auth.py::test_customer_cannot_open_admin`, `::test_admin_cannot_use_customer_pages`, `::test_guest_is_sent_to_admin_login` | Tested |
 | R9.3 | CSRF protection on form submissions | CsrfViewMiddleware + `{% csrf_token %}` on every form | `tests/unit/test_auth.py::test_forms_carry_csrf_tokens` | Tested |
 | R9.4 | Server-side input validation | Django forms in `accounts/forms.py` (server-side clean_* methods) | `tests/unit/test_auth.py::test_registration_rejects_bad_mobile_and_mismatched_passwords` | Tested |
-| R9.5 | No hardcoded credentials in public source | `.env` (git-ignored) + `.env.example`; `config/settings.py` |  | Implemented |
-| R9.6 | Default admin credentials changed before deployment (documented) | | | Planned |
+| R9.5 | No hardcoded credentials in public source | `.env` (git-ignored) + `.env.example`; `config/settings.py` | Secret scan 14 Nov 2026: `.env` not tracked; none of its secret values appear in the 550 tracked files | Tested |
+| R9.6 | Default admin credentials changed before deployment (documented) | README.md (Setup: "Change the default admin password before deploying anywhere", `create_default_admin --reset-password`) and `.env.example` comment | Documentation requirement, not testable; the warning is in README.md and .env.example | Implemented |
 | R10.1 | Whole app runs locally with Django | Django dev server (`manage.py runserver`), SQLite, local static and media | every browser test runs against the local server (runs 2 and 3) | Tested |
-| R10.2 | SQLite stores data locally | `config/settings.py` DATABASES |  | Implemented |
+| R10.2 | SQLite stores data locally | `config/settings.py` DATABASES | every test uses SQLite files on this machine (run 4) | Tested |
 | R10.3 | AI runs with locally installed Python libraries | scikit-learn + Pandas installed in `.venv`; no network calls in `recommender/` | `tests/unit/test_engine.py`, `tests/ai/test_ai.py` | Tested |
 | R10.4 | Playwright + Pytest run on the same laptop | `run_tests.ps1` | runs 2 and 3 | Tested |
 | R10.5 | Browser visible during automation (headed mode) | `run_tests.ps1 -Headed` | run 3 | Tested |
@@ -282,7 +282,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 ## J. Must-have extras (CLAUDE.md §2)
 | ID | Item | Implemented in | Covered by test | Status |
 |---|---|---|---|---|
-| EXT-01 | Sponsored / featured deals carousel with hover quick-view card; admin sponsored toggle | `templates/core/home.html` (Sponsored deals), `static/js/sponsored.js` (drift, pause on hover/focus/quick view, prev/next, pause button, reduced-motion rail), `static/js/quickview.js` + `catalog/views.quick_view` (hover quick-view card: image, price, rating, stock, Add to cart), admin toggle `adminpanel/views/products.product_toggle_sponsored` | `test_recommender_views.py::test_home_sections`; browser check Phase 9 (screenshots/phase9/home-quickview-1440.jpg); Playwright test in Phase 10 | Implemented |
+| EXT-01 | Sponsored / featured deals carousel with hover quick-view card; admin sponsored toggle | `templates/core/home.html` (Sponsored deals), `static/js/sponsored.js` (drift, pause on hover/focus/quick view, prev/next, pause button, reduced-motion rail), `static/js/quickview.js` + `catalog/views.quick_view` (hover quick-view card: image, price, rating, stock, Add to cart), admin toggle `adminpanel/views/products.product_toggle_sponsored` | `tests/customer/test_sponsored.py` (3 browser tests: hover quick view + add to cart, pause, static when few deals, admin toggle); `tests/unit/test_recommender_views.py::test_home_sections` | Tested |
 | EXT-02 | AI Explainer page (step-by-step, animated, Next/Back) | `recommender/views.explainer`, `templates/recommender/explainer.html`, `static/js/explainer.js` (GSAP, Back/Next, step buttons, arrow keys, Play/Pause, reduced motion) | `test_recommender_views.py`::test_explainer_page_is_public_and_follows_the_choice, ::test_explainer_json | Tested |
 | EXT-03 | Admin Test Reports page | `adminpanel/views/reports.py`, `templates/adminpanel/reports/` (runs, filters, timings, screenshots, HTML report links) | `tests/unit/test_reports.py` (4 tests); screenshots/phase10/ | Tested |
-| EXT-04 | docs/CODE_MAP.md | | | Planned |
+| EXT-04 | docs/CODE_MAP.md | `docs/CODE_MAP.md` (every file, main functions, flows in order, video order) | A document, not testable; accuracy-checked 14 Nov 2026 (every cited path resolves, every named function/class exists) | Implemented |

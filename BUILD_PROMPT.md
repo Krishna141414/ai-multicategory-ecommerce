@@ -110,7 +110,7 @@
 - [x] 11.2 `README.md` (Humanizer pass): what it is, features (admin / customer / AI / testing), screenshots preview, tech stack, architecture diagram, setup on Windows step by step (venv, install, `.env`, migrate, `create_default_admin`, `seed_demo`, `build_recommender`, runserver), default admin credentials note (change before deployment), how to run tests (headed/headless, by marker), where reports/screenshots go, project structure, limitations.
 - [x] 11.3 `docs/CODE_MAP.md`: every file/folder → its job; main functions/classes per file; how files connect in order for each flow (register/login, browse/search, cart → checkout → payment → email, recommendation, queries, admin management, test run → reports). Written so the owner can explain it on video.
 - [x] 11.4 `docs/TEST_CASES.md`: the full catalogue table (id, name, module, description, expected result) + latest run summary.
-- [ ] 11.5 Finish `docs/REQUIREMENTS_MATRIX.md` — every row Implemented + Tested, or clearly explained.
+- [x] 11.5 Finish `docs/REQUIREMENTS_MATRIX.md` — every row Implemented + Tested, or clearly explained.
 - **Gate 11:** docs complete and accurate; commit.
 
 ## Phase 12 — Final verification & ship

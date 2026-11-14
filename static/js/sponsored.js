@@ -24,6 +24,13 @@
     return first ? first.getBoundingClientRect().width + gap : 240;
   }
 
+  // ---------- few deals: they all fit, so nothing moves and the controls are not needed ----------
+  if (track.scrollWidth <= viewport.clientWidth) {
+    root.classList.add("is-static");
+    [toggle, prev, next].forEach((button) => { button.hidden = true; });
+    return;
+  }
+
   // ---------- manual rail (reduced motion / no GSAP) ----------
   if (reduceMotion || typeof window.gsap === "undefined") {
     root.classList.add("is-manual");
@@ -35,7 +42,6 @@
 
   // ---------- drifting loop ----------
   root.classList.add("is-drifting");
-  if (track.scrollWidth <= viewport.clientWidth) { toggle.hidden = true; } // nothing to scroll
   items.forEach((item) => {
     const clone = item.cloneNode(true);
     clone.setAttribute("aria-hidden", "true");

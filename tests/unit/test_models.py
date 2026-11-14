@@ -52,3 +52,15 @@ def test_duplicate_email_case_insensitive():
 
 def test_new_customer_is_active_by_default():
     assert make_customer().status == Customer.Status.ACTIVE
+
+
+def test_product_needs_exactly_one_category():
+    # brief rule 2: each product belongs to one category; a category in use can't be deleted from under it
+    from django.db.models import ProtectedError
+
+    with pytest.raises(IntegrityError), transaction.atomic():
+        Product.objects.create(category=None, product_name="No aisle", brand="Sonvale", price=Decimal("10.00"),
+                               description="x", quantity=1)
+    product = make_product()
+    with pytest.raises(ProtectedError):
+        product.category.delete()

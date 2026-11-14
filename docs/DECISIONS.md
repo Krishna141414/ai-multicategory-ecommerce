@@ -82,3 +82,8 @@ Short log of design and architecture choices (decision → reason). Newest at th
 - **Each run keeps its own copy of the HTML report and its screenshots** (`reports/runs/<run>/`, `reports/screenshots/<run>/`); `reports/report.html` is always the latest. The admin page serves these files to staff only and refuses paths outside `reports/`.
 - **pytest-randomly stays installed; `run_tests.ps1` runs in file order by default and `-Random` shuffles.** → A stable order is easier to follow on video; the shuffled run proves independence.
 - **Reviews show on the product page even without a star rating.** → Found by TC-CUS-22: a buyer who only wrote a review saw it saved but not displayed.
+
+## Documentation pass (Phase 11)
+- **When all sponsored deals fit on screen, the strip stays still and hides its controls.** → Found while testing EXT-01: with two deals the pause button was hidden but the strip still drifted, i.e. endless motion with no way to stop it. Now motion only happens when there is something to scroll, and then the pause button is always there.
+- **docs/TEST_CASES.md is generated (`scripts/build_test_cases_doc.py`) from the catalogue, the tc() markers and the latest recorded run.** → It can be refreshed after any run instead of going stale.
+- **Three matrix rows stay "Implemented" on purpose:** STK-03 (the editor), R9.6 (a documentation requirement) and EXT-04 (CODE_MAP, a document). Each row says why; every other row is Tested.

@@ -6,10 +6,11 @@ Run the tests with `.\run_tests.ps1` (see the [README](../README.md#running-the-
 
 ## Latest run
 
-Run 4, 14 Nov 2026, 15:06 (headless): **186 passed, 0 failed, 0 skipped** of 186 tests in 72.4 s. HTML report: `reports/runs/20261114-150639/report.html`.
+Run 5, 14 Nov 2026, 15:11 (headless): **190 passed, 0 failed, 0 skipped** of 190 tests in 56.1 s. HTML report: `reports/runs/20261114-151136/report.html`.
 
 | Run | Date | Mode | Total | Passed | Failed | Skipped | Time |
 |---|---|---|---|---|---|---|---|
+| 5 | 14 Nov 2026, 15:11 | headless | 190 | 190 | 0 | 0 | 56.1 s |
 | 4 | 14 Nov 2026, 15:06 | headless | 186 | 186 | 0 | 0 | 72.4 s |
 | 3 | 11 Nov 2026, 13:59 | headed | 185 | 185 | 0 | 0 | 47.2 s |
 | 2 | 11 Nov 2026, 13:56 | headless | 185 | 185 | 0 | 0 | 39.7 s |
@@ -29,99 +30,99 @@ Run 4, 14 Nov 2026, 15:06 (headless): **186 passed, 0 failed, 0 skipped** of 186
 
 | ID | Test name | Description | Expected result | Test | Latest result |
 |---|---|---|---|---|---|
-| TC-ADM-01 | Admin Login | Sign in on /manage/login/ with the admin username and password. | The dashboard opens and shows the store totals. | `tests/admin/test_admin.py::test_admin_login` | Passed (4.12 s) |
-| TC-ADM-02 | Invalid Admin Login | Sign in with a wrong admin password. | An error is shown and the admin stays on the sign-in page. | `tests/admin/test_admin.py::test_invalid_admin_login` | Passed (0.52 s) |
-| TC-ADM-03 | View Dashboard | Open the dashboard with known data. | Total customers, categories, products, orders and sales match the data. | `tests/admin/test_admin.py::test_view_dashboard` | Passed (0.71 s) |
-| TC-ADM-04 | Add Category | Create a category with a name and description. | A success message appears and the category is listed and stored. | `tests/admin/test_admin.py::test_add_category` | Passed (0.72 s) |
-| TC-ADM-05 | View Categories | Open the category list. | Every category is listed with its product count and status. | `tests/admin/test_admin.py::test_view_categories` | Passed (0.65 s) |
-| TC-ADM-06 | Update Category | Edit a category's name and description. | The new values are shown and stored. | `tests/admin/test_admin.py::test_update_category` | Passed (0.86 s) |
-| TC-ADM-07 | Delete Category | Delete an empty category after confirming. | The category disappears from the list and the database. | `tests/admin/test_admin.py::test_delete_category` | Passed (0.95 s) |
-| TC-ADM-08 | Add Product | Create a product with category, name, brand, price, description, quantity and keywords. | The product is listed and stored with those values. | `tests/admin/test_admin.py::test_add_product` | Passed (1.01 s) |
-| TC-ADM-09 | View Products | Open the product list. | Products are listed with category, price, stock and status. | `tests/admin/test_admin.py::test_view_products` | Passed (0.72 s) |
-| TC-ADM-10 | Update Product | Change a product's price and quantity. | The list and the database show the new price and quantity. | `tests/admin/test_admin.py::test_update_product` | Passed (1.09 s) |
-| TC-ADM-11 | Delete Product | Delete a product that has no orders after confirming. | The product is removed from the list and the database. | `tests/admin/test_admin.py::test_delete_product` | Passed (1.04 s) |
-| TC-ADM-12 | View Customers | Open the customer list. | Customers are listed with name, email, mobile, registered date and status. | `tests/admin/test_admin.py::test_view_customers` | Passed (0.56 s) |
-| TC-ADM-13 | Activate Customer | Activate an inactive customer. | The status changes to Active and the customer can sign in again. | `tests/admin/test_admin.py::test_activate_customer` | Passed (0.67 s) |
-| TC-ADM-14 | Deactivate Customer | Deactivate an active customer after confirming. | The status changes to Inactive and the customer can no longer sign in. | `tests/admin/test_admin.py::test_deactivate_customer` | Passed (0.91 s) |
-| TC-ADM-15 | View Orders | Open the order list. | Orders are grouped by order ID with customer, items, total and status. | `tests/admin/test_admin.py::test_view_orders` | Passed (0.67 s) |
-| TC-ADM-16 | Update Order Status | Move a confirmed order to Shipped. | Every row of the order shows Shipped, on screen and in the database. | `tests/admin/test_admin.py::test_update_order_status` | Passed (0.82 s) |
-| TC-ADM-17 | View Product Ratings / Reviews | Open ratings and reviews. | Each review is listed with product, customer, rating and text. | `tests/admin/test_admin.py::test_view_ratings_and_reviews` | Passed (0.66 s) |
-| TC-ADM-18 | View Queries | Open the queries inbox. | Customer conversations are listed with subject, customer and unread count. | `tests/admin/test_admin.py::test_view_queries` | Passed (0.51 s) |
-| TC-ADM-19 | Post Query | Start a new conversation with a customer. | A message with parent_message_id = NULL and a new conversation_id is stored. | `tests/admin/test_admin.py::test_post_query` | Passed (0.79 s) |
-| TC-ADM-20 | Reply Query | Reply to a customer's query. | The reply reuses the conversation_id and points at the message it answers. | `tests/admin/test_admin.py::test_reply_query` | Passed (0.69 s) |
-| TC-ADM-21 | View Conversation History | Open a conversation with several messages. | All messages are shown in order with sender and time. | `tests/admin/test_admin.py::test_view_conversation_history` | Passed (0.68 s) |
-| TC-ADM-22 | Logout | Sign out of the admin panel. | The admin is signed out and admin pages ask to sign in again. | `tests/admin/test_admin.py::test_admin_logout` | Passed (0.71 s) |
+| TC-ADM-01 | Admin Login | Sign in on /manage/login/ with the admin username and password. | The dashboard opens and shows the store totals. | `tests/admin/test_admin.py::test_admin_login` | Passed (3.75 s) |
+| TC-ADM-02 | Invalid Admin Login | Sign in with a wrong admin password. | An error is shown and the admin stays on the sign-in page. | `tests/admin/test_admin.py::test_invalid_admin_login` | Passed (0.25 s) |
+| TC-ADM-03 | View Dashboard | Open the dashboard with known data. | Total customers, categories, products, orders and sales match the data. | `tests/admin/test_admin.py::test_view_dashboard` | Passed (0.28 s) |
+| TC-ADM-04 | Add Category | Create a category with a name and description. | A success message appears and the category is listed and stored. | `tests/admin/test_admin.py::test_add_category` | Passed (0.35 s) |
+| TC-ADM-05 | View Categories | Open the category list. | Every category is listed with its product count and status. | `tests/admin/test_admin.py::test_view_categories` | Passed (0.25 s) |
+| TC-ADM-06 | Update Category | Edit a category's name and description. | The new values are shown and stored. | `tests/admin/test_admin.py::test_update_category` | Passed (0.38 s) |
+| TC-ADM-07 | Delete Category | Delete an empty category after confirming. | The category disappears from the list and the database. | `tests/admin/test_admin.py::test_delete_category` | Passed (0.57 s) |
+| TC-ADM-08 | Add Product | Create a product with category, name, brand, price, description, quantity and keywords. | The product is listed and stored with those values. | `tests/admin/test_admin.py::test_add_product` | Passed (0.65 s) |
+| TC-ADM-09 | View Products | Open the product list. | Products are listed with category, price, stock and status. | `tests/admin/test_admin.py::test_view_products` | Passed (0.28 s) |
+| TC-ADM-10 | Update Product | Change a product's price and quantity. | The list and the database show the new price and quantity. | `tests/admin/test_admin.py::test_update_product` | Passed (0.66 s) |
+| TC-ADM-11 | Delete Product | Delete a product that has no orders after confirming. | The product is removed from the list and the database. | `tests/admin/test_admin.py::test_delete_product` | Passed (0.61 s) |
+| TC-ADM-12 | View Customers | Open the customer list. | Customers are listed with name, email, mobile, registered date and status. | `tests/admin/test_admin.py::test_view_customers` | Passed (0.24 s) |
+| TC-ADM-13 | Activate Customer | Activate an inactive customer. | The status changes to Active and the customer can sign in again. | `tests/admin/test_admin.py::test_activate_customer` | Passed (0.30 s) |
+| TC-ADM-14 | Deactivate Customer | Deactivate an active customer after confirming. | The status changes to Inactive and the customer can no longer sign in. | `tests/admin/test_admin.py::test_deactivate_customer` | Passed (0.56 s) |
+| TC-ADM-15 | View Orders | Open the order list. | Orders are grouped by order ID with customer, items, total and status. | `tests/admin/test_admin.py::test_view_orders` | Passed (0.29 s) |
+| TC-ADM-16 | Update Order Status | Move a confirmed order to Shipped. | Every row of the order shows Shipped, on screen and in the database. | `tests/admin/test_admin.py::test_update_order_status` | Passed (0.36 s) |
+| TC-ADM-17 | View Product Ratings / Reviews | Open ratings and reviews. | Each review is listed with product, customer, rating and text. | `tests/admin/test_admin.py::test_view_ratings_and_reviews` | Passed (0.28 s) |
+| TC-ADM-18 | View Queries | Open the queries inbox. | Customer conversations are listed with subject, customer and unread count. | `tests/admin/test_admin.py::test_view_queries` | Passed (0.23 s) |
+| TC-ADM-19 | Post Query | Start a new conversation with a customer. | A message with parent_message_id = NULL and a new conversation_id is stored. | `tests/admin/test_admin.py::test_post_query` | Passed (0.38 s) |
+| TC-ADM-20 | Reply Query | Reply to a customer's query. | The reply reuses the conversation_id and points at the message it answers. | `tests/admin/test_admin.py::test_reply_query` | Passed (0.33 s) |
+| TC-ADM-21 | View Conversation History | Open a conversation with several messages. | All messages are shown in order with sender and time. | `tests/admin/test_admin.py::test_view_conversation_history` | Passed (0.30 s) |
+| TC-ADM-22 | Logout | Sign out of the admin panel. | The admin is signed out and admin pages ask to sign in again. | `tests/admin/test_admin.py::test_admin_logout` | Passed (0.33 s) |
 
 ## Customer
 
 | ID | Test name | Description | Expected result | Test | Latest result |
 |---|---|---|---|---|---|
-| TC-CUS-01 | Customer Registration | Register with name, email, mobile, address and password. | The account is created as Active and the customer is signed in. | `tests/customer/test_account.py::test_customer_registration` | Passed (0.78 s) |
-| TC-CUS-02 | Customer Login | Sign in with email and password. | The customer is signed in and sees their first name in the header. | `tests/customer/test_account.py::test_customer_login` | Passed (0.71 s) |
-| TC-CUS-03 | Invalid Customer Login | Sign in with a wrong password. | An error is shown and the customer is not signed in. | `tests/customer/test_account.py::test_invalid_customer_login` | Passed (0.67 s) |
-| TC-CUS-04 | View Profile | Open the profile page. | Name, email, mobile, address, registered date and status are shown. | `tests/customer/test_account.py::test_view_profile` | Passed (0.55 s) |
-| TC-CUS-05 | Update Profile | Change the mobile number and address. | A success message appears and the new values are stored. | `tests/customer/test_account.py::test_update_profile` | Passed (0.67 s) |
-| TC-CUS-06 | View Product Categories | Open the categories page. | Every active category is shown with its product count. | `tests/customer/test_shopping.py::test_view_product_categories` | Passed (0.62 s) |
-| TC-CUS-07 | Search Product by Name | Search for part of a product name. | Only products whose name matches are listed. | `tests/customer/test_shopping.py::test_search_product_by_name` | Passed (0.79 s) |
-| TC-CUS-08 | Search Product by Category | Filter the search by one category. | Only products from that category are listed. | `tests/customer/test_shopping.py::test_search_product_by_category` | Passed (0.80 s) |
-| TC-CUS-09 | Search Product by Price | Filter by a minimum and maximum price. | Only products inside the price range are listed. | `tests/customer/test_shopping.py::test_search_product_by_price` | Passed (0.80 s) |
-| TC-CUS-10 | View Products | Open the product list. | Active products are listed with name, brand, price and image. | `tests/customer/test_shopping.py::test_view_products` | Passed (0.64 s) |
-| TC-CUS-11 | View Product Details | Open a product page. | Name, category, brand, price, description, image, available quantity and rating are shown. | `tests/customer/test_shopping.py::test_view_product_details` | Passed (0.64 s) |
-| TC-CUS-12 | Add to Cart | Add a product with quantity 2. | A confirmation appears, the cart badge shows 2 and a cart row is stored. | `tests/customer/test_shopping.py::test_add_to_cart` | Passed (0.75 s) |
-| TC-CUS-13 | View Cart | Open the cart with two products. | Both lines, their amounts and the correct total are shown. | `tests/customer/test_shopping.py::test_view_cart` | Passed (0.64 s) |
+| TC-CUS-01 | Customer Registration | Register with name, email, mobile, address and password. | The account is created as Active and the customer is signed in. | `tests/customer/test_account.py::test_customer_registration` | Passed (0.40 s) |
+| TC-CUS-02 | Customer Login | Sign in with email and password. | The customer is signed in and sees their first name in the header. | `tests/customer/test_account.py::test_customer_login` | Passed (0.37 s) |
+| TC-CUS-03 | Invalid Customer Login | Sign in with a wrong password. | An error is shown and the customer is not signed in. | `tests/customer/test_account.py::test_invalid_customer_login` | Passed (0.32 s) |
+| TC-CUS-04 | View Profile | Open the profile page. | Name, email, mobile, address, registered date and status are shown. | `tests/customer/test_account.py::test_view_profile` | Passed (0.24 s) |
+| TC-CUS-05 | Update Profile | Change the mobile number and address. | A success message appears and the new values are stored. | `tests/customer/test_account.py::test_update_profile` | Passed (0.34 s) |
+| TC-CUS-06 | View Product Categories | Open the categories page. | Every active category is shown with its product count. | `tests/customer/test_shopping.py::test_view_product_categories` | Passed (0.63 s) |
+| TC-CUS-07 | Search Product by Name | Search for part of a product name. | Only products whose name matches are listed. | `tests/customer/test_shopping.py::test_search_product_by_name` | Passed (0.83 s) |
+| TC-CUS-08 | Search Product by Category | Filter the search by one category. | Only products from that category are listed. | `tests/customer/test_shopping.py::test_search_product_by_category` | Passed (0.82 s) |
+| TC-CUS-09 | Search Product by Price | Filter by a minimum and maximum price. | Only products inside the price range are listed. | `tests/customer/test_shopping.py::test_search_product_by_price` | Passed (0.88 s) |
+| TC-CUS-10 | View Products | Open the product list. | Active products are listed with name, brand, price and image. | `tests/customer/test_shopping.py::test_view_products` | Passed (0.52 s) |
+| TC-CUS-11 | View Product Details | Open a product page. | Name, category, brand, price, description, image, available quantity and rating are shown. | `tests/customer/test_shopping.py::test_view_product_details` | Passed (0.59 s) |
+| TC-CUS-12 | Add to Cart | Add a product with quantity 2. | A confirmation appears, the cart badge shows 2 and a cart row is stored. | `tests/customer/test_shopping.py::test_add_to_cart` | Passed (0.83 s) |
+| TC-CUS-13 | View Cart | Open the cart with two products. | Both lines, their amounts and the correct total are shown. | `tests/customer/test_shopping.py::test_view_cart` | Passed (0.60 s) |
 | TC-CUS-14 | Update Cart Quantity | Increase a cart line's quantity. | The line amount and the total update and the new quantity is stored. | `tests/customer/test_shopping.py::test_update_cart_quantity` | Passed (0.97 s) |
-| TC-CUS-15 | Remove from Cart | Remove one cart line. | The line disappears and the total drops by its amount. | `tests/customer/test_shopping.py::test_remove_from_cart` | Passed (1.06 s) |
+| TC-CUS-15 | Remove from Cart | Remove one cart line. | The line disappears and the total drops by its amount. | `tests/customer/test_shopping.py::test_remove_from_cart` | Passed (1.05 s) |
 | TC-CUS-16 | Submit Cart | Review the order and place it. | One Pending order row per item is stored, all with one order_id, and stock is reserved. | `tests/customer/test_shopping.py::test_submit_cart` | Passed (0.96 s) |
-| TC-CUS-17 | Dummy Payment | Pay a pending order with a simulated success. | A Payment row is stored as Success and the order becomes Confirmed. | `tests/customer/test_shopping.py::test_dummy_payment` | Passed (1.15 s) |
-| TC-CUS-18 | View Order Confirmation | Open the confirmation after paying. | The order ID, Confirmed status, items and total are shown. | `tests/customer/test_shopping.py::test_view_order_confirmation` | Passed (1.15 s) |
-| TC-CUS-19 | View Order History | Open the order history. | Each order is listed once with its ID, total and status. | `tests/customer/test_shopping.py::test_view_order_history` | Passed (0.66 s) |
-| TC-CUS-20 | View Order Details | Open one order. | Its items, amounts, total, payment and status are shown. | `tests/customer/test_shopping.py::test_view_order_details` | Passed (0.80 s) |
-| TC-CUS-21 | Add Rating | Rate a delivered product 4 stars. | The rating is stored and the product's average shows 4.0. | `tests/customer/test_feedback_queries.py::test_add_rating` | Passed (0.99 s) |
-| TC-CUS-22 | Add Review | Write a review of a delivered product. | The review appears on the product page and is stored. | `tests/customer/test_feedback_queries.py::test_add_review` | Passed (0.91 s) |
-| TC-CUS-23 | Post Query | Send a new query with subject and message. | The conversation opens with parent_message_id = NULL. | `tests/customer/test_feedback_queries.py::test_post_query` | Passed (0.82 s) |
-| TC-CUS-24 | View Queries | Open the list of own queries. | Only the customer's own conversations are listed. | `tests/customer/test_feedback_queries.py::test_view_queries` | Passed (0.61 s) |
-| TC-CUS-25 | Reply Query | Reply inside a conversation the admin answered. | The reply is stored with the same conversation_id. | `tests/customer/test_feedback_queries.py::test_reply_query` | Passed (0.70 s) |
-| TC-CUS-26 | View Conversation History | Open a conversation. | The customer's and the admin's messages are shown in order. | `tests/customer/test_feedback_queries.py::test_view_conversation_history` | Passed (0.72 s) |
-| TC-CUS-27 | Logout | Sign out. | The customer is signed out and the cart asks to sign in. | `tests/customer/test_account.py::test_customer_logout` | Passed (1.01 s) |
+| TC-CUS-17 | Dummy Payment | Pay a pending order with a simulated success. | A Payment row is stored as Success and the order becomes Confirmed. | `tests/customer/test_shopping.py::test_dummy_payment` | Passed (1.25 s) |
+| TC-CUS-18 | View Order Confirmation | Open the confirmation after paying. | The order ID, Confirmed status, items and total are shown. | `tests/customer/test_shopping.py::test_view_order_confirmation` | Passed (0.94 s) |
+| TC-CUS-19 | View Order History | Open the order history. | Each order is listed once with its ID, total and status. | `tests/customer/test_shopping.py::test_view_order_history` | Passed (0.43 s) |
+| TC-CUS-20 | View Order Details | Open one order. | Its items, amounts, total, payment and status are shown. | `tests/customer/test_shopping.py::test_view_order_details` | Passed (0.52 s) |
+| TC-CUS-21 | Add Rating | Rate a delivered product 4 stars. | The rating is stored and the product's average shows 4.0. | `tests/customer/test_feedback_queries.py::test_add_rating` | Passed (0.47 s) |
+| TC-CUS-22 | Add Review | Write a review of a delivered product. | The review appears on the product page and is stored. | `tests/customer/test_feedback_queries.py::test_add_review` | Passed (1.31 s) |
+| TC-CUS-23 | Post Query | Send a new query with subject and message. | The conversation opens with parent_message_id = NULL. | `tests/customer/test_feedback_queries.py::test_post_query` | Passed (0.40 s) |
+| TC-CUS-24 | View Queries | Open the list of own queries. | Only the customer's own conversations are listed. | `tests/customer/test_feedback_queries.py::test_view_queries` | Passed (0.25 s) |
+| TC-CUS-25 | Reply Query | Reply inside a conversation the admin answered. | The reply is stored with the same conversation_id. | `tests/customer/test_feedback_queries.py::test_reply_query` | Passed (0.35 s) |
+| TC-CUS-26 | View Conversation History | Open a conversation. | The customer's and the admin's messages are shown in order. | `tests/customer/test_feedback_queries.py::test_view_conversation_history` | Passed (0.32 s) |
+| TC-CUS-27 | Logout | Sign out. | The customer is signed out and the cart asks to sign in. | `tests/customer/test_account.py::test_customer_logout` | Passed (0.66 s) |
 
 ## Negative
 
 | ID | Test name | Description | Expected result | Test | Latest result |
 |---|---|---|---|---|---|
-| TC-NEG-01 | Duplicate email registration | Register with an email that is already used. | An error explains the email is taken; no second account is created. | `tests/customer/test_negative.py::test_duplicate_email_registration` | Passed (0.72 s) |
-| TC-NEG-02 | Deactivated customer login blocked | Sign in as a deactivated customer. | A clear message says the account is deactivated; no session is created. | `tests/customer/test_negative.py::test_deactivated_customer_cannot_log_in` | Passed (0.68 s) |
-| TC-NEG-03 | Add out-of-stock product | Open a product with zero stock. | It shows Out of stock and offers no Add to cart button. | `tests/customer/test_negative.py::test_out_of_stock_product_cannot_be_added` | Passed (0.71 s) |
-| TC-NEG-04 | Cart quantity above stock | Set a cart quantity higher than the stock. | An error explains the limit and the stored quantity does not change. | `tests/customer/test_negative.py::test_cart_quantity_cannot_exceed_stock` | Passed (1.00 s) |
-| TC-NEG-05 | Payment failure does not confirm | Pay with a simulated failure. | A failure message appears, the order stays Pending and the cart is kept. | `tests/customer/test_negative.py::test_payment_failure_does_not_confirm` | Passed (1.17 s) |
-| TC-NEG-06 | Customer cannot open admin pages | A signed-in customer opens /manage/. | Access is refused (403). | `tests/customer/test_negative.py::test_customer_cannot_open_admin_pages` | Passed (0.53 s) |
-| TC-NEG-07 | Customer cannot see another customer's conversation | Open another customer's conversation URL. | Access is refused (403) and nothing of it is shown. | `tests/customer/test_negative.py::test_customer_cannot_see_another_customers_conversation` | Passed (0.55 s) |
-| TC-NEG-08 | Invalid price and negative quantity rejected | Save a product with price 0 and quantity -1. | Both fields show errors and nothing is stored. | `tests/customer/test_negative.py::test_invalid_price_and_negative_quantity_rejected` | Passed (0.79 s) |
+| TC-NEG-01 | Duplicate email registration | Register with an email that is already used. | An error explains the email is taken; no second account is created. | `tests/customer/test_negative.py::test_duplicate_email_registration` | Passed (0.33 s) |
+| TC-NEG-02 | Deactivated customer login blocked | Sign in as a deactivated customer. | A clear message says the account is deactivated; no session is created. | `tests/customer/test_negative.py::test_deactivated_customer_cannot_log_in` | Passed (0.32 s) |
+| TC-NEG-03 | Add out-of-stock product | Open a product with zero stock. | It shows Out of stock and offers no Add to cart button. | `tests/customer/test_negative.py::test_out_of_stock_product_cannot_be_added` | Passed (0.30 s) |
+| TC-NEG-04 | Cart quantity above stock | Set a cart quantity higher than the stock. | An error explains the limit and the stored quantity does not change. | `tests/customer/test_negative.py::test_cart_quantity_cannot_exceed_stock` | Passed (0.60 s) |
+| TC-NEG-05 | Payment failure does not confirm | Pay with a simulated failure. | A failure message appears, the order stays Pending and the cart is kept. | `tests/customer/test_negative.py::test_payment_failure_does_not_confirm` | Passed (0.61 s) |
+| TC-NEG-06 | Customer cannot open admin pages | A signed-in customer opens /manage/. | Access is refused (403). | `tests/customer/test_negative.py::test_customer_cannot_open_admin_pages` | Passed (0.23 s) |
+| TC-NEG-07 | Customer cannot see another customer's conversation | Open another customer's conversation URL. | Access is refused (403) and nothing of it is shown. | `tests/customer/test_negative.py::test_customer_cannot_see_another_customers_conversation` | Passed (0.23 s) |
+| TC-NEG-08 | Invalid price and negative quantity rejected | Save a product with price 0 and quantity -1. | Both fields show errors and nothing is stored. | `tests/customer/test_negative.py::test_invalid_price_and_negative_quantity_rejected` | Passed (0.74 s) |
 
 ## AI Recommendation
 
 | ID | Test name | Description | Expected result | Test | Latest result |
 |---|---|---|---|---|---|
-| TC-AI-01 | Verify Product Feature Extraction | Open the AI Explainer for a product. | Its ProductFeature text, cleaned text and top TF-IDF terms (including its keywords) are shown. | `tests/ai/test_ai.py::test_product_feature_extraction` | Passed (0.73 s) |
-| TC-AI-02 | Verify Similar Product Recommendations | Open a product page. | Similar products are shown, never the product itself, highest score first, most from the same category. | `tests/ai/test_ai.py::test_similar_product_recommendations` | Passed (0.75 s) |
-| TC-AI-03 | Verify Customer-Based Recommendations | Open Recommended for you after buying a product. | Products similar to the purchase are listed with a 'Because you bought' reason. | `tests/ai/test_ai.py::test_customer_based_recommendations` | Passed (0.74 s) |
-| TC-AI-04 | Verify Recommended Product Display | Open Recommended for you. | Recommendation cards are shown, sorted by score, only active and in stock. | `tests/ai/test_ai.py::test_recommended_product_display` | Passed (0.77 s) |
-| TC-AI-05 | Verify Recommended Product Details | Inspect one recommendation card. | It shows the product name, category, image, price and similarity score. | `tests/ai/test_ai.py::test_recommended_product_details` | Passed (0.81 s) |
-| TC-AI-06 | Verify Recommendation After Product View | View a product, then open Recommended for you. | The top pick is similar to the viewed product with a 'Because you viewed' reason. | `tests/ai/test_ai.py::test_recommendation_after_product_view` | Passed (0.78 s) |
-| TC-AI-07 | Verify Recommendation After Adding Product to Cart | Add a product to the cart, then open Recommended for you. | The top pick follows the cart product with a 'Because you added' reason; the cart product itself is not listed. | `tests/ai/test_ai.py::test_recommendation_after_adding_to_cart` | Passed (1.03 s) |
-| TC-AI-08 | Verify Recommendation for New Customer | Open Recommended for you as a brand-new customer. | Popular products are shown, labelled Popularity. | `tests/ai/test_ai.py::test_recommendation_for_new_customer` | Passed (0.74 s) |
+| TC-AI-01 | Verify Product Feature Extraction | Open the AI Explainer for a product. | Its ProductFeature text, cleaned text and top TF-IDF terms (including its keywords) are shown. | `tests/ai/test_ai.py::test_product_feature_extraction` | Passed (0.30 s) |
+| TC-AI-02 | Verify Similar Product Recommendations | Open a product page. | Similar products are shown, never the product itself, highest score first, most from the same category. | `tests/ai/test_ai.py::test_similar_product_recommendations` | Passed (0.32 s) |
+| TC-AI-03 | Verify Customer-Based Recommendations | Open Recommended for you after buying a product. | Products similar to the purchase are listed with a 'Because you bought' reason. | `tests/ai/test_ai.py::test_customer_based_recommendations` | Passed (0.31 s) |
+| TC-AI-04 | Verify Recommended Product Display | Open Recommended for you. | Recommendation cards are shown, sorted by score, only active and in stock. | `tests/ai/test_ai.py::test_recommended_product_display` | Passed (0.32 s) |
+| TC-AI-05 | Verify Recommended Product Details | Inspect one recommendation card. | It shows the product name, category, image, price and similarity score. | `tests/ai/test_ai.py::test_recommended_product_details` | Passed (0.30 s) |
+| TC-AI-06 | Verify Recommendation After Product View | View a product, then open Recommended for you. | The top pick is similar to the viewed product with a 'Because you viewed' reason. | `tests/ai/test_ai.py::test_recommendation_after_product_view` | Passed (0.35 s) |
+| TC-AI-07 | Verify Recommendation After Adding Product to Cart | Add a product to the cart, then open Recommended for you. | The top pick follows the cart product with a 'Because you added' reason; the cart product itself is not listed. | `tests/ai/test_ai.py::test_recommendation_after_adding_to_cart` | Passed (0.45 s) |
+| TC-AI-08 | Verify Recommendation for New Customer | Open Recommended for you as a brand-new customer. | Popular products are shown, labelled Popularity. | `tests/ai/test_ai.py::test_recommendation_for_new_customer` | Passed (0.30 s) |
 
 ## End-to-End
 
 | ID | Test name | Description | Expected result | Test | Latest result |
 |---|---|---|---|---|---|
-| E2E-01 | Customer Shopping Workflow | Register, sign in, search, view a product, add to cart, submit, pay, see the confirmation, sign out. | The order is Confirmed with the right total, stock is reduced, the cart is empty and an order email is written. | `tests/e2e/test_workflows.py::test_customer_shopping_workflow` | Passed (2.98 s) |
-| E2E-02 | AI Recommendation Workflow | Sign in, view a product, open its similar products, open one and add it to the cart. | The recommended product is in the cart. | `tests/e2e/test_workflows.py::test_ai_recommendation_workflow` | Passed (1.14 s) |
-| E2E-03 | Admin Product Management Workflow | Admin signs in, adds a category and a product, views, updates and deletes the product, signs out. | Every step is reflected on screen and in the database. | `tests/e2e/test_workflows.py::test_admin_product_management_workflow` | Passed (2.65 s) |
-| E2E-04 | Order Management Workflow | A customer places and pays an order, the admin ships it, the customer checks it. | The customer sees the status the admin set. | `tests/e2e/test_workflows.py::test_order_management_workflow` | Passed (2.02 s) |
+| E2E-01 | Customer Shopping Workflow | Register, sign in, search, view a product, add to cart, submit, pay, see the confirmation, sign out. | The order is Confirmed with the right total, stock is reduced, the cart is empty and an order email is written. | `tests/e2e/test_workflows.py::test_customer_shopping_workflow` | Passed (3.12 s) |
+| E2E-02 | AI Recommendation Workflow | Sign in, view a product, open its similar products, open one and add it to the cart. | The recommended product is in the cart. | `tests/e2e/test_workflows.py::test_ai_recommendation_workflow` | Passed (1.18 s) |
+| E2E-03 | Admin Product Management Workflow | Admin signs in, adds a category and a product, views, updates and deletes the product, signs out. | Every step is reflected on screen and in the database. | `tests/e2e/test_workflows.py::test_admin_product_management_workflow` | Passed (2.79 s) |
+| E2E-04 | Order Management Workflow | A customer places and pays an order, the admin ships it, the customer checks it. | The customer sees the status the admin set. | `tests/e2e/test_workflows.py::test_order_management_workflow` | Passed (2.16 s) |
 
 ## Unit tests
 
-Besides the browser tests, 117 fast tests check the rules directly through Django's test client and the service functions (no browser). They are not catalogue cases; they run in every recorded run.
+Besides the browser tests, 118 fast tests check the rules directly through Django's test client and the service functions (no browser). They are not catalogue cases; they run in every recorded run.
 
 | File | Tests |
 |---|---|
@@ -130,7 +131,7 @@ Besides the browser tests, 117 fast tests check the rules directly through Djang
 | `tests/unit/test_catalog.py` | 2 |
 | `tests/unit/test_checkout_service.py` | 18 |
 | `tests/unit/test_engine.py` | 13 |
-| `tests/unit/test_models.py` | 5 |
+| `tests/unit/test_models.py` | 6 |
 | `tests/unit/test_order_views.py` | 5 |
 | `tests/unit/test_recommender_views.py` | 6 |
 | `tests/unit/test_reports.py` | 6 |
