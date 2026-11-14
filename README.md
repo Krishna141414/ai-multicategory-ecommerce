@@ -21,7 +21,7 @@ The AI recommender compares products by their text (category, name, brand, descr
 
 Every suggestion shows the product's name, category, image, price, a similarity score and a one-line reason ("Because you bought Electric Kettle").
 
-For testing, 69 browser tests cover every test case in the brief (22 admin, 27 customer, 8 AI, 4 end-to-end) plus 8 extra negative cases, and 116 fast unit tests cover the business rules. Failed browser tests save a screenshot; every run produces an HTML report and is stored for the admin's *Test Reports* page.
+For testing, 69 browser tests cover every test case in the brief (22 admin, 27 customer, 8 AI, 4 end-to-end) plus 8 extra negative cases, and 117 fast unit tests cover the business rules. Failed browser tests save a screenshot; every run produces an HTML report and is stored for the admin's *Test Reports* page.
 
 | | |
 |---|---|

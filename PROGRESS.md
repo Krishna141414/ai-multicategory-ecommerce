@@ -4,7 +4,7 @@ Claude Code updates this after every step. A new session reads it first and cont
 
 ## Status
 - Current phase: Phase 11 — Documentation
-- Last completed step: 11.3
+- Last completed step: 11.3 (CODE_MAP verified)
 - Next: 11.4 docs/TEST_CASES.md
 
 ## Next — Phase 11 (documentation), continue at 11.4
@@ -81,6 +81,7 @@ Demo data was changed by earlier gate checks; run `python manage.py reset_demo -
 | 2026-11-11 | 11.1 Diagrams | Diagram Design skill (style tokens from Velora's design system, system-font mode so the files are self-contained and offline): docs/diagrams/architecture.html (9 nodes: browser, storefront apps, admin, service layer, recommender, two SQLite files, test suite, recorder), recommender.html (data flow, 9 nodes), checkout.html (sequence, 5 lifelines, alt success/failure). All pass the skill's self_check --offline; PNG exports for the README; generator kept in scripts/build_diagrams.py. |
 | 2026-11-11 | 11.2 README | README.md (new): what it does for customers / admin / AI / tests, screenshots, stack table, architecture diagram, Windows setup step by step (venv, pip, playwright chromium, .env, migrate both DBs, create_default_admin, seed_demo, build_recommender, sync_test_catalog, runserver), demo logins, default-password warning (matrix R9.6), reset_demo, run_tests.ps1 options, where reports go, clean_test_reports, project structure, docs index, limitations. Humanizer pass: bold labels removed, one heading fixed, opener rewritten. |
 | 2026-11-11 | 11.3 CODE_MAP | docs/CODE_MAP.md: how a request travels; every folder and file with its job and main functions/classes; each flow step by step (register/login, browse/search, product page + similar + quick view, cart → checkout → payment → email, admin management, recommendations, ratings/reviews/questions, test run → reports); suggested order for the video. Also: removed dead stubs testreports/urls.py and views.py; fixed ProductFeature docstring; added manage.py clean_test_reports (lists linked vs leftover report folders, --delete removes only leftovers) + unit test. |
+| 2026-11-14 | 11.3 CODE_MAP check | Accuracy pass: every file path in docs/CODE_MAP.md resolves (section-relative paths checked against their folder), every named function/class exists in the code. Fixed: unit test count 116 → 117 (also in README), 'Every app follows this layout' → 'Most apps' (core has no forms.py). |
 
 ## Pending owner actions / follow-ups
 - **Last placeholder:** "Thread & Thali Women's Minimalist Analog Watch". The owner's "smartwatch" photo was a smartwatch, so it went to "Orvia Fit Smartwatch with Calling" (replacing a weaker Openverse photo) instead of the analog watch listing. If Krishna adds an analog women's watch photo, import it the same way (scripts/import_manual_photos.py + brand_labels.py if plain, credits, seed_demo).

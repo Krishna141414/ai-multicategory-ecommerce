@@ -18,7 +18,7 @@ Every page follows the same path. Take "a customer opens a product page":
 6. **The template** (`templates/catalog/product_detail.html`) builds the HTML. It extends `templates/base.html` (header, footer, toasts, scripts) and receives extra values from `core/context_processors.py` (store name, category menu, cart count) on every page.
 7. **Static files** style and animate it: `static/css/tokens.css` (colours, fonts, spacing), `base.css` (shared components), `store.css` (storefront) or `admin.css` (admin), and `static/js/*.js` for the interactive parts.
 
-Every app follows this layout: `models.py` (tables), `services.py` (rules), `forms.py` (input validation), `views.py` (pages), `urls.py` (addresses), and templates in `templates/<app>/`.
+Most apps follow this layout: `models.py` (tables), `services.py` (rules), `forms.py` (input validation), `views.py` (pages), `urls.py` (addresses), and templates in `templates/<app>/`.
 
 ---
 
@@ -171,7 +171,7 @@ Every app follows this layout: `models.py` (tables), `services.py` (rules), `for
 | `customer/test_negative.py` | TC-NEG-01 to 08 |
 | `ai/test_ai.py` | TC-AI-01 to 08 |
 | `e2e/test_workflows.py` | E2E-01 to 04 |
-| `unit/` | 116 fast tests of the rules (models, auth, search, checkout, payment, reviews, queries, engine, reports, catalogue coverage) |
+| `unit/` | 117 fast tests of the rules (models, auth, search, checkout, payment, reviews, queries, engine, reports, catalogue coverage) |
 
 ### Other files
 
