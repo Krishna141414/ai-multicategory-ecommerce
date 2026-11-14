@@ -87,3 +87,7 @@ Short log of design and architecture choices (decision → reason). Newest at th
 - **When all sponsored deals fit on screen, the strip stays still and hides its controls.** → Found while testing EXT-01: with two deals the pause button was hidden but the strip still drifted, i.e. endless motion with no way to stop it. Now motion only happens when there is something to scroll, and then the pause button is always there.
 - **docs/TEST_CASES.md is generated (`scripts/build_test_cases_doc.py`) from the catalogue, the tc() markers and the latest recorded run.** → It can be refreshed after any run instead of going stale.
 - **Three matrix rows stay "Implemented" on purpose:** STK-03 (the editor), R9.6 (a documentation requirement) and EXT-04 (CODE_MAP, a document). Each row says why; every other row is Tested.
+
+## Final verification (Phase 12)
+- **Ignore patterns for local data are anchored to the project root (`/reports/`, `/sent_emails/`, ...).** → The fresh-clone check found that `reports/` also hid `templates/adminpanel/reports/`, so the Test Reports page was a 500 on every clone. `tests/unit/test_repository.py` now fails if any template, static or source file is git-ignored.
+- **The README tells Windows users to clone into a short path.** → A deeply nested folder makes `pip install` fail on a long file path inside Playwright (WinError 206).
