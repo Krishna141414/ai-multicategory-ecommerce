@@ -4,7 +4,7 @@ Velora is a complete online store built with Django. It sells products in ten ca
 
 It was built as an internship project for VoidMain and runs entirely offline on one Windows laptop, without paid APIs, cloud services or a CDN.
 
-![Velora home page](screenshots/phase9/home-1440.jpg)
+![Velora home page](screenshots/final/01-home-1440.jpg)
 
 ## What it does
 
@@ -25,8 +25,8 @@ For testing, 69 browser tests cover every test case in the brief (22 admin, 27 c
 
 | | |
 |---|---|
-| ![Quick view on a sponsored deal](screenshots/phase9/home-quickview-1440.jpg) | ![AI Explainer](screenshots/readme/explainer-1440.jpg) |
-| ![Admin dashboard](screenshots/sweep/admin/admin-manage-1440.jpg) | ![Test Reports page](screenshots/phase10/reports-list-1440.jpg) |
+| ![Quick view on a sponsored deal](screenshots/final/03-sponsored-quick-view-1440.jpg) | ![AI Explainer](screenshots/final/07-ai-explainer-1440.jpg) |
+| ![Admin dashboard](screenshots/final/11-admin-dashboard-1440.jpg) | ![Test Reports page](screenshots/final/13-admin-test-reports-1440.jpg) |
 
 ## Tech stack
 

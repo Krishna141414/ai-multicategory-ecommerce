@@ -38,8 +38,9 @@ def test_functions() -> dict[str, str]:
 
 
 def unit_test_counts() -> Counter:
-    out = subprocess.run([sys.executable, "-m", "pytest", "tests/unit", "--collect-only", "-q", "--no-record", "-p", "no:randomly"],
-                         cwd=ROOT, capture_output=True, text=True).stdout
+    # -o addopts= drops pytest.ini's --html option: a collection pass must not overwrite reports/report.html
+    out = subprocess.run([sys.executable, "-m", "pytest", "tests/unit", "--collect-only", "-q", "--no-record", "-p", "no:randomly",
+                          "-o", "addopts="], cwd=ROOT, capture_output=True, text=True).stdout
     return Counter(line.split("::")[0] for line in out.splitlines() if "::" in line)
 
 
