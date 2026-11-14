@@ -4,12 +4,12 @@ Claude Code updates this after every step. A new session reads it first and cont
 
 ## Status
 - Current phase: Phase 12 — Final verification & ship
-- Last completed step: 12.1
-- Next: 12.2 verification-before-completion across the matrix
+- Last completed step: 12.2
+- Next: 12.3 final screenshot sweep into screenshots/
 
-## Next — Phase 12 (final verification & ship), continue at 12.2
+## Next — Phase 12 (final verification & ship), continue at 12.3
 Done: 12.1 fresh clone (README works from zero; offline check clean; fixed the missing Test Reports templates).
-**Exact next step: 12.2** run the verification-before-completion skill across REQUIREMENTS_MATRIX (re-run the full suite, spot-check rows against the code). Then 12.3 final screenshot sweep into screenshots/ (home, sponsored hover quick view, product + similar, recommendations, AI explainer, cart, payment, confirmation, admin dashboard, admin orders, test reports page, pytest-html report; Playwright MCP if connected, else the project's Playwright), 12.4 security check (secrets, .env.example, CSRF on all forms, role checks on every view, DEBUG from env), 12.5 reset_demo + final commit + push.
+**Exact next step: 12.3** final screenshot sweep into screenshots/ (home, sponsored hover quick view, product + similar, recommendations, AI explainer, cart, payment, confirmation, admin dashboard, admin orders, test reports page, pytest-html report). Then 12.4 security check, 12.5 reset_demo + final commit + push.
 Report folders: `python manage.py clean_test_reports` lists linked vs leftover folders; the owner runs `--delete` themselves.
 
 ## Log
@@ -85,6 +85,7 @@ Report folders: `python manage.py clean_test_reports` lists linked vs leftover f
 | 2026-11-14 | 11.5 Matrix | REQUIREMENTS_MATRIX: 239 Tested, 3 Implemented with the reason written in (STK-03 editor, R9.6 documentation, EXT-04 CODE_MAP), 0 Planned. New tests: tests/unit/test_models.py::test_product_needs_exactly_one_category (R2.2); tests/customer/test_sponsored.py (3 browser tests, EXT-01). Fixed a bug they found: sponsored strip drifted with its pause button hidden when all deals fit; now it stays still and hides the controls. Secret scan (R9.5): .env untracked, none of its values in 550 tracked files. Recorded run 5: 190 passed (72 browser + 118 unit), 56.1 s; TEST_CASES.md regenerated. |
 | 2026-11-14 | Gate 11 | Docs complete and checked: README, CODE_MAP (paths and names verified), TEST_CASES (generated from run 5), diagrams, matrix (no Planned rows). |
 | 2026-11-14 | 12.1 Fresh clone | Cloned from GitHub into %TEMP%\vfc (the scratchpad path is too deep for Windows' 260-char limit), new Python 3.14 venv, followed README exactly: pip install, playwright chromium, .env from .env.example, migrate both DBs, create_default_admin, seed_demo (10 categories, 110 products, 4 customers, 9 orders), build_recommender, sync_test_catalog, runserver. Internet-off check: Playwright blocked every non-local request while visiting 14 pages as guest, customer and admin: 0 external requests, all fonts and images local. FOUND AND FIXED: Test Reports templates missing from git (loose 'reports/' ignore pattern) → 500 on clones; anchored patterns, added guard test, pushed, re-checked: all 14 pages 200. Full suite in the clone: 191 passed, recorded as its run 1. README: short-path note. Temp clone removed. |
+| 2026-11-14 | 12.2 Verification | verification-before-completion: fresh recorded run 6 = 191 passed, 0 failed, exit 0. All 206 test references in REQUIREMENTS_MATRIX resolve to tests that passed in run 6. Process checks re-run today: 0 fixed waits, 0 CSS/XPath locators, random-order run 191 passed (seed 2619424303), db.sqlite3 SHA-256 unchanged, single E2E test passes alone; 20 rows updated with this dated evidence (stale counts fixed). Brief coverage: all 137 bullets in PROJECT_BRIEF map to matrix rows (8 wrapped bullets mapped by hand to R5.5, R7.6, R8.1, R8.2, R9.2, R9.3, R10.1, R10.4). Matrix: 239 Tested, 3 Implemented with reasons. TEST_CASES.md regenerated from run 6. |
 
 ## Pending owner actions / follow-ups
 - **Last placeholder:** "Thread & Thali Women's Minimalist Analog Watch". The owner's "smartwatch" photo was a smartwatch, so it went to "Orvia Fit Smartwatch with Calling" (replacing a weaker Openverse photo) instead of the analog watch listing. If Krishna adds an analog women's watch photo, import it the same way (scripts/import_manual_photos.py + brand_labels.py if plain, credits, seed_demo).

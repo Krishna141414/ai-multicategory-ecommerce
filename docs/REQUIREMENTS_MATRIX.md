@@ -10,17 +10,17 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | STK-01 | Front end: HTML5, CSS3, JavaScript, Bootstrap 5 | `templates/` (HTML5), `static/css/` (custom system over Bootstrap 5.3.8), `static/js/` | full browser suite (runs 2 and 3) | Tested |
 | STK-02 | Server side: Python (Django) | Django 6.1.3 project `config/` + 9 apps | every test: 186 tests run against the Django app (run 4) | Tested |
 | STK-03 | IDE: Visual Studio Code | Project set up and edited in VS Code (Windows + PowerShell) | Not testable: the editor used to build the project (explained, no test needed) | Implemented |
-| STK-04 | Web server: Django development server | `python manage.py runserver`; pytest-django `live_server` for the tests | every browser test runs against the Django server | Tested |
+| STK-04 | Web server: Django development server | `python manage.py runserver`; pytest-django `live_server` for the tests | every browser test runs against the Django server (live_server); run 6: 191 passed | Tested |
 | STK-05 | Database: SQLite | `db.sqlite3` (shop) + `reports.sqlite3` (tests), `config/settings.py` | every test reads and writes SQLite (test copies of both files); run 4 | Tested |
-| STK-06 | AI technique: content-based product recommendation | `recommender/engine.py` (content-based: product text similarity) | `tests/unit/test_engine.py`, `tests/ai/test_ai.py` | Tested |
-| STK-07 | ML library: scikit-learn | requirements.txt (scikit-learn 1.9.1) | `tests/unit/test_engine.py` | Tested |
+| STK-06 | AI technique: content-based product recommendation | `recommender/engine.py` (content-based: product text similarity) | `tests/unit/test_engine.py` (13) and `tests/ai/test_ai.py` (8), all passed in run 6 | Tested |
+| STK-07 | ML library: scikit-learn | requirements.txt (scikit-learn 1.9.1) | `tests/unit/test_engine.py` (13 tests, all passed in run 6) | Tested |
 | STK-08 | Data processing: Pandas | requirements.txt (pandas 3.1.1) | `tests/unit/test_engine.py::test_explain_payload` | Tested |
 | STK-09 | Feature extraction: TF-IDF vectorization | `recommender/engine.py` Engine._fit (TfidfVectorizer) | `tests/unit/test_engine.py::test_feature_matrix_shape` | Tested |
 | STK-10 | Similarity: cosine similarity | `recommender/engine.py` (cosine_similarity) | `tests/unit/test_engine.py::test_scores_sorted_desc_and_reason` | Tested |
-| STK-11 | Testing tool: Playwright (Python) | requirements.txt (playwright 1.64.1, pytest-playwright 0.10) | 69 browser tests in `tests/admin`, `tests/customer`, `tests/ai`, `tests/e2e` | Tested |
+| STK-11 | Testing tool: Playwright (Python) | requirements.txt (playwright 1.64.1, pytest-playwright 0.10) | 72 browser tests in `tests/admin`, `tests/customer`, `tests/ai`, `tests/e2e`, all passed in run 6 | Tested |
 | STK-12 | Testing framework: Pytest | requirements.txt (pytest 9.2), `pytest.ini` | 185 tests (runs 2 and 3) | Tested |
 | STK-13 | Browser: Chrome / Chromium | Playwright's Chromium (`python -m playwright install chromium`) | runs 2 (headless) and 3 (headed) | Tested |
-| STK-14 | Test reporting: pytest-html | `pytest.ini` addopts `--html=reports/report.html --self-contained-html` | report written on every run | Tested |
+| STK-14 | Test reporting: pytest-html | `pytest.ini` addopts `--html=reports/report.html --self-contained-html` | HTML report written on every run; run 6 copy in `reports/runs/` | Tested |
 | STK-15 | Screenshot capture: Playwright | `tests/conftest.py` pytest_runtest_makereport (screenshot on failure) | verified with a deliberate failure (screenshots/phase10/reports-detail-failed-1440.jpg); run removed afterwards | Tested |
 
 ## B. Admin features
@@ -224,7 +224,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R3.7 | Already selected products excluded from their own results | `recommender/engine.py` similar (self excluded), personalized (interests + cart excluded) | `test_engine.py`::test_similar_excludes_self, ::test_personalized_uses_interests_and_excludes_them | Tested |
 | R3.8 | Only active and available products recommended | `recommender/engine.py` available_ids() read live | `test_engine.py`::test_similar_excludes_inactive_and_out_of_stock | Tested |
 | R3.9 | New customers get popular or category-based suggestions | `recommender/engine.py` popular() fallback (most ordered, then best rated) | `test_engine.py`::test_new_customer_gets_popular | Tested |
-| R3.10 | Runs locally, no paid AI APIs | scikit-learn + Pandas in-process; no network calls | `test_engine.py` (runs offline) | Tested |
+| R3.10 | Runs locally, no paid AI APIs | scikit-learn + Pandas in-process; no network calls | `tests/unit/test_engine.py` passes with no network; 12.1 offline check (14 Nov 2026): every non-local request blocked, 0 attempted | Tested |
 | R4.1 | Customers can add multiple products to cart | `orders/models.CartItem` (one line per product), `orders/services/cart` | `test_checkout_service.py::test_submit_creates_one_row_per_item_with_shared_order_id` | Tested |
 | R4.2 | Cart quantity cannot exceed available stock | `orders/services/cart.add_to_cart` / `update_quantity` + re-check in `checkout.submit_cart` | `test_checkout_service.py::test_cart_qty_cannot_exceed_stock`, `::test_submit_rolls_back_when_one_item_short` | Tested |
 | R4.3 | Each cart product inserted as a separate orders record | `orders/services/checkout.submit_cart` (one Order row per CartItem) | `test_checkout_service.py::test_submit_creates_one_row_per_item_with_shared_order_id` | Tested |
@@ -248,23 +248,23 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R6.5 | New conversation starts with parent_message_id = NULL | `messaging/services.start_conversation` (parent_message=None) | `test_admin_services.py::test_new_conversation_has_null_parent_and_reply_reuses_id` | Tested |
 | R6.6 | Customers view only their own conversations | `messaging/services.ensure_can_view` / `conversations_for` | `test_admin_services.py::test_customer_cannot_see_other_thread`, `test_reviews_queries.py::test_customer_sees_only_own_conversations` (403 on view and reply) | Tested |
 | R6.7 | Admin can view and respond to customer conversations | `adminpanel/views/queries.py` | `test_reviews_queries.py::test_admin_reply_shows_in_customer_thread_and_marks_read`; verified in the browser (Gate 7) | Tested |
-| R7.1 | Playwright with Python automates browser functional tests | `tests/admin`, `tests/customer`, `tests/ai`, `tests/e2e` (Playwright sync API) | 69 browser tests passing | Tested |
+| R7.1 | Playwright with Python automates browser functional tests | `tests/admin`, `tests/customer`, `tests/ai`, `tests/e2e` (Playwright sync API) | 72 browser tests, all passed in run 6 (headless) and run 3 (headed) | Tested |
 | R7.2 | Pytest manages execution, fixtures, assertions | `tests/conftest.py` fixtures, `pytest.ini` markers, `tests/factories.py` | 185 tests passing | Tested |
 | R7.3 | Tests verify expected vs actual behaviour | Each test asserts the catalogue's expected result; `actual_result` stored per execution | runs 2 and 3 | Tested |
-| R7.4 | Positive and negative scenarios included | Positive tests plus `tests/customer/test_negative.py` (TC-NEG-01 to 08), TC-CUS-03, TC-ADM-02 | all passing | Tested |
-| R7.5 | Reliable Playwright locators | get_by_role / get_by_label / get_by_text / get_by_test_id only; checked by grep (no CSS/XPath) | rules check, Phase 10.9 | Tested |
-| R7.6 | Built-in waiting, no fixed delays | `expect(...)` auto-waiting; no `time.sleep` or fixed waits (checked by grep) | rules check, Phase 10.9 | Tested |
-| R7.7 | Tests run independently with controlled test data | `tests/factories.py`; live_server flushes the test DB between tests | single tests pass alone (`-k`), full suite passes in random order | Tested |
-| R7.8 | Tests must not modify production data | Separate test databases (test_db.sqlite3, test_reports.sqlite3) | db.sqlite3 checksum and row counts identical before and after a full run | Tested |
+| R7.4 | Positive and negative scenarios included | Positive tests plus `tests/customer/test_negative.py` (TC-NEG-01 to 08), TC-CUS-03, TC-ADM-02 | `tests/customer/test_negative.py` (8) plus TC-CUS-03 and TC-ADM-02, all passed in run 6 | Tested |
+| R7.5 | Reliable Playwright locators | get_by_role / get_by_label / get_by_text / get_by_test_id only; checked by grep (no CSS/XPath) | Re-checked 14 Nov 2026: 0 CSS/XPath locators in browser tests (grep) | Tested |
+| R7.6 | Built-in waiting, no fixed delays | `expect(...)` auto-waiting; no `time.sleep` or fixed waits (checked by grep) | Re-checked 14 Nov 2026: 0 time.sleep / wait_for_timeout in browser tests (grep) | Tested |
+| R7.7 | Tests run independently with controlled test data | `tests/factories.py`; live_server flushes the test DB between tests | 14 Nov 2026: full suite passed in random order (seed 2619424303); `-k test_order_management_workflow` passes alone | Tested |
+| R7.8 | Tests must not modify production data | Separate test databases (test_db.sqlite3, test_reports.sqlite3) | 14 Nov 2026: db.sqlite3 SHA-256 identical before and after a full run | Tested |
 | R7.9 | Failed tests capture screenshots | `tests/conftest.py` screenshot hook | deliberate-failure check (Phase 10) | Tested |
-| R7.10 | Reports keep Pass/Fail status and execution details | `testreports` models + `record_test_run` | `tests/unit/test_reports.py` | Tested |
+| R7.10 | Reports keep Pass/Fail status and execution details | `testreports` models + `record_test_run` | `tests/unit/test_reports.py` (6 tests, all passed in run 6) | Tested |
 | R7.11 | HTML reports via pytest-html | pytest-html 4.2.0 | runs 2 and 3 | Tested |
-| R8.1 | E2E tests verify complete workflows | `tests/e2e/test_workflows.py` (E2E-01 to 04) | all passing | Tested |
-| R8.2 | Verify visible behaviour and persisted results | E2E and customer tests assert the page AND the database rows | all passing | Tested |
-| R8.3 | Checkout tests verify order totals and confirmation | TC-CUS-13, 16, 17, 18 and E2E-01 assert line amounts and totals | all passing | Tested |
-| R8.4 | AI tests verify relevance to product / customer interests | `tests/ai/test_ai.py` asserts same category / shared keywords first, sorted scores, self and unavailable excluded | all passing | Tested |
+| R8.1 | E2E tests verify complete workflows | `tests/e2e/test_workflows.py` (E2E-01 to 04) | `tests/e2e/test_workflows.py` E2E-01 to 04, all passed in run 6 | Tested |
+| R8.2 | Verify visible behaviour and persisted results | E2E and customer tests assert the page AND the database rows | Customer, admin and E2E tests assert the page and the database rows; all passed in run 6 | Tested |
+| R8.3 | Checkout tests verify order totals and confirmation | TC-CUS-13, 16, 17, 18 and E2E-01 assert line amounts and totals | TC-CUS-13, 16, 17, 18 and E2E-01 assert line amounts and totals; all passed in run 6 | Tested |
+| R8.4 | AI tests verify relevance to product / customer interests | `tests/ai/test_ai.py` asserts same category / shared keywords first, sorted scores, self and unavailable excluded | `tests/ai/test_ai.py` (8: same category / shared keywords first, scores sorted, self and unavailable excluded), all passed in run 6 | Tested |
 | R8.5 | Headed and headless modes supported | `run_tests.ps1 -Headed -SlowMo`; pytest-playwright `--headed` | run 3 headed, run 2 headless | Tested |
-| R8.6 | Repeatable on a local laptop | Everything local: SQLite, live_server, Chromium | runs on the owner's Windows laptop in about 40 s | Tested |
+| R8.6 | Repeatable on a local laptop | Everything local: SQLite, live_server, Chromium | Runs on the owner's Windows laptop: run 6, 191 tests in 63.8 s; also from a fresh clone (12.1) | Tested |
 | R9.1 | Django Authentication for login/password management | `django.contrib.auth` + `accounts/backends.EmailBackend` | `tests/unit/test_auth.py::test_password_is_hashed`, `tests/customer/test_account.py::test_customer_registration` | Tested |
 | R9.2 | Role-based authorization (Admin vs Customer) | `core/permissions.py` customer_required / admin_required | `test_auth.py::test_customer_cannot_open_admin`, `::test_admin_cannot_use_customer_pages`, `::test_guest_is_sent_to_admin_login` | Tested |
 | R9.3 | CSRF protection on form submissions | CsrfViewMiddleware + `{% csrf_token %}` on every form | `tests/unit/test_auth.py::test_forms_carry_csrf_tokens` | Tested |
@@ -273,7 +273,7 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 | R9.6 | Default admin credentials changed before deployment (documented) | README.md (Setup: "Change the default admin password before deploying anywhere", `create_default_admin --reset-password`) and `.env.example` comment | Documentation requirement, not testable; the warning is in README.md and .env.example | Implemented |
 | R10.1 | Whole app runs locally with Django | Django dev server (`manage.py runserver`), SQLite, local static and media | every browser test runs against the local server (runs 2 and 3) | Tested |
 | R10.2 | SQLite stores data locally | `config/settings.py` DATABASES | every test uses SQLite files on this machine (run 4) | Tested |
-| R10.3 | AI runs with locally installed Python libraries | scikit-learn + Pandas installed in `.venv`; no network calls in `recommender/` | `tests/unit/test_engine.py`, `tests/ai/test_ai.py` | Tested |
+| R10.3 | AI runs with locally installed Python libraries | scikit-learn + Pandas installed in `.venv`; no network calls in `recommender/` | `tests/unit/test_engine.py`, `tests/ai/test_ai.py` (passed in run 6); 12.1 offline check: no network requests | Tested |
 | R10.4 | Playwright + Pytest run on the same laptop | `run_tests.ps1` | runs 2 and 3 | Tested |
 | R10.5 | Browser visible during automation (headed mode) | `run_tests.ps1 -Headed` | run 3 | Tested |
 | R10.6 | HTML reports and failure screenshots stored locally | `reports/` (git-ignored): report.html, runs/, screenshots/ | runs 2 and 3 | Tested |
@@ -284,5 +284,5 @@ Status values: **Planned** → **Implemented** → **Tested** (implemented and c
 |---|---|---|---|---|
 | EXT-01 | Sponsored / featured deals carousel with hover quick-view card; admin sponsored toggle | `templates/core/home.html` (Sponsored deals), `static/js/sponsored.js` (drift, pause on hover/focus/quick view, prev/next, pause button, reduced-motion rail), `static/js/quickview.js` + `catalog/views.quick_view` (hover quick-view card: image, price, rating, stock, Add to cart), admin toggle `adminpanel/views/products.product_toggle_sponsored` | `tests/customer/test_sponsored.py` (3 browser tests: hover quick view + add to cart, pause, static when few deals, admin toggle); `tests/unit/test_recommender_views.py::test_home_sections` | Tested |
 | EXT-02 | AI Explainer page (step-by-step, animated, Next/Back) | `recommender/views.explainer`, `templates/recommender/explainer.html`, `static/js/explainer.js` (GSAP, Back/Next, step buttons, arrow keys, Play/Pause, reduced motion) | `test_recommender_views.py`::test_explainer_page_is_public_and_follows_the_choice, ::test_explainer_json | Tested |
-| EXT-03 | Admin Test Reports page | `adminpanel/views/reports.py`, `templates/adminpanel/reports/` (runs, filters, timings, screenshots, HTML report links) | `tests/unit/test_reports.py` (4 tests); screenshots/phase10/ | Tested |
+| EXT-03 | Admin Test Reports page | `adminpanel/views/reports.py`, `templates/adminpanel/reports/` (runs, filters, timings, screenshots, HTML report links) | `tests/unit/test_reports.py` (6 tests, passed in run 6); screenshots/phase10/; works from a fresh clone after the templates fix (12.1) | Tested |
 | EXT-04 | docs/CODE_MAP.md | `docs/CODE_MAP.md` (every file, main functions, flows in order, video order) | A document, not testable; accuracy-checked 14 Nov 2026 (every cited path resolves, every named function/class exists) | Implemented |

@@ -115,7 +115,7 @@
 
 ## Phase 12 — Final verification & ship
 - [x] 12.1 Fresh-clone check: clone into a temp folder, follow README exactly from zero (new venv), confirm the app and the test suite work. Then confirm it runs **with the internet off** (no CDN/network calls).
-- [ ] 12.2 `/superpowers:verification-before-completion` (or the equivalent skill) across the whole matrix.
+- [x] 12.2 `/superpowers:verification-before-completion` (or the equivalent skill) across the whole matrix.
 - [ ] 12.3 Final Playwright MCP screenshot sweep → save the best ones to `screenshots/` (home, sponsored hover quick-view, product + similar products, recommendations, AI explainer, cart, payment, confirmation, admin dashboard, admin orders, test reports page, pytest-html report).
 - [ ] 12.4 Security check: no secrets committed, `.env.example` complete, CSRF on all forms, role checks on every view, DEBUG from env.
 - [ ] 12.5 `reset_demo` so the database is clean for recording; final commit; push to GitHub.
