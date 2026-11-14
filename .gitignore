@@ -11,12 +11,12 @@ __pycache__/
 db.sqlite3
 db.sqlite3-journal
 reports.sqlite3
-media/uploads/
-sent_emails/
-reports/
-test-results/
-recommender_cache/
-staticfiles/
+/media/uploads/
+/sent_emails/
+/reports/
+/test-results/
+/recommender_cache/
+/staticfiles/
 
 # Editors / OS
 .vscode/

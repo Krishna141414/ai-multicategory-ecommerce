@@ -1,0 +1,53 @@
+{% extends "adminpanel/base.html" %}
+{% block admin_title %}Test run {{ run.pk }}{% endblock %}
+{% block page_id %}admin-test-report{% endblock %}
+{% block topbar_title %}Test reports{% endblock %}
+{% block admin_content %}
+<header class="admin-head admin-head--actions">
+  <div>
+    <nav aria-label="Breadcrumb"><ol class="breadcrumbs"><li><a href="{% url 'adminpanel:test_reports' %}">Test reports</a></li><li aria-current="page">Run {{ run.pk }}</li></ol></nav>
+    <h1 data-testid="run-title">Run {{ run.pk }}, {{ run.execution_date|date:"j M Y, H:i" }}</h1>
+    <p class="muted">{{ run.passed_tests }} passed, {{ run.failed_tests }} failed, {{ run.skipped_tests }} skipped of {{ run.total_tests }} in {{ run.total_execution_time|floatformat:1 }} s ({{ run.browser_mode|default:"headless" }}). <code>{{ run.command }}</code></p>
+  </div>
+  {% if run.report_url %}<a class="btn btn-primary" href="{{ run.report_url }}" target="_blank" rel="noopener" data-testid="run-html-report">Open the HTML report</a>{% endif %}
+</header>
+
+<nav class="toolbar" aria-label="Filter by result">
+  {% for value, label, count in tabs %}
+    <a class="btn btn-sm {% if status == value %}btn-primary{% else %}btn-outline{% endif %}" href="?status={{ value }}{% if module %}&amp;module={{ module|urlencode }}{% endif %}"
+       {% if status == value %}aria-current="page"{% endif %} data-testid="filter-{{ label|lower }}">{{ label }} <span class="num">{{ count }}</span></a>
+  {% endfor %}
+  {% if modules %}
+  <form method="get" class="ms-auto">
+    <input type="hidden" name="status" value="{{ status }}">
+    <label class="visually-hidden" for="run-module">Module</label>
+    <select id="run-module" name="module" class="form-select" data-autosubmit>
+      <option value="">All modules</option>
+      {% for m in modules %}<option value="{{ m }}" {% if m == module %}selected{% endif %}>{{ m }}</option>{% endfor %}
+    </select>
+  </form>
+  {% endif %}
+</nav>
+
+{% if rows %}
+<div class="table-responsive">
+  <table class="table table-opens" data-testid="execution-table">
+    <thead><tr><th>Test case</th><th>Module</th><th>Status</th><th class="text-end">Time</th><th>Actual result</th><th>Screenshot</th></tr></thead>
+    <tbody>
+      {% for e in rows %}
+      <tr data-testid="execution-row">
+        <td>{% if e.test_case %}<span class="fw-semibold">{{ e.test_case.id }}</span> {{ e.test_case.test_name }}{% else %}<code class="small">{{ e.node_id }}</code>{% endif %}</td>
+        <td class="nowrap small">{{ e.test_case.module|default:"Unit" }}</td>
+        <td><span class="badge-status status-{{ e.status|lower }}" data-testid="execution-status">{{ e.status }}</span></td>
+        <td class="text-end num nowrap">{{ e.execution_time|floatformat:2 }} s</td>
+        <td class="small report-result">{{ e.actual_result }}</td>
+        <td>{% if e.screenshot_url %}<a href="{{ e.screenshot_url }}" target="_blank" rel="noopener" data-testid="execution-screenshot"><img src="{{ e.screenshot_url }}" alt="Screenshot of {{ e.test_case.test_name|default:e.node_id }} when it failed" width="160" height="100" class="report-shot"></a>{% else %}<span class="muted small">None</span>{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state" data-testid="empty-state"><h2>No tests with this result</h2><p>Pick another filter above.</p></div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "adminpanel/base.html" %}
+{% block admin_title %}Test reports{% endblock %}
+{% block page_id %}admin-test-reports{% endblock %}
+{% block topbar_title %}Test reports{% endblock %}
+{% block admin_content %}
+<header class="admin-head">
+  <h1>Test reports</h1>
+  <p class="muted">Every run of the automated Playwright and Pytest suite, newest first. {{ case_count }} test case{{ case_count|pluralize }} in the catalogue. Start a run with <code>.\run_tests.ps1</code>.</p>
+</header>
+
+{% if latest %}
+<section aria-labelledby="latest-head" class="panel" data-testid="latest-run">
+  <div class="panel-head">
+    <h2 id="latest-head" class="panel-title">Latest run, {{ latest.execution_date|date:"j M Y, H:i" }}</h2>
+    <div class="actions-row mt-0">
+      <a class="btn btn-outline btn-sm" href="{% url 'adminpanel:test_report_detail' latest.pk %}" data-testid="latest-run-details">See every test</a>
+      {% if latest.report_url %}<a class="btn btn-outline btn-sm" href="{{ latest.report_url }}" target="_blank" rel="noopener" data-testid="latest-run-html">HTML report</a>{% endif %}
+    </div>
+  </div>
+  <dl class="stat-row">
+    <div class="stat"><dt>Total</dt><dd data-testid="latest-total">{{ latest.total_tests }}</dd></div>
+    <div class="stat"><dt>Passed</dt><dd data-testid="latest-passed">{{ latest.passed_tests }}</dd></div>
+    <div class="stat"><dt>Failed</dt><dd data-testid="latest-failed">{{ latest.failed_tests }}</dd></div>
+    <div class="stat"><dt>Skipped</dt><dd data-testid="latest-skipped">{{ latest.skipped_tests }}</dd></div>
+    <div class="stat stat-wide"><dt>Time</dt><dd>{{ latest.total_execution_time|floatformat:1 }} s</dd>
+      <p class="stat-note">{{ latest.pass_rate }}% passed, {{ latest.browser_mode|default:"headless" }}</p></div>
+  </dl>
+</section>
+
+<section aria-labelledby="runs-head">
+  <h2 id="runs-head" class="panel-title">All runs</h2>
+  <div class="table-responsive">
+    <table class="table table-hover table-opens" data-testid="run-table">
+      <thead><tr><th>Run</th><th>Date</th><th class="text-end">Total</th><th class="text-end">Passed</th><th class="text-end">Failed</th><th class="text-end">Skipped</th><th class="text-end">Time</th><th>Command</th><th><span class="visually-hidden">Links</span></th></tr></thead>
+      <tbody>
+        {% for run in page %}
+        <tr data-testid="run-row">
+          <td><a href="{% url 'adminpanel:test_report_detail' run.pk %}" data-testid="run-link">Run {{ run.pk }}</a></td>
+          <td class="nowrap small">{{ run.execution_date|date:"j M Y, H:i" }}</td>
+          <td class="text-end num">{{ run.total_tests }}</td>
+          <td class="text-end num">{{ run.passed_tests }}</td>
+          <td class="text-end num">{% if run.failed_tests %}<span class="badge-status status-failed">{{ run.failed_tests }}</span>{% else %}0{% endif %}</td>
+          <td class="text-end num">{{ run.skipped_tests }}</td>
+          <td class="text-end num nowrap">{{ run.total_execution_time|floatformat:1 }} s</td>
+          <td class="small"><code>{{ run.command|truncatechars:60 }}</code></td>
+          <td class="nowrap">{% if run.report_url %}<a href="{{ run.report_url }}" target="_blank" rel="noopener">HTML report</a>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "adminpanel/_pagination.html" %}
+</section>
+{% else %}
+<div class="empty-state" data-testid="empty-state">
+  <h2>No test runs yet</h2>
+  <p>Run the suite from PowerShell with <code>.\run_tests.ps1</code>. Each run appears here with its passed, failed and skipped tests, timings, screenshots of failures and the HTML report.</p>
+</div>
+{% endif %}
+{% endblock %}

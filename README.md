@@ -48,6 +48,8 @@ Views stay thin. The rules live in service modules (`orders/services/`, `catalog
 
 You need Python 3.14 and Git. All commands run from the project folder.
 
+Clone into a short path such as `D:\Projects\`. Windows limits file paths to 260 characters, and one of Playwright's installed files sits about 100 characters deep inside `.venv`, so `pip install` fails with `[WinError 206] The filename or extension is too long` if the project folder itself is deeply nested. (Turning on Windows long-path support also fixes it.)
+
 ```powershell
 git clone https://github.com/Krishna141414/ai-multicategory-ecommerce.git
 cd ai-multicategory-ecommerce
