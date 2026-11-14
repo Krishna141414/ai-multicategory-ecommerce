@@ -3,14 +3,17 @@
 Claude Code updates this after every step. A new session reads it first and continues from "Next".
 
 ## Status
-- Current phase: Phase 12 — Final verification & ship
-- Last completed step: 12.4
-- Next: 12.5 reset_demo + final commit + push
+- Current phase: Done: all 12 phases complete
+- Last completed step: 12.5
+- Next: Nothing left in BUILD_PROMPT. Optional owner tasks only (see Next).
 
-## Next — Phase 12 (final verification & ship), continue at 12.5
-Done: 12.1 fresh clone (README works from zero; offline check clean; fixed the missing Test Reports templates).
-**Exact next step: 12.5** run `python manage.py reset_demo --yes` (the 12.3 sweep placed an order), confirm the demo state, final commit and push.
-Report folders: `python manage.py clean_test_reports` lists linked vs leftover folders; the owner runs `--delete` themselves.
+## Next — project complete
+All BUILD_PROMPT phases 0 to 12 are ticked. The demo database was reset on 14 Nov 2026 and is ready for recording.
+Optional tasks for the owner (nothing in BUILD_PROMPT depends on them):
+- `python manage.py clean_test_reports --delete` removes the leftover report folders from unrecorded development runs (it lists them first without `--delete`).
+- `sent_emails/` holds 2 emails from earlier checks (git-ignored); empty it before recording if a clean folder is wanted.
+- A photo for the Thread & Thali analog watch (still the placeholder): drop it in media/manual_photos/ and ask for it to be imported.
+- Before any real deployment: change the admin password (`create_default_admin --reset-password`), new SECRET_KEY, HTTPS settings (see docs/audits/security-check.md).
 
 ## Log
 | Date | Step | Result / notes |
@@ -88,6 +91,7 @@ Report folders: `python manage.py clean_test_reports` lists linked vs leftover f
 | 2026-11-14 | 12.2 Verification | verification-before-completion: fresh recorded run 6 = 191 passed, 0 failed, exit 0. All 206 test references in REQUIREMENTS_MATRIX resolve to tests that passed in run 6. Process checks re-run today: 0 fixed waits, 0 CSS/XPath locators, random-order run 191 passed (seed 2619424303), db.sqlite3 SHA-256 unchanged, single E2E test passes alone; 20 rows updated with this dated evidence (stale counts fixed). Brief coverage: all 137 bullets in PROJECT_BRIEF map to matrix rows (8 wrapped bullets mapped by hand to R5.5, R7.6, R8.1, R8.2, R9.2, R9.3, R10.1, R10.4). Matrix: 239 Tested, 3 Implemented with reasons. TEST_CASES.md regenerated from run 6. |
 | 2026-11-14 | 12.3 Final screenshots | screenshots/final/ (after reset_demo): 01 home 1440, 02 home 390, 03 sponsored hover quick view, 04 product + similar, 05 product 390, 06 recommendations, 07 AI Explainer, 08 cart, 09 payment, 10 confirmation, 11 admin dashboard, 12 admin orders, 13 Test Reports, 14 a test run (AI module), 15 pytest-html report (run 6). All 200, no console errors, no overflow; each image looked at. Used the project's Playwright (same engine as the MCP server) for one repeatable run. FOUND AND FIXED: scripts/build_test_cases_doc.py's collect-only pass overwrote reports/report.html with an empty report (now runs with -o addopts=); restored run 6's report. README images now point at screenshots/final/. |
 | 2026-11-14 | 12.4 Security | docs/audits/security-check.md: .env never committed and no secret value in any of 28 commits; .env.example covers all 15 keys the code reads (optional ASSET_VERSION added); SECRET_KEY required (no default), DEBUG off by default; CSRF middleware on, 0 csrf_exempt, all 26 POST forms tokened; all 55 URLs audited: 24 admin_required, 17 customer_required, 14 public by design; both logouts POST-only; check --deploy shows only the HTTPS warnings expected for a local demo. |
+| 2026-11-14 | 12.5 Ship | reset_demo: 10 categories, 110 products, 4 customers, 9 demo orders, 2 cart lines, 2 conversations; 5 recorded test runs kept. Final commit and push. |
 
 ## Pending owner actions / follow-ups
 - **Last placeholder:** "Thread & Thali Women's Minimalist Analog Watch". The owner's "smartwatch" photo was a smartwatch, so it went to "Orvia Fit Smartwatch with Calling" (replacing a weaker Openverse photo) instead of the analog watch listing. If Krishna adds an analog women's watch photo, import it the same way (scripts/import_manual_photos.py + brand_labels.py if plain, credits, seed_demo).
