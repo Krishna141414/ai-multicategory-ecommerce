@@ -169,9 +169,10 @@ Most apps follow this layout: `models.py` (tables), `services.py` (rules), `form
 | `admin/test_admin.py` | TC-ADM-01 to 22 |
 | `customer/test_account.py`, `test_shopping.py`, `test_feedback_queries.py` | TC-CUS-01 to 27 |
 | `customer/test_negative.py` | TC-NEG-01 to 08 |
+| `customer/test_sponsored.py` | The sponsored strip: hover quick view and add to cart, pause button, still when few deals, admin toggle |
 | `ai/test_ai.py` | TC-AI-01 to 08 |
 | `e2e/test_workflows.py` | E2E-01 to 04 |
-| `unit/` | 117 fast tests of the rules (models, auth, search, checkout, payment, reviews, queries, engine, reports, catalogue coverage) |
+| `unit/` | 118 fast tests of the rules (models, auth, search, checkout, payment, reviews, queries, engine, reports, catalogue coverage) |
 
 ### Other files
 
